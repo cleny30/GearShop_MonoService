@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IRepository\" />
     <Folder Include="Resource\" />
-    <Folder Include="Service\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>

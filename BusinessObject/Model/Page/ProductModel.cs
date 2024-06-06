@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.Model.Page
 {
-    public class Product
+    public class ProductModel
     {
         public string ProId { get; set; } = null!;
 
@@ -17,6 +17,15 @@ namespace BusinessObject.Model.Page
 
         public double ProPrice { get; set; }
 
-        
+
+        public int BrandId { get; set; }
+
+        public string BrandName { get; set; } 
+
+
+        public int cateID { get; set; }
+        public string cateName { get; set; }    
+
+
     }
 }

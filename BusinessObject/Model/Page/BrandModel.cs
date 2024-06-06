@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.Model.Page
 {
-    public class Category
+    public class BrandModel
     {
-        public int CateId { get; set; }
+        public int BrandId { get; set; }
 
-        public string CateName { get; set; } = null!;
+        public string BrandName { get; set; } = null!;
 
-        public string Keyword { get; set; } = null!;
+        public string BrandLogo { get; set; } = null!;
 
         public bool IsAvailable { get; set; }
     }
