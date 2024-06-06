@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObject", "BusinessO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{0D763FB5-BB3F-4578-A676-41278AB56A1E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. BusinessObject Layer", "2. BusinessObject Layer", "{A0E8110D-3396-46A6-8F74-BCFBF27F79E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{0EC7E159-260E-4AE1-9F49-5AAFBAEF5E7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess Layer", "3. DataAccess Layer", "{E409C9E8-3116-4128-905A-036BE13962F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +30,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6028DF4-3575-4BEC-9B9F-974992B61F84} = {A0E8110D-3396-46A6-8F74-BCFBF27F79E9}
+		{0D763FB5-BB3F-4578-A676-41278AB56A1E} = {E409C9E8-3116-4128-905A-036BE13962F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27EC6FDE-80A2-460D-9872-F665AA42CA1C}
