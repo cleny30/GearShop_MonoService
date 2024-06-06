@@ -112,6 +112,10 @@ public partial class PrndatabaseContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("cate_name");
             entity.Property(e => e.IsAvailable).HasColumnName("isAvailable");
+            entity.Property(e => e.Keyword)
+                .HasMaxLength(2)
+                .IsUnicode(false)
+                .HasColumnName("keyword");
         });
 
         modelBuilder.Entity<Customer>(entity =>
