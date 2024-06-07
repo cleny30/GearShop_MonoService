@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess Layer", "3. DataAccess Layer", "{E409C9E8-3116-4128-905A-036BE13962F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard_Admin", "Dashboard_Admin\Dashboard_Admin.csproj", "{8C7F360E-2A39-4B4F-9680-8B079245AA37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dashboard_Admin", "Dashboard_Admin\Dashboard_Admin.csproj", "{8C7F360E-2A39-4B4F-9680-8B079245AA37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GearShopWeb", "GearShopWeb\GearShopWeb.csproj", "{6DBC15C2-192D-4452-AA13-34BA284E63A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8C7F360E-2A39-4B4F-9680-8B079245AA37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C7F360E-2A39-4B4F-9680-8B079245AA37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C7F360E-2A39-4B4F-9680-8B079245AA37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DBC15C2-192D-4452-AA13-34BA284E63A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DBC15C2-192D-4452-AA13-34BA284E63A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DBC15C2-192D-4452-AA13-34BA284E63A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DBC15C2-192D-4452-AA13-34BA284E63A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{A6028DF4-3575-4BEC-9B9F-974992B61F84} = {A0E8110D-3396-46A6-8F74-BCFBF27F79E9}
 		{0D763FB5-BB3F-4578-A676-41278AB56A1E} = {E409C9E8-3116-4128-905A-036BE13962F8}
 		{8C7F360E-2A39-4B4F-9680-8B079245AA37} = {0EC7E159-260E-4AE1-9F49-5AAFBAEF5E7A}
+		{6DBC15C2-192D-4452-AA13-34BA284E63A2} = {0EC7E159-260E-4AE1-9F49-5AAFBAEF5E7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27EC6FDE-80A2-460D-9872-F665AA42CA1C}
