@@ -1,0 +1,72 @@
+﻿<Window x:Class="WPFStylingTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFStylingTest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1452" 
+        Style="{StaticResource MaterialDesignWindow}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
+    <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}" UniformCornerRadius="15" Margin="25">
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:ColorZone Grid.Column="0" Height="750" CornerRadius="15 0 0 15" Background="#FF673AB7" VerticalAlignment="Center">
+                <StackPanel Margin="15,15,15,0" Height="670" VerticalAlignment="Top">
+                    <WrapPanel Margin="0 10 5 10" HorizontalAlignment="Center" Height="53" Width="181">
+                        <Image RenderOptions.BitmapScalingMode="HighQuality" Source="C:\Users\User\source\repos\WPFStylingTest\WPFStylingTest\Image\logoGearshop.png" Height="50" Width="50" RenderTransformOrigin="-2.251,0.64"/>
+                        <TextBlock Text="GearShop" FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0" Foreground="White"/>
+                    </WrapPanel>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+                    materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="DashboardButton_Click" >
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="ViewDashboard" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="81" Foreground="White">Dashboard</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="ProductButton_Click">
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="FormatListBulleted" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="81" Foreground="White">Products</TextBlock>
+                        </WrapPanel>
+                    </Button>
+                    
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="ImportButton_Click">
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="TrayArrowDown" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="108" Foreground="White">Import Products</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" >
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="ReceiptText" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="107" Foreground="White">Import Receipts</TextBlock>
+                        </WrapPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60">
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="Cart" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="112" Foreground="White">Customer Orders</TextBlock>
+                        </WrapPanel>
+                    </Button>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            <Frame x:Name="frMain" Grid.Column="1" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
+        </Grid>
+    </materialDesign:Card>
+</Window>
