@@ -1,17 +1,25 @@
 ﻿using CloudinaryDotNet;
+using DataAccess.Core.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Core.Cloudiary
 {
-    public class CloudiaryManagement
+    public class CloudinaryManagement
     {
+        private readonly CloudinarySettings _cloudinarySettings;
+
+        public CloudinaryManagement()
+        {
+            var configService = new ConfigurationService();
+            _cloudinarySettings = configService.CloudinarySettings;
+        }
         public async Task<string> Upload(string filePath, string folder)
         {
 
             var myAccount = new Account(
-               "dklkzeill", // Your Cloudinary cloud name
-               "827655834549677",    // Your Cloudinary API key
-               "f9BGy89C7Wp_HVrnuitK8POPjlE"  // Your Cloudinary API secret
+               _cloudinarySettings.CloudName, // Your Cloudinary cloud name
+               _cloudinarySettings.ApiKey,    // Your Cloudinary API key
+               _cloudinarySettings.ApiSecret  // Your Cloudinary API secret
            );
 
             var cloudinary = new Cloudinary(myAccount);
