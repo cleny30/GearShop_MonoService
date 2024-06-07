@@ -11,10 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IRepository\" />
     <Folder Include="Resource\" />
-    <Folder Include="Service\" />
-    <Folder Include="Repository\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" Version="1.26.2" />
   </ItemGroup>
 
 </Project>
