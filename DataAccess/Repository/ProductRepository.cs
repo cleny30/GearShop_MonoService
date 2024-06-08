@@ -30,5 +30,29 @@ namespace DataAccess.Repository
                 return null;
             }
         }
+
+        public List<ProductData> GetProductData()
+        {
+            List<Product> products;
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                products = dbContext.Products.ToList();
+
+                List<ProductData> pro = new List<ProductData>();
+
+                foreach (var product in products)
+                {
+                    ProductData ProductData = new ProductData();
+                    ProductData.CopyProperties(product);
+                    pro.Add(ProductData);
+                }
+                return pro;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
