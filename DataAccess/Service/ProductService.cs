@@ -20,13 +20,18 @@ namespace DataAccess.Service
 
         public List<ProductModel> GetProductList()
         {
+            //initialize service
             BrandService brandService = new BrandService();
+            CategoryService categoryService = new CategoryService();
+
             List<ProductModel> productModels = _repo.GetProduct();
             List<BrandModel> brandModels = brandService.GetBrandList();
+            List<CategoryModel> categoryModels = categoryService.GetCategoryList();
 
             foreach (ProductModel items in productModels)
             {
                 items.BrandName = brandModels.FirstOrDefault(b => b.BrandId == items.BrandId).BrandName;
+                items.CateName = categoryModels.FirstOrDefault(b => b.CateId == items.CateId).CateName;
             }
 
             return productModels;

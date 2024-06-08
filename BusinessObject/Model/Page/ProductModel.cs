@@ -17,14 +17,13 @@ namespace BusinessObject.Model.Page
 
         public double ProPrice { get; set; }
 
-
         public int BrandId { get; set; }
 
-        public string BrandName { get; set; } 
+        public string BrandName { get; set; }
 
+        public int CateId { get; set; }
 
-        public int cateID { get; set; }
-        public string cateName { get; set; }    
+        public string CateName { get; set; } = null!;
 
 
     }

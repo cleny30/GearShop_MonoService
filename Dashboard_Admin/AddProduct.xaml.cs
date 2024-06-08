@@ -136,6 +136,10 @@ namespace WPFStylingTest
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
+            foreach(string items in SelectedFiles)
+            {
+
+            }
             SaveAttributeAndDescription();
 
         }

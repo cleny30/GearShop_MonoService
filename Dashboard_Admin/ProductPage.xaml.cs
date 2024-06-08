@@ -25,17 +25,23 @@ namespace WPFStylingTest
     /// </summary>
     public partial class ProductPage : UserControl
     {
-        private ObservableCollection<ProductModel> products; // Your data source
+        private ObservableCollection<ProductModel> products; 
         private ObservableCollection<ProductModel> filteredProducts;
-        private int itemsPerPage = 7; // Number of items per page
-        private int currentPage = 1; // Current page number
+        private int itemsPerPage = 7; 
+        private int currentPage = 1; 
         private readonly ProductService productService;
+        private readonly CategoryService categoryService;
+        private readonly BrandService brandService;
         public ProductPage()
         {
             productService = new ProductService();
+            brandService = new BrandService();
+            categoryService = new CategoryService();
             InitializeComponent();
             LoadStudents();
-         
+            InitialSearch();
+
+
         }
 
         private void LoadStudents()
@@ -113,12 +119,42 @@ namespace WPFStylingTest
         {
             // Filter the students based on the search text
             string searchText = SearchTextBox.Text.ToLower();
-            filteredProducts = new ObservableCollection<ProductModel>(products.Where(s => s.ProName.ToLower().Contains(searchText)));
+            int? BrandID = cbBrand.SelectedValue as int?;
+            int? CateID = cbCategory.SelectedValue as int?;
+            filteredProducts = new ObservableCollection<ProductModel>(products.Where(s => s.ProName.ToLower().Contains(searchText) && (s.BrandId == BrandID || !BrandID.HasValue || BrandID == -1)
+                                                                      && (s.CateId == CateID || !CateID.HasValue || CateID == -1)));
 
             // Reset to the first page after a search
             currentPage = 1;
             PageCount.Text = currentPage.ToString();
             UpdateDataGrid();
+        }
+
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            filteredProducts = new ObservableCollection<ProductModel>(products);
+            cbBrand.SelectedValue = -1;
+            cbCategory.SelectedValue = -1;
+            SearchTextBox.Clear();
+            UpdateDataGrid();
+        }
+
+
+            private void InitialSearch()
+        {
+            List<BrandModel> brands = brandService.GetBrandList();
+            brands.Insert(0, new BrandModel { BrandId = -1, BrandName = "All" });
+            cbBrand.ItemsSource = brands;
+            cbBrand.DisplayMemberPath = "BrandName";
+            cbBrand.SelectedValuePath = "BrandId";
+            cbBrand.SelectedValue = -1;
+
+            List<CategoryModel> categorys = categoryService.GetCategoryList();
+            categorys.Insert(0, new CategoryModel { CateId = -1, CateName = "All" });
+            cbCategory.ItemsSource = categorys;
+            cbCategory.DisplayMemberPath = "CateName";
+            cbCategory.SelectedValuePath = "CateId";
+            cbCategory.SelectedValue = -1;
         }
     }
 }
