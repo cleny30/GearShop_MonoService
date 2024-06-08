@@ -5,6 +5,6 @@ namespace DataAccess.IRepository
     public interface IProductRepository
     {
         public List<ProductModel> GetProduct();
-
+        public List<ProductData> GetProductData();
     }
 }
