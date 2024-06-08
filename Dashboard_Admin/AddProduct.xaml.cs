@@ -2,7 +2,6 @@
 using DataAccess.Core.Cloudiary;
 using DataAccess.Service;
 using MaterialDesignThemes.Wpf;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
@@ -36,7 +35,7 @@ namespace WPFStylingTest
             InitialCateAndBrand();
             DataContext = this;
             SelectedFiles = new ObservableCollection<string>();
-           
+
         }
 
         //Select Files for image
@@ -81,7 +80,7 @@ namespace WPFStylingTest
                 Width = 173,
                 VerticalAlignment = VerticalAlignment.Top,
                 Height = 32,
-                Margin = new Thickness(5,5,20,5)
+                Margin = new Thickness(5, 5, 20, 5)
             };
             attributesTextBox.SetResourceReference(Control.StyleProperty, "MaterialDesignTextBox");
             attributesTextBox.SetValue(HintAssist.HintProperty, "Attributes");
@@ -122,11 +121,19 @@ namespace WPFStylingTest
         {
 
         }
+        private void cbCategory_Loaded(object sender, RoutedEventArgs e)
+        {
+            cbCategory.ItemsSource = categoryService.GetCategoryList();
 
+        }
         private void cbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            txtProductID.Text = "MS000";
-
+            int categoryModel = (int)cbCategory.SelectedValue;
+            if (categoryModel != null)
+            {
+                string ID = productService.GetNewProductID(categoryModel);
+                txtProductID.Text = ID;
+            }
 
         }
 
@@ -159,17 +166,55 @@ namespace WPFStylingTest
         }
 
         //Submit the form
-        private void Submit_Click(object sender, RoutedEventArgs e)
+        private async void Submit_Click(object sender, RoutedEventArgs e)
         {
+            
             SaveAttributeAndDescription();
             if (Validation())
             {
+                ProductData model = new ProductData
+                {
+                    ProId = txtProductID.Text,
+                    ProName = txtProductName.Text,
+                    ProPrice = double.Parse(txtProductPrice.Text),
+                    CateId = (int)cbCategory.SelectedValue,
+                    BrandId = (int)cbBrand.SelectedValue,
+                    Discount = int.Parse(txtProductDiscount.Text),
+                    ProDes = txtProductDiscount.Text,
+                    IsAvailable = true
+                };
 
-            } else
+                CloudinaryManagement cloud = new CloudinaryManagement();
+                List<string> imageLink = new List<string>();
+                foreach (string items in SelectedFiles)
+                {
+                    // Assuming Upload is an async method
+                    string cloudinaryLink = await cloud.Upload(items, "Test");
+                    imageLink.Add(cloudinaryLink);
+                }
+
+                productService.InsertProduct(model, imageLink, attributesList, descriptionsList);
+                MessageBox.Show("Insert Successful");
+            }
+            else
             {
                 MessageBox.Show("Something went wrong! Check the error for more information");
             }
 
+        }
+
+        private async Task UploadFilesAsync(ObservableCollection<string> selectedFiles, IProgress<int> progress)
+        {
+            CloudinaryManagement cloud = new CloudinaryManagement();
+            int totalFiles = selectedFiles.Count;
+
+            for (int i = 0; i < totalFiles; i++)
+            {
+                string item = selectedFiles[i];
+                await Task.Run(() => cloud.Upload(item, "Test").ToString());
+                int percentComplete = (i + 1) * 100 / totalFiles;
+                progress.Report(percentComplete);
+            }
         }
 
         //Save attribute and description
@@ -221,7 +266,7 @@ namespace WPFStylingTest
                     }
                 }
             }
-            
+
         }
 
         //Close the Window
@@ -233,12 +278,6 @@ namespace WPFStylingTest
             cbBrand.ItemsSource = brandService.GetBrandList();
             cbBrand.DisplayMemberPath = "BrandName";
             cbBrand.SelectedValuePath = "BrandId";
-            cbBrand.SelectedValue = -1;
-
-            cbCategory.ItemsSource = categoryService.GetCategoryList();
-            cbCategory.DisplayMemberPath = "CateName";
-            cbCategory.SelectedValuePath = "CateId";
-            cbCategory.SelectedValue = -1;
         }
 
         private bool Validation()
@@ -248,11 +287,12 @@ namespace WPFStylingTest
 
             //Product Name
             string Name = txtProductName.Text.Trim();
-            if(Name == "")
+            if (Name == "")
             {
                 errorProName.Text = "Name can't be empty";
                 allCheck = false;
-            } else
+            }
+            else
             {
                 errorProName.Text = "";
             }
@@ -270,7 +310,8 @@ namespace WPFStylingTest
                 {
                     errorProPrice.Text = "Price can't be 0 or under 0!";
                     allCheck = false;
-                } else
+                }
+                else
                 {
                     errorProPrice.Text = "";
                 }
@@ -282,8 +323,35 @@ namespace WPFStylingTest
                 allCheck = false;
             }
 
+
+            //Product Discount
+            string Discount = txtProductDiscount.Text.Trim();
+            if (Regex.IsMatch(Discount, patternPrice))
+            {
+                // Parse the input to a decimal
+                decimal price = decimal.Parse(Discount);
+
+                // Check if the price is greater than zero
+                if (price <= 0 || price > 100)
+                {
+                    errorProDiscount.Text = "Discount can't be 0 or above 100%";
+                    allCheck = false;
+                }
+                else
+                {
+                    errorProDiscount.Text = "";
+                }
+
+            }
+            else
+            {
+                errorProDiscount.Text = "Invalid discount format. Please enter a valid number.";
+                allCheck = false;
+            }
+
+
             //Product Brand
-            if(cbBrand.SelectedValue == null)
+            if (cbBrand.SelectedValue == null)
             {
                 errorProBrand.Text = "Please choose a brand";
                 allCheck = false;
@@ -339,15 +407,16 @@ namespace WPFStylingTest
             //Product Attribute
             bool hasEmptyAttribute = attributesList.Any(string.IsNullOrEmpty);
             bool hasEmptyDescription = descriptionsList.Any(string.IsNullOrEmpty);
-            if (attributesList.IsNullOrEmpty() )
-            {               
+            if (attributesList.IsNullOrEmpty())
+            {
                 errorProAttribute.Text = "Please enter attribute";
                 allCheck = false;
-            } if (hasEmptyAttribute || hasEmptyDescription)
+            }
+            if (hasEmptyAttribute || hasEmptyDescription)
             {
                 errorProAttribute.Text = "Some field are unfielded";
                 allCheck = false;
-            } 
+            }
 
             //Product Description
             if (txtProductDescription.Text == "")
