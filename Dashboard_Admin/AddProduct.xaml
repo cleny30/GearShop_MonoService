@@ -56,7 +56,7 @@
                             <!--Product Category-->
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Category" Foreground="#FF673AB7" Margin="104,206,650,1117"/>
 
-                            <ComboBox Name="cbCategory" SelectedIndex="0" Margin="102,236,486,0" VerticalAlignment="Top" Height="28"/>
+                            <ComboBox Name="cbCategory" SelectedIndex="0" Margin="102,236,486,0" VerticalAlignment="Top" Height="28" SelectionChanged="cbCategory_SelectionChanged" />
                             <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="102,269,484,1061" x:Name="errorProCategory"/>
                             <!--Product Brand-->
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Brand" Foreground="#FF673AB7" Margin="488,209,266,1121"/>

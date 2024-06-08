@@ -5,22 +5,11 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace WPFStylingTest
 {
@@ -131,6 +120,13 @@ namespace WPFStylingTest
         //Unuse Code
         private void cbBrand_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+        }
+
+        private void cbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            txtProductID.Text = "MS000";
+
 
         }
 
@@ -309,14 +305,36 @@ namespace WPFStylingTest
             }
 
             //Product Image
-            if (SelectedFiles.IsNullOrEmpty())
+            bool containsInvalidExtension = false;
+
+            if (SelectedFiles == null || SelectedFiles.Count == 0)
             {
                 errorProImage.Text = "Please select images";
                 allCheck = false;
-            } else
-            {
-                errorProImage.Text = "";
             }
+            else
+            {
+                foreach (string file in SelectedFiles)
+                {
+                    string extension = System.IO.Path.GetExtension(file);
+                    if (extension != ".png" && extension != ".jpg")
+                    {
+                        containsInvalidExtension = true;
+                        break;
+                    }
+                }
+
+                if (containsInvalidExtension)
+                {
+                    errorProImage.Text = "Please select only .png or .jpg files";
+                    allCheck = false;
+                }
+                else
+                {
+                    errorProImage.Text = "";
+                }
+            }
+
 
             //Product Attribute
             bool hasEmptyAttribute = attributesList.Any(string.IsNullOrEmpty);
