@@ -25,17 +25,17 @@ namespace BusinessObject.Model.Page
         public int CateId { get; set; }
 
         public string CateName { get; set; } = null!;
+    }
 
-        public class ProductCard
-        {
-            public string ProId { get; set; }
-            public string ProName { get; set; }
-            public int ProQuan { get; set; }
-            public double ProPrice { get; set; }
-            public int Discount { get; set; }
-            public List<string> ProImg { get; set; } = new List<string>();
-            public int cartQuantity { get; set; } = 0;
-            public bool isAvailable { get; set; }
-        }
+    public class ProductCard
+    {
+        public string ProId { get; set; }
+        public string ProName { get; set; }
+        public int ProQuan { get; set; }
+        public double ProPrice { get; set; }
+        public int Discount { get; set; }
+        public List<string> ProImg { get; set; } = new List<string>();
+        public int cartQuantity { get; set; } = 0;
+        public bool isAvailable { get; set; }
     }
 }

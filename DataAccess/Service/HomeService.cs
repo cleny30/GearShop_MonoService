@@ -10,5 +10,7 @@ namespace DataAccess.Service
     {
         ProductService productService = new ProductService();
         BrandService brandService = new BrandService();
+        CategoryService categoryService = new CategoryService();
+
     }
 }
