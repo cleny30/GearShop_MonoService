@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DataAccess Layer", "3. D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dashboard_Admin", "Dashboard_Admin\Dashboard_Admin.csproj", "{8C7F360E-2A39-4B4F-9680-8B079245AA37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GearShopWeb", "GearShopWeb\GearShopWeb.csproj", "{6DBC15C2-192D-4452-AA13-34BA284E63A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GearShopWeb", "GearShopWeb\GearShopWeb.csproj", "{6DBC15C2-192D-4452-AA13-34BA284E63A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

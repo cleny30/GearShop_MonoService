@@ -1,0 +1,36 @@
+﻿@model BusinessObject.Model.Page.ProductCard
+
+<div class="product-item bg-light mb-4">
+    <div class="product-img position-relative overflow-hidden">
+        <img class="img-fluid w-100" src="@Model.ProImg[0]" alt="@Model.ProName">
+        <div class="product-action">
+            <a class="btn btn-outline-dark btn-square"
+               data-pro_quan_available="@Model.ProQuan"
+               data-cart_quan_current="@Model.cartQuantity"
+               data-pro_id="@Model.ProId"
+               data-isAvailable="@Model.isAvailable.ToString()"
+               onclick="AddToCart(this)">
+                <i class="fa fa-shopping-cart"></i>
+            </a>
+            <a class="btn btn-outline-dark btn-square" href="/Product/ShopDetail?ProId=@Model.ProId"><i class="fa fa-search"></i></a>
+        </div>
+    </div>
+    <div class="text-center py-4">
+        <a class="h6 text-decoration-none text-truncate" href="">@Model.ProName</a>
+        <div class="d-flex align-items-center justify-content-center mt-2">
+
+            @if (Model.Discount > 0)
+            {
+                var priceDiscount = @Model.ProPrice - (@Model.ProPrice * @Model.Discount) / 100;
+                priceDiscount = Math.Round(priceDiscount, 2);
+                <h5>$@priceDiscount</h5>
+                <h6 class="text-muted ml-2"><del>$@Model.ProPrice</del></h6>
+            }
+            else
+            {
+                <h5>$@Model.ProPrice</h5>
+            }
+        </div>
+
+    </div>
+</div>
