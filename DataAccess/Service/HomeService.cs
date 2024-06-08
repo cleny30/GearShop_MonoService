@@ -12,14 +12,10 @@ namespace DataAccess.Service
         public HomeModel GetData()
         {
             ProductService productService = new ProductService();
-            BrandService brandService = new BrandService();
-            CategoryService categoryService = new CategoryService();
-
+            
             HomeModel homeModel = new HomeModel
             {
                 products = productService.GetProducts(),
-                brand = brandService.GetBrandList(),
-                category = categoryService.GetCategoryList(),
             };
 
             return homeModel;

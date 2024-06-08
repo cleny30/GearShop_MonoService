@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.Model.Page
 {
-    public class HomeModel: HeaderModel
+    public class HomeModel
     {
         public List<ProductData> products { get; set; }
     }
