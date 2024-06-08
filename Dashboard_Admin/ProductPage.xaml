@@ -49,19 +49,13 @@
 
 
                             </Grid>
-                            <StackPanel Orientation="Horizontal" Margin="10" Width="613">
+                            <StackPanel Orientation="Horizontal" Margin="10" Width="652">
                                 <TextBox x:Name="SearchTextBox" Width="200" Margin="0 0 10 0" Height="25"  materialDesign:HintAssist.Hint="Search by Name"/>
-                                <ComboBox Name="cbBrand" SelectedIndex="0" VerticalAlignment="Top" Height="28"  Margin="10 0 10 0" Width="114">
-                                    <ComboBoxItem Content="Brand 1"/>
-                                    <ComboBoxItem Content="Brand 2"/>
-                                    <ComboBoxItem Content="Brand 3"/>
-                                </ComboBox>
-                                <ComboBox Name="cbCategory" SelectedIndex="0"  VerticalAlignment="Top" Height="28"   Margin="10 0 10 0" Width="114">
-                                    <ComboBoxItem Content="Cate 1"/>
-                                    <ComboBoxItem Content="Cate 2"/>
-                                    <ComboBoxItem Content="Cate 3"/>
-                                </ComboBox>
-                                <Button Width="129" Content="Search" Click="SearchButton_Click" Height="28"/>
+                                <ComboBox Name="cbBrand" SelectedIndex="0" VerticalAlignment="Top" Height="28" Margin="10 0 10 0" Width="114" />
+                                <ComboBox Name="cbCategory" SelectedIndex="0"  VerticalAlignment="Top" Height="28"   Margin="10 0 10 0" Width="114"/>
+
+                                <Button Width="84" Content="Search" Click="SearchButton_Click" Height="28" Margin="0 0 10 0"/>
+                                <Button Width="79" Content="Reset" Click="ResetButton_Click" Height="28"/>
                             </StackPanel>
                             <Grid Height="405">
                                 <Grid.ColumnDefinitions>
@@ -82,9 +76,9 @@
                                     <DataGrid x:Name="ProductDataGrid" Margin="1,1,1,1" Background="White" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="StudentDataGrid_SelectionChanged" Height="360" Width="1132">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" />
-                                            <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="200"/>
-                                            <DataGridTextColumn Header="Brand" Binding="{Binding BrandName}" Width="200"/>
-                                            <DataGridTextColumn Header="Category" Binding="{Binding ProName}" Width="200"/>
+                                            <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="300"/>
+                                            <DataGridTextColumn Header="Brand" Binding="{Binding BrandName}" Width="150"/>
+                                            <DataGridTextColumn Header="Category" Binding="{Binding CateName}" Width="150"/>
                                             <DataGridTextColumn Header="Price" Binding="{Binding ProPrice}" Width="200"/>
                                             <DataGridTextColumn Header="Quantity" Binding="{Binding ProQuan}" Width="100"/>
                                             <DataGridTemplateColumn Width="100">
@@ -105,7 +99,7 @@
                                     </DataGrid>
                                 </ScrollViewer>
                             </Grid>
-                            <StackPanel Orientation="Horizontal" Width="292" Margin="0 10 0 0">
+                            <StackPanel Orientation="Horizontal" Width="294" Margin="0 10 0 0">
                                 <Button x:Name="PreviousPageButton" Content="Previous Page" Click="PreviousPageButton_Click" Width="129" Margin="0 0 10 0"/>
                                 <Border BorderBrush="#FF673AB7" BorderThickness="1" Margin="0" Padding="5 0 5 0">
                                     <TextBlock Name="PageCount" VerticalAlignment="Center" FontSize="25" />
