@@ -2,7 +2,12 @@
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model IEnumerable<BusinessObject.Model.Page.ProductCard>
+@model BusinessObject.Model.DataResult
+
+@{
+    var homeModel = Model.Result as BusinessObject.Model.Page.HomeModel;
+    var products = homeModel?.products;
+}
 <!-- Carousel Start -->
 <div class="container-fluid mb-3">
     <div class="row px-xl-5">
@@ -158,12 +163,12 @@
         </span>
     </h2>
     <div class="row px-xl-5">
-        @foreach (var item in Model)
+@*         @foreach (var item in Model.Result)
         {
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 @Html.Partial("Card", item)
             </div>
-        }
+        } *@
     </div>
 </div>
 <!-- Offer Start -->
@@ -201,11 +206,14 @@
         </span>
     </h2>
     <div class="row px-xl-5">
-        @foreach (var item in Model)
+        @if (products != null && products.Any())
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                @Html.Partial("Card", item)
-            </div>
+            foreach (var item in products)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    @Html.Partial("Card", item)
+                </div>
+            }
         }
     </div>
 </div>
@@ -219,12 +227,12 @@
         </span>
     </h2>
     <div class="row px-xl-5">
-        @foreach (var item in Model)
+@*         @foreach (var item in Model)
         {
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 @Html.Partial("Card", item)
             </div>
-        }
+        } *@
 
     </div>
 </div>

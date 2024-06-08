@@ -1,4 +1,5 @@
-﻿using BusinessObject.Model.Page;
+﻿using BusinessObject.Model.Entity;
+using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using DataAccess.Repository;
 using System;
@@ -35,6 +36,30 @@ namespace DataAccess.Service
             }
 
             return productModels;
+        }
+
+        public List<ProductData> GetProducts()
+        {
+            ProductImageService _productImageService = new ProductImageService();
+            ProductAttributeService _productAttributeService = new ProductAttributeService();
+            List<ProductData> products = _repo.GetProductData();
+            List<ProductImageModel> imgs = _productImageService.GetProductImageList();
+            List<ProductAttributeModel> att = _productAttributeService.GetProductAttributeList();
+
+            foreach (ProductData product in products)
+            {
+                product.ProImg = imgs
+                       .Where(img => img.ProId == product.ProId)
+                       .Select(img => img.ProImg)
+                       .ToList();
+                var attributes = att
+                        .Where(attribute => attribute.ProId == product.ProId)
+           .GroupBy(attribute => attribute.Feature)
+           .ToDictionary(group => group.Key, group => group.First().Description); // Lấy Description đầu tiên
+
+                product.ProAttribute = attributes;
+            }
+            return products;
         }
     }
 }
