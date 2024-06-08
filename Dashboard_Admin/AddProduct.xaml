@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFStylingTest"
         mc:Ignorable="d"
-        Title="AddProduct" Height="750" Width="913"
+        Title="AddProduct" Height="800" Width="913"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
 
@@ -34,43 +34,38 @@
                             <!--Product ID-->
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Product ID" Foreground="#FF673AB7" Margin="104,10,639,1320"/>
                             <TextBox x:Name="txtProductID"
-                             materialDesign:HintAssist.Hint="Product Name"
+                             materialDesign:HintAssist.Hint="Product ID"
                               Padding="5" VerticalAlignment="Top" Height="25" Margin="104,39,484,0"/>
 
 
                             <!--Product Name-->
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Product Name" Foreground="#FF673AB7" Margin="488,10,227,1320"/>
                             <TextBox x:Name="txtProductName" 
-                            materialDesign:HintAssist.Hint="Product Price"
-                            Padding="5" VerticalAlignment="Top" Height="26" Margin="488,38,87,0">
+                            materialDesign:HintAssist.Hint="Product Name"
+                            Padding="5" VerticalAlignment="Top" Height="31" Margin="488,33,87,0">
                             </TextBox>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,69,87,1261" x:Name="errorProName"/>
 
                             <!--Product Price-->
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Product Price" Foreground="#FF673AB7" Margin="102,96,613,1234"/>
-                            <TextBox x:Name="txtProductPrice"
-materialDesign:HintAssist.Hint="Product Price"
- Padding="5" VerticalAlignment="Top" Height="26" Margin="104,136,87,0"/>
+                            <TextBox x:Name="txtProductPrice" 
+                                     materialDesign:HintAssist.Hint="Product Price" 
+                                     Padding="5" VerticalAlignment="Top" Height="26" Margin="104,136,87,0"/>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,167,343,1163" x:Name="errorProPrice"/>
 
                             <!--Product Category-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Category" Foreground="#FF673AB7" Margin="104,190,650,1122"/>
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Category" Foreground="#FF673AB7" Margin="104,206,650,1117"/>
 
-                            <ComboBox Name="cbCategory" SelectedIndex="0" Margin="102,222,486,0" VerticalAlignment="Top" Height="28">
-                                <ComboBoxItem Content="Item 1"/>
-                                <ComboBoxItem Content="Item 2"/>
-                                <ComboBoxItem Content="Item 3"/>
-                            </ComboBox>
+                            <ComboBox Name="cbCategory" SelectedIndex="0" Margin="102,236,486,0" VerticalAlignment="Top" Height="28"/>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="102,269,484,1061" x:Name="errorProCategory"/>
+                            <!--Product Brand-->
+                            <TextBlock FontSize="15" FontWeight="Bold" Text="Brand" Foreground="#FF673AB7" Margin="488,209,266,1121"/>
 
-                            <!--Product Category-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Brand" Foreground="#FF673AB7" Margin="488,194,266,1136"/>
-
-                            <ComboBox Name="cbBrand" SelectedIndex="0" Margin="488,222,87,0" VerticalAlignment="Top" Height="28" SelectionChanged="cbBrand_SelectionChanged">
-                                <ComboBoxItem Content="Item 1"/>
-                                <ComboBoxItem Content="Item 2"/>
-                                <ComboBoxItem Content="Item 3"/>
-                            </ComboBox>
+                            <ComboBox Name="cbBrand" SelectedIndex="0" Margin="488,232,87,0" VerticalAlignment="Top" Height="28" SelectionChanged="cbBrand_SelectionChanged"/>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,265,98,1065" x:Name="errorProBrand"/>
 
                             <!--Product Category-->
-                            <Button Content="Select Files" Click="SelectFiles_Click" Margin="104,294,87,1027" />
+                            <Button Content="Select Files" Click="SelectFiles_Click" Margin="104,305,87,1016" />
 
                             <Grid  Margin="104,350,87,725">
                                 <Border BorderBrush="#FF673AB7" BorderThickness="6">
@@ -93,12 +88,15 @@ materialDesign:HintAssist.Hint="Product Price"
                                     </ScrollViewer>
                                 </Border>
                             </Grid>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,628,87,702" x:Name="errorProImage"/>
+                            
                             <Button Content="Add Description" Click="AddDescription_Click" Margin="104,660,87,661"/>
 
 
                             <ScrollViewer Margin="104,706,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="194" Width="656">
                                 <StackPanel x:Name="TextBoxContainer" Orientation="Vertical"/>
                             </ScrollViewer>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,905,87,425" x:Name="errorProAttribute"/>
                             <Grid>
                                 <TextBlock FontSize="15" FontWeight="Bold" Text="Product Description" Foreground="#FF673AB7" Margin="104,929,583,401"/>
                                 <TextBox
@@ -110,8 +108,8 @@ materialDesign:HintAssist.Hint="Product Price"
                                     VerticalScrollBarVisibility="Auto" Margin="104,952,87,182"
                                     x:Name="txtProductDescription"/>
                             </Grid>
-
-                            <Button Content="Submit" Click="Submit_Click" Margin="104,1195,87,126" />
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,1177,87,153" x:Name="errorProDescription"/>
+                            <Button Content="Submit" Click="Submit_Click" Margin="104,1214,87,107" />
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

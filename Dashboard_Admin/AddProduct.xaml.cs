@@ -1,4 +1,9 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using BusinessObject.Model.Page;
+using DataAccess.Core.Cloudiary;
+using DataAccess.Service;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -6,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,15 +33,24 @@ namespace WPFStylingTest
         private List<string> attributesList = new List<string>();
         private List<string> descriptionsList = new List<string>();
 
-        private String ErrorMessage = "";
+        private readonly ProductService productService;
+        private readonly CategoryService categoryService;
+        private readonly BrandService brandService;
+
         public AddProduct()
         {
+            productService = new ProductService();
+            brandService = new BrandService();
+            categoryService = new CategoryService();
+
             InitializeComponent();
+            InitialCateAndBrand();
             DataContext = this;
             SelectedFiles = new ObservableCollection<string>();
-            ErrorMessage = "";
+           
         }
 
+        //Select Files for image
         private void SelectFiles_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -49,7 +64,7 @@ namespace WPFStylingTest
             }
         }
 
-
+        //Remove Files for image
         private void RemoveFile_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -60,7 +75,7 @@ namespace WPFStylingTest
             }
         }
 
-
+        //Add Description
         private void AddDescription_Click(object sender, RoutedEventArgs e)
         {
             // Create a new StackPanel to hold the two TextBoxes
@@ -113,11 +128,13 @@ namespace WPFStylingTest
             TextBoxContainer.Children.Add(newPanel);
         }
 
+        //Unuse Code
         private void cbBrand_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
+        //Window dragging
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Check if the left mouse button was pressed
@@ -131,20 +148,35 @@ namespace WPFStylingTest
         // Method to delete a row (StackPanel)
         private void DeleteRow(StackPanel panel)
         {
+            // Find the index of the panel being deleted
+            int index = TextBoxContainer.Children.IndexOf(panel);
+
+            // Remove the panel from the TextBoxContainer
             TextBoxContainer.Children.Remove(panel);
+
+            // Remove corresponding entries from attributesList and descriptionsList
+            if (index >= 0 && index < attributesList.Count)
+            {
+                attributesList.RemoveAt(index);
+                descriptionsList.RemoveAt(index);
+            }
         }
 
+        //Submit the form
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
-            foreach(string items in SelectedFiles)
+            SaveAttributeAndDescription();
+            if (Validation())
             {
 
+            } else
+            {
+                MessageBox.Show("Something went wrong! Check the error for more information");
             }
-            SaveAttributeAndDescription();
 
         }
 
-
+        //Save attribute and description
         public void SaveAttributeAndDescription()
         {
             bool hasAttributesTextBox = false;
@@ -193,13 +225,123 @@ namespace WPFStylingTest
                     }
                 }
             }
-            else
-            {
-                ErrorMessage += "Please enter description";
-                
-            }
+            
         }
 
+        //Close the Window
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
+
+        //Initialize the combobox
+        private void InitialCateAndBrand()
+        {
+            cbBrand.ItemsSource = brandService.GetBrandList();
+            cbBrand.DisplayMemberPath = "BrandName";
+            cbBrand.SelectedValuePath = "BrandId";
+            cbBrand.SelectedValue = -1;
+
+            cbCategory.ItemsSource = categoryService.GetCategoryList();
+            cbCategory.DisplayMemberPath = "CateName";
+            cbCategory.SelectedValuePath = "CateId";
+            cbCategory.SelectedValue = -1;
+        }
+
+        private bool Validation()
+        {
+            bool allCheck = true;
+            errorProAttribute.Text = "";
+
+            //Product Name
+            string Name = txtProductName.Text.Trim();
+            if(Name == "")
+            {
+                errorProName.Text = "Name can't be empty";
+                allCheck = false;
+            } else
+            {
+                errorProName.Text = "";
+            }
+
+            //Product Price
+            string Price = txtProductPrice.Text.Trim();
+            string patternPrice = @"^\d+(\.\d+)?$";
+            if (Regex.IsMatch(Price, patternPrice))
+            {
+                // Parse the input to a decimal
+                decimal price = decimal.Parse(Price);
+
+                // Check if the price is greater than zero
+                if (price <= 0)
+                {
+                    errorProPrice.Text = "Price can't be 0 or under 0!";
+                    allCheck = false;
+                } else
+                {
+                    errorProPrice.Text = "";
+                }
+
+            }
+            else
+            {
+                errorProPrice.Text = "Invalid price format. Please enter a valid number.";
+                allCheck = false;
+            }
+
+            //Product Brand
+            if(cbBrand.SelectedValue == null)
+            {
+                errorProBrand.Text = "Please choose a brand";
+                allCheck = false;
+            }
+            else
+            {
+                errorProBrand.Text = "";
+            }
+
+            //Product Category
+            if (cbCategory.SelectedValue == null)
+            {
+                errorProCategory.Text = "Please choose a category";
+                allCheck = false;
+            }
+            else
+            {
+                errorProCategory.Text = "";
+            }
+
+            //Product Image
+            if (SelectedFiles.IsNullOrEmpty())
+            {
+                errorProImage.Text = "Please select images";
+                allCheck = false;
+            } else
+            {
+                errorProImage.Text = "";
+            }
+
+            //Product Attribute
+            bool hasEmptyAttribute = attributesList.Any(string.IsNullOrEmpty);
+            bool hasEmptyDescription = descriptionsList.Any(string.IsNullOrEmpty);
+            if (attributesList.IsNullOrEmpty() )
+            {               
+                errorProAttribute.Text = "Please enter attribute";
+                allCheck = false;
+            } if (hasEmptyAttribute || hasEmptyDescription)
+            {
+                errorProAttribute.Text = "Some field are unfielded";
+                allCheck = false;
+            } 
+
+            //Product Description
+            if (txtProductDescription.Text == "")
+            {
+                errorProDescription.Text = "Please enter Description";
+                allCheck = false;
+            }
+            else
+            {
+                errorProDescription.Text = "";
+            }
+            return allCheck;
+        }
     }
 }
