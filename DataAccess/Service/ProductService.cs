@@ -61,5 +61,15 @@ namespace DataAccess.Service
             }
             return products;
         }
+
+        public string GetNewProductID(int ID)
+        {
+            return _repo.GetNewProductID(ID);
+        }
+
+        public void InsertProduct(ProductData product, List<string> imageLink, List<string> attribute, List<string> description)
+        {
+            _repo.InsertProduct(product, imageLink, attribute, description);
+        }
     }
 }

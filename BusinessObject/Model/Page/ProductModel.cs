@@ -17,7 +17,7 @@ namespace BusinessObject.Model.Page
 
         public double ProPrice { get; set; }
 
-
+        public int Discount { get; set; }
         public int BrandId { get; set; }
 
         public string BrandName { get; set; }
