@@ -1,9 +1,4 @@
 ﻿using BusinessObject.Model.Page;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Service
 {
@@ -13,10 +8,30 @@ namespace DataAccess.Service
             BrandService brandService = new BrandService();
             CategoryService categoryService = new CategoryService();
 
+            ProductService productService = new ProductService();
+
+            // Retrieve product, brand, and category lists
+            var productList = productService.GetProductList();
+            var brandList = brandService.GetBrandList();
+            var categoryList = categoryService.GetCategoryList();
+
+            // Calculate quantities for each brand
+            foreach (var brand in brandList)
+            {
+                brand.quantity = productList.Count(product => product.BrandId == brand.BrandId);
+            }
+
+            // Calculate quantities for each category
+            foreach (var category in categoryList)
+            {
+                category.quantity = productList.Count(product => product.CateId == category.CateId);
+            }
+
+            // Create and populate the HeaderModel
             HeaderModel headerModel = new HeaderModel
             {
-                brand = brandService.GetBrandList(),
-                category = categoryService.GetCategoryList(),
+                brand = brandList,
+                category = categoryList
             };
 
             return headerModel;

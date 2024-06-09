@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Newtonsoft.Json
+@{
     ViewData["Title"] = "Home";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,7 +7,16 @@
 
 @{
     var homeModel = Model.Result as BusinessObject.Model.Page.HomeModel;
-    var products = homeModel?.products;
+    var specialSale = homeModel?.specialSale;
+    var mouse = homeModel?.mouse;
+    var keyboard = homeModel?.keyboard;
+
+    var serializedList = Context.Session.GetString("HeaderData");
+
+    // Deserialize the JSON string into a list
+    var headerData = JsonConvert.DeserializeObject<BusinessObject.Model.Page.HeaderModel>(serializedList);
+
+    var brandList = headerData.brand;
 }
 <!-- Carousel Start -->
 <div class="container-fluid mb-3">
@@ -133,23 +143,23 @@
 
     <div class="row px-xl-5 pb-3">
 
-        @*         @for (int i = 0; i < ViewBag.brandList.Count; i++)
+        @foreach(var item in brandList)
         {
-        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
 
-        <a class="text-decoration-none" href="/Product/Shop?brand=@ViewBag.brandList[i].brand_id">
-        <div class="cat-item d-flex align-items-center mb-4">
-        <div class="overflow-hidden" style="width: 100px; height: 100px;">
-        <img class="img-fluid" src="@ViewBag.brandList[i].brand_img">
-        </div>
-        <div class="flex-fill pl-3">
-        <h6>@ViewBag.brandList[i].brand_name</h6>
-        <small class="text-body">@ViewBag.totalProductBrand[i] Products</small>
-        </div>
-        </div>
-        </a>
-        </div>
-        } *@
+                <a class="text-decoration-none" href="/Product/Shop?brand=@item.BrandId">
+                    <div class="cat-item d-flex align-items-center mb-4">
+                        <div class="overflow-hidden" style="width: 100px; height: 100px;">
+                            <img class="img-fluid" src="@item.BrandLogo">
+                        </div>
+                        <div class="flex-fill pl-3">
+                            <h6>@item.BrandName</h6>
+                            <small class="text-body">@item.quantity Products</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
 
     </div>
 </div>
@@ -163,12 +173,15 @@
         </span>
     </h2>
     <div class="row px-xl-5">
-@*         @foreach (var item in Model.Result)
+        @if (specialSale != null && specialSale.Any())
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                @Html.Partial("Card", item)
-            </div>
-        } *@
+            foreach (var item in specialSale)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    @Html.Partial("Card", item)
+                </div>
+            }
+        }
     </div>
 </div>
 <!-- Offer Start -->
@@ -206,9 +219,9 @@
         </span>
     </h2>
     <div class="row px-xl-5">
-        @if (products != null && products.Any())
+        @if (keyboard != null && keyboard.Any())
         {
-            foreach (var item in products)
+            foreach (var item in keyboard)
             {
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     @Html.Partial("Card", item)
@@ -227,13 +240,15 @@
         </span>
     </h2>
     <div class="row px-xl-5">
-@*         @foreach (var item in Model)
+        @if (mouse != null && mouse.Any())
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                @Html.Partial("Card", item)
-            </div>
-        } *@
-
+            foreach (var item in mouse)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    @Html.Partial("Card", item)
+                </div>
+            }
+        }
     </div>
 </div>
 
