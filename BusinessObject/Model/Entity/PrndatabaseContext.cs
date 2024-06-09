@@ -43,7 +43,7 @@ public partial class PrndatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=ADMIN-PC\\SQLEXPRESS;Initial Catalog=PRNDatabase;Integrated Security=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=UNKEPTHAROLDDPC;Initial Catalog=PRNDatabase_PRN221;uid=sa;pwd=222;Integrated Security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -332,8 +332,9 @@ public partial class PrndatabaseContext : DbContext
         modelBuilder.Entity<ProductAttribute>(entity =>
         {
             entity
-                .HasNoKey()
+                
                 .ToTable("Product_Attribute");
+            entity.HasKey(e => new { e.ProId, e.Feature });
 
             entity.Property(e => e.Description)
                 .HasColumnType("text")
@@ -355,8 +356,9 @@ public partial class PrndatabaseContext : DbContext
 
         modelBuilder.Entity<ProductImage>(entity =>
         {
+            entity.HasKey(e => new { e.ProId, e.ProImg });
             entity
-                .HasNoKey()
+                
                 .ToTable("Product_Image");
 
             entity.Property(e => e.ProId)
