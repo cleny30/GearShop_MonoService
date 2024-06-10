@@ -1,44 +1,34 @@
 ﻿@page
 @model GearShopWeb.Pages.LoginModel
 @{
+    ViewData["Title"] = "Login";
 }
 
-
-  <html>
-    <head>
-    <title>Gearshop - Online Shop Website </title>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gearshop - Online Shop Website</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Ion icon -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-    <!-- Libraries Stylesheet -->
     <link href="~/lib/animate/animate.min.css" rel="stylesheet">
     <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="~/css/style.css" rel="stylesheet">
     <link href="~/css/login.css" rel="stylesheet" />
     <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
-
     <script src="~/js/jquery-3.7.0.js"></script>
 </head>
-    <body>
+<body>
     <div id="loginPage" class="vh-100">
         <div class="container py-5 h-100">
             <div class="d-flex align-items-center h-100">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5 ">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="contentLogin">
                         <h6>Nice to see you again</h6>
-                        <h1 class="text-red-500">WELCOME BACK!</h1>
+                        <h1>WELCOME BACK!</h1>
                     </div>
                     <div class="card shadow-2-strong">
                         <div class="card-body p-5 text-center">
@@ -46,38 +36,38 @@
                             <div class="form-outline mb-4">
                                 <div>
                                     <div class="input-common input-group">
-                                        <input class="input-element form-control form-control-lg" type="text" name="username" placeholder="Username" />
+                                        <input id="txtUsername" class="input-element form-control form-control-lg" type="text" name="username" placeholder="Username" />
+                                    </div>
+                                    <div id="_errUsername" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errUsername" style="margin-left:0.25rem; color:#F87171"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-outline mb-4">
                                 <div>
                                     <div class="input-common input-group">
-                                        <input class="input-element form-control form-control-lg" type="password" name="password" placeholder="Password" />
+                                        <input id="txtPassword" class="input-element form-control form-control-lg" type="password" name="password" placeholder="Password" />
+                                    </div>
+                                    <div id="_errPassword" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errPassword" style="margin-left:0.25rem; color:#F87171"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="col d-flex justify-content-center">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox"/>
+                                        <input class="form-check-input" type="checkbox" />
                                         <label class="form-check-label">Remember me</label>
                                     </div>
                                 </div>
-
                                 <div class="col text-right">
-                                    <Link to="/signup"
-                                          class="m-auto text-black hover:text-black">
-                                    Sign up
-                                    </Link>
-                                    <br />
-                                    <Link to="/"
-                                          class="m-auto text-black hover:text-black">
-                                    Forget Password
-                                    </Link>
+                                    <a href="/signup" class="m-auto text-black hover:text-black">Sign up</a><br />
+                                    <a href="/" class="m-auto text-black hover:text-black">Forget Password</a>
                                 </div>
                             </div>
-                            <button class="btn-common btn-common-lg w-full">Login</button>
+                            <button id="btnLogin" class="btn-common btn-common-lg w-full">Login</button>
                         </div>
                     </div>
                 </div>
@@ -88,14 +78,10 @@
             </div>
         </div>
     </div>
-
-
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/easing/easing.min.js"></script>
     <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
-
-
-    <!-- Contact Javascript File -->
     <script src="~/mail/jqBootstrapValidation.min.js"></script>
-    </body>
+    <script src="~/js/login/loginprocessing.js"></script>
+</body>
 </html>
