@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.Model.Page
 {
-    public class HomeModel: HeaderModel
+    public class HomeModel
     {
-        public List<ProductData> products { get; set; }
+        public List<ProductData> specialSale { get; set; }
+        public List<ProductData> mouse { get; set; }
+        public List<ProductData> keyboard { get; set; }
     }
 }

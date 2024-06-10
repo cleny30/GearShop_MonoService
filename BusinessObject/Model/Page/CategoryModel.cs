@@ -14,6 +14,8 @@ namespace BusinessObject.Model.Page
 
         public string Keyword { get; set; } = null!;
 
+        public int quantity { get; set; }
+
         public bool IsAvailable { get; set; }
     }
 }
