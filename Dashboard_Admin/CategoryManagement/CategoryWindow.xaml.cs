@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using DataAccess.Service;
+using System.Drawing;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
 using WPFStylingTest.CategoryManagement;
 
 namespace WPFStylingTest
@@ -8,35 +12,16 @@ namespace WPFStylingTest
     /// </summary>
     public partial class CategoryWindow : Window
     {
+        private readonly CategoryService categoryService;
         public CategoryWindow()
         {
+            categoryService = new CategoryService();
             InitializeComponent();
-            LoadStudents();
+            LoadCategory();
         }
-        private void LoadStudents()
+        private void LoadCategory()
         {
-            var students = new List<Student>
-            {
-                new Student { ID = 1, Name = "John Doe", Description = "A computer science major." },
-                new Student { ID = 2, Name = "Jane Smith", Description = "An art student." },
-                new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                 new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                  new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                   new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                    new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." }
-
-            };
-
-            CategoryDataGrid.ItemsSource = students;
-
+            CategoryDataGrid.ItemsSource = categoryService.GetCategoryList();
         }
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -67,7 +52,6 @@ namespace WPFStylingTest
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
-    }
-
-
+     
+    } 
 }

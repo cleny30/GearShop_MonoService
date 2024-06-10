@@ -86,11 +86,10 @@
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
                                                             <Button
-                                        Width="70"
-                                        Content="View"
-                                        
-                                        Style="{StaticResource MaterialDesignRaisedButton}"
-                                        ToolTip="Resource name: MaterialDesignRaisedButton"/>
+                                                                Width="70"
+                                                                Content="View"
+                                                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                                                Click="ViewButton_Click"/>
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>

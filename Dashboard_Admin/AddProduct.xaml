@@ -9,10 +9,9 @@
         WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
 
     <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}"  Margin="25,25,29,0"  MouseLeftButtonDown="Window_MouseLeftButtonDown">
-
-        <Grid Background="White" >
-           
-            <Border BorderBrush="#FF673AB7" BorderThickness="6">
+        <Grid>
+            <Grid Background="White">
+                <Border BorderBrush="#FF673AB7" BorderThickness="6">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Bottom" Margin="4,0,-4,-49">
                     <ScrollViewer.Resources>
                         <!-- Style for the vertical scrollbar -->
@@ -21,108 +20,124 @@
                             <Setter Property="Foreground" Value="White"/>
                         </Style>
                     </ScrollViewer.Resources>
-                    <StackPanel Margin="0 10 0 0 " >
-                        <Button Margin="770 0 0 -30 " Background="Transparent" BorderBrush="Transparent" Click="CloseButton_Click" Padding="0" Grid.ColumnSpan="2" Grid.Column="1" Height="42" Width="44">
-                            <materialDesign:PackIcon Kind="CloseThick" Foreground="Red" Height="32" Width="43" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Button>
-                        <DockPanel Margin="0 5 0 0 ">
-                            <TextBlock FontSize="25" FontWeight="Bold" Text="ADD PRODUCT" Width="186" Foreground="#FF673AB7"/>
-                        </DockPanel>
                         <Grid>
+                            <StackPanel Margin="0 10 0 0 " >
+                                <Button Margin="770 0 0 -30 " Background="Transparent" BorderBrush="Transparent" Click="CloseButton_Click" Padding="0" Grid.ColumnSpan="2" Grid.Column="1" Height="42" Width="44">
+                                    <materialDesign:PackIcon Kind="CloseThick" Foreground="Red" Height="32" Width="43" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Button>
+                                <DockPanel Margin="0 5 0 0 ">
+                                    <TextBlock FontSize="25" FontWeight="Bold" Text="ADD PRODUCT" Width="186" Foreground="#FF673AB7" x:Name="Title"/>
+                                </DockPanel>
+                                <Grid>
 
-                            <!--Product ID-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Product ID" Foreground="#FF673AB7" Margin="104,10,639,1320"/>
-                            <TextBox x:Name="txtProductID"
-                                     materialDesign:HintAssist.Hint="Product ID"
-                                     IsReadOnly="True"
-                                     Padding="5" VerticalAlignment="Top" Height="25" Margin="104,39,484,0"/>
-
-
-                            <!--Product Name-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Product Name" Foreground="#FF673AB7" Margin="488,10,227,1320"/>
-                            <TextBox x:Name="txtProductName" 
-                            materialDesign:HintAssist.Hint="Product Name"
-                            Padding="5" VerticalAlignment="Top" Height="31" Margin="488,33,87,0">
-                            </TextBox>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,69,87,1261" x:Name="errorProName"/>
-
-                            <!--Product Price-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Product Price" Foreground="#FF673AB7" Margin="102,96,613,1234"/>
-                            <TextBox x:Name="txtProductPrice" 
-                                     materialDesign:HintAssist.Hint="Product Price" 
-                                     Padding="5" VerticalAlignment="Top" Height="26" Margin="104,136,484,0"/>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,167,484,1163" x:Name="errorProPrice"/>
-                            
-                            <!--Product Discount-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Discount" Foreground="#FF673AB7" Margin="488,96,227,1234"/>
-                            <TextBox x:Name="txtProductDiscount" 
-         materialDesign:HintAssist.Hint="Discount" 
-         Padding="5" VerticalAlignment="Top" Height="26" Margin="488,136,100,0"/>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,167,100,1163" x:Name="errorProDiscount"/>
+                                    <!--Product ID-->
+                                    <TextBlock FontSize="15" FontWeight="Bold" Text="Product ID" Foreground="#FF673AB7" Margin="104,10,639,1320"/>
+                                    <TextBox x:Name="txtProductID"
+                            materialDesign:HintAssist.Hint="Product ID"
+                            IsReadOnly="True"
+                            Padding="5" VerticalAlignment="Top" Height="25" Margin="104,39,484,0"/>
 
 
-                            <!--Product Category-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Category" Foreground="#FF673AB7" Margin="104,206,650,1117"/>
+                                    <!--Product Name-->
+                                    <TextBlock FontSize="15" FontWeight="Bold" Text="Product Name" Foreground="#FF673AB7" Margin="488,10,227,1320"/>
+                                    <TextBox x:Name="txtProductName" 
+                   materialDesign:HintAssist.Hint="Product Name"
+                   Padding="5" VerticalAlignment="Top" Height="31" Margin="488,33,87,0">
+                                    </TextBox>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,69,87,1261" x:Name="errorProName"/>
 
-                            <ComboBox Name="cbCategory" SelectedIndex="0" Margin="102,236,486,0" VerticalAlignment="Top" Height="28" Loaded="cbCategory_Loaded" SelectionChanged="cbCategory_SelectionChanged"  SelectedValuePath="CateId" DisplayMemberPath="CateName"/>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="102,269,484,1061" x:Name="errorProCategory"/>
-                            <!--Product Brand-->
-                            <TextBlock FontSize="15" FontWeight="Bold" Text="Brand" Foreground="#FF673AB7" Margin="488,209,266,1121"/>
+                                    <!--Product Price-->
+                                    <TextBlock FontSize="15" FontWeight="Bold" Text="Product Price" Foreground="#FF673AB7" Margin="102,96,613,1234"/>
+                                    <TextBox x:Name="txtProductPrice" 
+                            materialDesign:HintAssist.Hint="Product Price" 
+                            Padding="5" VerticalAlignment="Top" Height="26" Margin="104,136,484,0"/>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,167,484,1163" x:Name="errorProPrice"/>
 
-                            <ComboBox Name="cbBrand" SelectedIndex="0" Margin="488,232,87,0" VerticalAlignment="Top" Height="28" SelectionChanged="cbBrand_SelectionChanged"/>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,265,98,1065" x:Name="errorProBrand"/>
+                                    <!--Product Discount-->
+                                    <TextBlock FontSize="15" FontWeight="Bold" Text="Discount" Foreground="#FF673AB7" Margin="488,96,227,1234"/>
+                                    <TextBox x:Name="txtProductDiscount" 
+materialDesign:HintAssist.Hint="Discount" 
+Padding="5" VerticalAlignment="Top" Height="26" Margin="488,136,100,0"/>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,167,100,1163" x:Name="errorProDiscount"/>
 
-                            <!--Product Category-->
-                            <Button Content="Select Files" Click="SelectFiles_Click" Margin="104,305,87,1016" />
 
-                            <Grid  Margin="104,350,87,725">
-                                <Border BorderBrush="#FF673AB7" BorderThickness="6">
-                                    <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="251">
-                                        <ItemsControl ItemsSource="{Binding SelectedFiles}" >
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <WrapPanel Orientation="Horizontal" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel>
-                                                        <Image Source="{Binding}" Width="100" Height="100" Margin="5"/>
-                                                        <Button Content="Remove" Click="RemoveFile_Click" Tag="{Binding}" Margin="5"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                    <!--Product Category-->
+                                    <TextBlock FontSize="15" FontWeight="Bold" Text="Category" Foreground="#FF673AB7" Margin="104,206,650,1117"/>
+
+                                    <ComboBox Name="cbCategory" SelectedIndex="0" Margin="102,236,486,0" VerticalAlignment="Top" Height="28" Loaded="cbCategory_Loaded" SelectionChanged="cbCategory_SelectionChanged"  SelectedValuePath="CateId" DisplayMemberPath="CateName"/>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="102,269,484,1061" x:Name="errorProCategory"/>
+                                    <!--Product Brand-->
+                                    <TextBlock FontSize="15" FontWeight="Bold" Text="Brand" Foreground="#FF673AB7" Margin="488,209,266,1121"/>
+
+                                    <ComboBox Name="cbBrand" SelectedIndex="0" Margin="488,232,87,0" VerticalAlignment="Top" Height="28" SelectionChanged="cbBrand_SelectionChanged"/>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="488,265,98,1065" x:Name="errorProBrand"/>
+
+                                    <!--Product Category-->
+                                    <Button Content="Select Files" Click="SelectFiles_Click" Margin="104,305,87,1016" />
+
+                                    <Grid  Margin="104,350,87,725">
+                                        <Border BorderBrush="#FF673AB7" BorderThickness="6">
+                                            <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalAlignment="Top" Height="251">
+                                                <ItemsControl ItemsSource="{Binding SelectedFiles}" >
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel Orientation="Horizontal" />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel>
+                                                                <Image Source="{Binding}" Width="100" Height="100" Margin="5"/>
+                                                                <Button Content="Remove" Click="RemoveFile_Click" Tag="{Binding}" Margin="5"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Grid>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,628,87,702" x:Name="errorProImage"/>
+
+                                    <Button Content="Add Description" Click="AddDescription_Click" Margin="104,660,87,661"/>
+                                    <ScrollViewer Margin="104,706,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="194" Width="656">
+                                        <StackPanel x:Name="TextBoxContainer" Orientation="Vertical"/>
                                     </ScrollViewer>
-                                </Border>
-                            </Grid>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,628,87,702" x:Name="errorProImage"/>
-                            
-                            <Button Content="Add Description" Click="AddDescription_Click" Margin="104,660,87,661"/>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,905,87,425" x:Name="errorProAttribute"/>
+                                    <Grid>
+                                        <TextBlock FontSize="15" FontWeight="Bold" Text="Product Description" Foreground="#FF673AB7" Margin="104,929,583,401"/>
+                                        <TextBox
+                           materialDesign:HintAssist.Hint="Description"
+                           AcceptsReturn="True"
+                          
+                           Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                           TextWrapping="Wrap"
+                           VerticalScrollBarVisibility="Auto" Margin="104,952,87,182"
+                           x:Name="txtProductDescription"/>
+                                    </Grid>
+                                    <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,1177,87,153" x:Name="errorProDescription"/>
+                                    <Button Content="Submit" Click="Submit_Click" Margin="104,1214,87,107" />
+                                </Grid>
+                            </StackPanel>
 
-
-                            <ScrollViewer Margin="104,706,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="194" Width="656">
-                                <StackPanel x:Name="TextBoxContainer" Orientation="Vertical"/>
-                            </ScrollViewer>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,905,87,425" x:Name="errorProAttribute"/>
-                            <Grid>
-                                <TextBlock FontSize="15" FontWeight="Bold" Text="Product Description" Foreground="#FF673AB7" Margin="104,929,583,401"/>
-                                <TextBox
-                                    materialDesign:HintAssist.Hint="Description"
-                                    AcceptsReturn="True"
-                                    IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextBoxEnabledComboBox}"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                    TextWrapping="Wrap"
-                                    VerticalScrollBarVisibility="Auto" Margin="104,952,87,182"
-                                    x:Name="txtProductDescription"/>
+                            <Grid x:Name="OverlayUpdate" Background="Transparent" Visibility="Collapsed">
+                                <Grid Background="#80000000" Opacity="0.8"/>
+                                <TextBlock Text="YOU ARE CURRENTLY IN VIEW ONLY MODE"  Foreground="Red" HorizontalAlignment="Center" Margin="0,276,0,1025" FontSize="15" Background="White" Width="396" TextAlignment="Center"/>
+                                <TextBlock Text="PLEASE PRESSED THE BUTTON TO ENABLE UPDATING"  Foreground="Red" HorizontalAlignment="Center" Margin="0,308,0,1025" FontSize="15"/>
+                                <Button Content="ENABLE" Click="Enable_Click" Margin="325,348,325,1033"  />
                             </Grid>
-                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red" Margin="104,1177,87,153" x:Name="errorProDescription"/>
-                            <Button Content="Submit" Click="Submit_Click" Margin="104,1214,87,107" />
                         </Grid>
-                    </StackPanel>
-                </ScrollViewer>
+                    </ScrollViewer>
+                
             </Border>
 
+        </Grid>
+            <Grid x:Name="Overlay" Background="Transparent" Visibility="Collapsed">
+                <Grid Background="#80000000" Opacity="0.8"/>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
+                    <TextBlock Text="Processing, please wait..." Foreground="White" HorizontalAlignment="Center" Margin="10"/>
+                </StackPanel>
+            </Grid>
         </Grid>
     </materialDesign:Card>
 </Window>
