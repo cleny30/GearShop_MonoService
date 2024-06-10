@@ -9,6 +9,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 // Thêm dịch vụ bộ nhớ đệm phân tán (Distributed Memory Cache)
 builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddRazorPages();
+
 // Thêm và cấu hình session
 builder.Services.AddSession(options =>
 {
@@ -31,6 +33,8 @@ app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
