@@ -25,6 +25,8 @@ namespace BusinessObject.Model.Page
         public int CateId { get; set; }
 
         public string CateName { get; set; } = null!;
+
+        public string ProDes { get; set; } = null!;
     }
 
     public class ProductData

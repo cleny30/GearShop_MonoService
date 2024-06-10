@@ -2,6 +2,7 @@
 using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using ISUZU_NEXT.Server.Core.Extentions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace DataAccess.Repository
@@ -142,6 +143,103 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public ProductModel GetProduct(string pro_id)
+        {
+            Product product = new Product();
+            ProductModel model = new ProductModel();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                product = dbContext.Products.FirstOrDefault(p => p.ProId.Equals(pro_id));
+                if(product != null)
+                {
+                    model = new ProductModel
+                    {
+                        ProId=product.ProId,
+                        BrandId=product.BrandId,
+                        CateId=product.CateId,
+                        Discount= product.Discount,
+                        ProPrice = product.ProPrice,
+                        ProName = product.ProName,
+                        ProDes = product.ProDes,
+                    };                  
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public void UpdateProduct(ProductData product, List<string> deleteList, List<string> imageLink, List<string> attribute, List<string> description)
+        {
+            /*
+             * 1. Update product
+             */
+            Product _product = new Product
+            {
+                ProId = product.ProId,
+                ProName = product.ProName,
+                BrandId = product.BrandId,
+                CateId = product.CateId,
+                Discount = product.Discount,
+                ProDes = product.ProDes,
+                ProPrice = product.ProPrice,
+                IsAvailable = product.IsAvailable,
+                ProQuan = 0
+            };
+
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                dbContext.Entry<Product>(_product).State = EntityState.Modified;
+                dbContext.SaveChanges();
+
+                //Delete from database
+                foreach(var images in deleteList)
+                {
+                    ProductImage img = new ProductImage
+                    {
+                        ProId = _product.ProId,
+                        ProImg = images
+                    };
+                    dbContext.ProductImages.Remove(img);
+                }
+
+                //Update from database
+                foreach (var items in imageLink)
+                {
+                    dbContext.ProductImages.Add(new ProductImage { ProId = _product.ProId, ProImg = items });
+                    dbContext.SaveChanges();
+                }
+
+                //Delete all attribute
+                var attributeToRemove = dbContext.ProductAttributes.Where(b => b.ProId.Equals(_product.ProId)).ToList();
+
+                dbContext.RemoveRange(attributeToRemove);
+                dbContext.SaveChanges();
+
+                foreach (var (attr, desc) in attribute.Zip(description, (attr, desc) => (attr, desc)))
+                {
+                    dbContext.ProductAttributes.Add(new ProductAttribute
+                    {
+                        ProId = _product.ProId,
+                        Description = desc,
+                        Feature = attr
+                    });
+                    dbContext.SaveChanges();
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                
             }
         }
     }

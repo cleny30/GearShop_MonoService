@@ -71,5 +71,15 @@ namespace DataAccess.Service
         {
             _repo.InsertProduct(product, imageLink, attribute, description);
         }
+
+        public ProductModel GetProduct(string pro_id)
+        {
+            return _repo.GetProduct(pro_id);
+        }
+
+        public void UpdateProduct(ProductData product, List<string> deleteList, List<string> imageLink, List<string> attribute, List<string> description)
+        {
+           _repo.UpdateProduct(product, deleteList, imageLink, attribute, description);
+        }
     }
 }
