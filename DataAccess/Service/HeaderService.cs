@@ -4,11 +4,18 @@ namespace DataAccess.Service
 {
     public class HeaderService
     {
-        public HeaderModel GetData() {
-            BrandService brandService = new BrandService();
-            CategoryService categoryService = new CategoryService();
+        private readonly BrandService brandService;
+        private readonly CategoryService categoryService;
+        private readonly ProductService productService;
 
-            ProductService productService = new ProductService();
+        public HeaderService(BrandService brandService, CategoryService categoryService, ProductService productService)
+        {
+            this.brandService = brandService;
+            this.categoryService = categoryService;
+            this.productService = productService;
+        }
+
+        public HeaderModel GetData() {
 
             // Retrieve product, brand, and category lists
             var productList = productService.GetProductList();

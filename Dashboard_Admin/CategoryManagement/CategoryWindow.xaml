@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="CategoryWindow" Height="500" Width="800"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
+        WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
+
     <Grid>
         <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}"  Margin="25,25,29,0"  MouseLeftButtonDown="Window_MouseLeftButtonDown">
             <Grid Background="White">
@@ -31,9 +32,9 @@ WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Ba
                             <ScrollViewer VerticalScrollBarVisibility="Auto"  Height="355" VerticalAlignment="Center" Padding="5">
                                 <DataGrid x:Name="CategoryDataGrid" Margin="1,1,1,1" Background="White" AutoGenerateColumns="False" IsReadOnly="True"  Height="354" Width="733">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="200" />
-                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
-                                        <DataGridTextColumn Header="Status" Binding="{Binding Description}" Width="200"/>
+                                        <DataGridTextColumn Header="ID" Binding="{Binding CateId}" Width="200" />
+                                        <DataGridTextColumn Header="Name" Binding="{Binding CateName}" Width="200"/>
+                                        <DataGridTextColumn Header="Name" Binding="{Binding IsAvailable}" Width="200"/>
                                         <DataGridTemplateColumn Header="Function"  Width="100">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>

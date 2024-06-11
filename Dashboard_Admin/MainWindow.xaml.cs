@@ -37,6 +37,11 @@ namespace WPFStylingTest
         {
             frMain.Content = new ImportProduct();
         }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
 

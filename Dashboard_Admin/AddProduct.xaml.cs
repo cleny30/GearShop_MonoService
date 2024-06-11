@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Model.Page;
+using Dashboard_Admin;
 using DataAccess.Core.Cloudiary;
 using DataAccess.Service;
 using MaterialDesignThemes.Wpf;
@@ -17,25 +18,50 @@ namespace WPFStylingTest
     /// </summary>
     public partial class AddProduct : Window
     {
-        public ObservableCollection<string> SelectedFiles { get; set; }
+        
+
         private List<string> attributesList = new List<string>();
         private List<string> descriptionsList = new List<string>();
+        public ObservableCollection<string> SelectedFiles { get; set; }
+        public event EventHandler AddProductWindowClosed;
 
+        //Initialize Service
         private readonly ProductService productService;
         private readonly CategoryService categoryService;
         private readonly BrandService brandService;
+        //------------------
 
-        public AddProduct()
+        //Used for Updating Product
+        public Boolean _IsUpdate { get; set; }
+        public ProductModel _Product { get; set; }
+        public List<ProductImageModel> _ProductImage { get; set; }
+        public List<ProductAttributeModel> _ProductAttribute { get; set; }
+
+        private ObservableCollection<string> SelectedFilesUpdate { get; set; }
+
+        private ObservableCollection<string> SelectedFilesDelete { get; set; }
+        //-------------------------
+
+
+
+        public AddProduct(Boolean IsUpdate, ProductModel Product, List<ProductImageModel> ProductImage, List<ProductAttributeModel> ProductAttribute)
         {
-            productService = new ProductService();
-            brandService = new BrandService();
-            categoryService = new CategoryService();
-
-            InitializeComponent();
-            InitialCateAndBrand();
+            productService = App.GetService<ProductService>();
+            brandService = App.GetService<BrandService>();
+            categoryService = App.GetService<CategoryService>();
             DataContext = this;
             SelectedFiles = new ObservableCollection<string>();
+            SelectedFilesUpdate = new ObservableCollection<string>();
+            SelectedFilesDelete = new ObservableCollection<string>();
 
+            _IsUpdate = IsUpdate;
+            _Product = Product;
+            _ProductImage = ProductImage;
+            _ProductAttribute = ProductAttribute;
+
+            InitializeComponent();
+            InitializeBrand();
+            InputDataForUpdating();            
         }
 
         //Select Files for image
@@ -48,6 +74,10 @@ namespace WPFStylingTest
                 foreach (string fileName in openFileDialog.FileNames)
                 {
                     SelectedFiles.Add(fileName);
+                    if (_IsUpdate)
+                    {
+                        SelectedFilesUpdate.Add(fileName);
+                    }
                 }
             }
         }
@@ -58,7 +88,11 @@ namespace WPFStylingTest
             Button button = sender as Button;
             string fileName = button.Tag as string;
             if (fileName != null && SelectedFiles.Contains(fileName))
-            {
+            {               
+                if (_IsUpdate)
+                {
+                    SelectedFilesDelete.Add(fileName);
+                }
                 SelectedFiles.Remove(fileName);
             }
         }
@@ -66,37 +100,27 @@ namespace WPFStylingTest
         //Add Description
         private void AddDescription_Click(object sender, RoutedEventArgs e)
         {
+            TextBox attribute = CreateAttribute();
+            TextBox des = CreateDescription();
+
+            CreateStackPanel(attribute, des);
+        }
+
+        //Create Stack Panel for feature & description
+        public void CreateStackPanel(TextBox attribute, TextBox description)
+        {
             // Create a new StackPanel to hold the two TextBoxes
             StackPanel newPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal
             };
 
-
             // Create the Attributes TextBox
-            TextBox attributesTextBox = new TextBox
-            {
-                Name = "txtAttribute",
-                Width = 173,
-                VerticalAlignment = VerticalAlignment.Top,
-                Height = 32,
-                Margin = new Thickness(5, 5, 20, 5)
-            };
-            attributesTextBox.SetResourceReference(Control.StyleProperty, "MaterialDesignTextBox");
-            attributesTextBox.SetValue(HintAssist.HintProperty, "Attributes");
-
+            TextBox attributesTextBox = attribute;
 
             // Create the Description TextBox
-            TextBox descriptionTextBox = new TextBox
-            {
-                Name = "txtDescription",
-                Width = 350,
-                VerticalAlignment = VerticalAlignment.Top,
-                Height = 32,
-                Margin = new Thickness(5)
-            };
-            descriptionTextBox.SetResourceReference(Control.StyleProperty, "MaterialDesignTextBox");
-            descriptionTextBox.SetValue(HintAssist.HintProperty, "Description");
+            TextBox descriptionTextBox = description;
+
             // Create the Delete Button
             Button deleteButton = new Button
             {
@@ -116,23 +140,67 @@ namespace WPFStylingTest
             TextBoxContainer.Children.Add(newPanel);
         }
 
+        //Create Attribute Textbox
+        public TextBox CreateAttribute()
+        {
+            TextBox attributesTextBox = new TextBox
+            {
+                Name = "txtAttribute",
+                Width = 173,
+                VerticalAlignment = VerticalAlignment.Top,
+                Height = 32,
+                Margin = new Thickness(5, 5, 20, 5)
+            };
+            attributesTextBox.SetResourceReference(Control.StyleProperty, "MaterialDesignTextBox");
+            attributesTextBox.SetValue(HintAssist.HintProperty, "Attributes");
+
+            return attributesTextBox;
+        }
+
+        //Create Description Textbox
+        public TextBox CreateDescription()
+        {
+            TextBox descriptionTextBox = new TextBox
+            {
+                Name = "txtDescription",
+                Width = 350,
+                VerticalAlignment = VerticalAlignment.Top,
+                Height = 32,
+                Margin = new Thickness(5)
+            };
+            descriptionTextBox.SetResourceReference(Control.StyleProperty, "MaterialDesignTextBox");
+            descriptionTextBox.SetValue(HintAssist.HintProperty, "Description");
+            return descriptionTextBox;
+        }
+
         //Unuse Code
         private void cbBrand_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
+        //Loaded Category with data
         private void cbCategory_Loaded(object sender, RoutedEventArgs e)
         {
             cbCategory.ItemsSource = categoryService.GetCategoryList();
+            if(_IsUpdate == true)
+            {
+                cbCategory.SelectedValue = _Product.CateId;
+            }
 
         }
+
+        //Action when change category
         private void cbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int categoryModel = (int)cbCategory.SelectedValue;
-            if (categoryModel != null)
+            if(_IsUpdate == false)
             {
-                string ID = productService.GetNewProductID(categoryModel);
-                txtProductID.Text = ID;
+                int categoryModel = (int)cbCategory.SelectedValue;
+                if (categoryModel != null)
+                {
+                    string ID = productService.GetNewProductID(categoryModel);
+                    txtProductID.Text = ID;
+                }
             }
 
         }
@@ -168,52 +236,106 @@ namespace WPFStylingTest
         //Submit the form
         private async void Submit_Click(object sender, RoutedEventArgs e)
         {
-            
-            SaveAttributeAndDescription();
-            if (Validation())
-            {
-                ProductData model = new ProductData
-                {
-                    ProId = txtProductID.Text,
-                    ProName = txtProductName.Text,
-                    ProPrice = double.Parse(txtProductPrice.Text),
-                    CateId = (int)cbCategory.SelectedValue,
-                    BrandId = (int)cbBrand.SelectedValue,
-                    Discount = int.Parse(txtProductDiscount.Text),
-                    ProDes = txtProductDiscount.Text,
-                    IsAvailable = true
-                };
-
-                CloudinaryManagement cloud = new CloudinaryManagement();
-                List<string> imageLink = new List<string>();
-                foreach (string items in SelectedFiles)
-                {
-                    // Assuming Upload is an async method
-                    string cloudinaryLink = await cloud.Upload(items, "Test");
-                    imageLink.Add(cloudinaryLink);
-                }
-
-                productService.InsertProduct(model, imageLink, attributesList, descriptionsList);
-                MessageBox.Show("Insert Successful");
-            }
-            else
-            {
-                MessageBox.Show("Something went wrong! Check the error for more information");
-            }
-
-        }
-
-        private async Task UploadFilesAsync(ObservableCollection<string> selectedFiles, IProgress<int> progress)
-        {
             CloudinaryManagement cloud = new CloudinaryManagement();
-            int totalFiles = selectedFiles.Count;
 
-            for (int i = 0; i < totalFiles; i++)
+            // Show the overlay
+            Overlay.Visibility = Visibility.Visible;
+
+            // Disable the main window
+            this.IsEnabled = false;
+
+            try
             {
-                string item = selectedFiles[i];
-                await Task.Run(() => cloud.Upload(item, "Test").ToString());
-                int percentComplete = (i + 1) * 100 / totalFiles;
-                progress.Report(percentComplete);
+                SaveAttributeAndDescription();
+
+                if (Validation())
+                {
+                    if(_IsUpdate == false)
+                    {
+                        ProductData model = new ProductData
+                        {
+                            ProId = txtProductID.Text,
+                            ProName = txtProductName.Text,
+                            ProPrice = double.Parse(txtProductPrice.Text),
+                            CateId = (int)cbCategory.SelectedValue,
+                            BrandId = (int)cbBrand.SelectedValue,
+                            Discount = int.Parse(txtProductDiscount.Text),
+                            ProDes = txtProductDescription.Text, 
+                            IsAvailable = true
+                        };
+
+                        
+                        List<string> imageLink = new List<string>();
+                        foreach (string items in SelectedFiles)
+                        {
+                            // Assuming Upload is an async method
+                            string cloudinaryLink = await cloud.Upload(items, "Test");
+                            imageLink.Add(cloudinaryLink);
+                        }
+
+                        // Assuming InsertProduct is an asynchronous method
+                        productService.InsertProduct(model, imageLink, attributesList, descriptionsList);
+                        MessageBox.Show("Insert Successful");
+                        this.Close();
+                        AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                    } else
+                    {
+                        /*
+                         * 1. Update Product
+                         * 2. Delete Product Image
+                         * 3. Add New Product Image
+                         * 4. Delete All feature
+                         * 5. Add New Feature
+                         */
+
+                        ProductData model = new ProductData
+                        {
+                            ProId = txtProductID.Text,
+                            ProName = txtProductName.Text,
+                            ProPrice = double.Parse(txtProductPrice.Text),
+                            CateId = (int)cbCategory.SelectedValue,
+                            BrandId = (int)cbBrand.SelectedValue,
+                            Discount = int.Parse(txtProductDiscount.Text),
+                            ProDes = txtProductDescription.Text,
+                            IsAvailable = true
+                        };
+
+                        List<string> deleteList = new List<string>();
+                        foreach(string items in SelectedFilesDelete) {
+                            bool delete = await cloud.Delete(items);
+                            deleteList.Add(items);
+                        }
+
+                        List<string> imageLink = new List<string>();
+                        foreach (string items in SelectedFilesUpdate)
+                        {
+                            // Assuming Upload is an async method
+                            string cloudinaryLink = await cloud.Upload(items, "Test");
+                            imageLink.Add(cloudinaryLink);
+                        }
+
+                        productService.UpdateProduct(model, deleteList, imageLink, attributesList, descriptionsList);
+                        MessageBox.Show("Update Successful");
+                        this.Close();
+                        AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong! Check the error for more information");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                // Hide the overlay and enable the window again
+                Overlay.Visibility = Visibility.Collapsed;
+                this.IsEnabled = true;
             }
         }
 
@@ -270,16 +392,21 @@ namespace WPFStylingTest
         }
 
         //Close the Window
-        private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            //AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+        }
 
         //Initialize the combobox
-        private void InitialCateAndBrand()
+        private void InitializeBrand()
         {
             cbBrand.ItemsSource = brandService.GetBrandList();
             cbBrand.DisplayMemberPath = "BrandName";
             cbBrand.SelectedValuePath = "BrandId";
         }
 
+        //Validation
         private bool Validation()
         {
             bool allCheck = true;
@@ -385,7 +512,7 @@ namespace WPFStylingTest
                 foreach (string file in SelectedFiles)
                 {
                     string extension = System.IO.Path.GetExtension(file);
-                    if (extension != ".png" && extension != ".jpg")
+                    if (extension != ".png" && extension != ".jpg" && extension != ".webp")
                     {
                         containsInvalidExtension = true;
                         break;
@@ -394,7 +521,7 @@ namespace WPFStylingTest
 
                 if (containsInvalidExtension)
                 {
-                    errorProImage.Text = "Please select only .png or .jpg files";
+                    errorProImage.Text = "Please select only .png, .jpg and .webp files";
                     allCheck = false;
                 }
                 else
@@ -429,6 +556,49 @@ namespace WPFStylingTest
                 errorProDescription.Text = "";
             }
             return allCheck;
+        }
+
+        //Input Data For Updating
+        private void InputDataForUpdating()
+        {
+            if (_IsUpdate == true)
+            {
+                Title.Text = "UPDATE " + _Product.ProId;
+                OverlayUpdate.Visibility = Visibility.Visible;
+                //Add Into Product
+                txtProductID.Text = _Product.ProId;
+                txtProductName.Text = _Product.ProName;
+                txtProductPrice.Text = _Product.ProPrice.ToString();
+                txtProductDiscount.Text = _Product.Discount.ToString();
+                txtProductDescription.Text = _Product.ProDes;
+                cbBrand.SelectedValue = _Product.BrandId;
+                cbCategory.IsEnabled = false;
+
+                //Add Into Product Image
+                foreach (ProductImageModel fileName in _ProductImage)
+                {
+                  SelectedFiles.Add(fileName.ProImg);
+                }
+
+                foreach (ProductAttributeModel attribute in _ProductAttribute)
+                {
+                    //Create attribute textbox
+                    TextBox att = CreateAttribute();
+                    att.Text = attribute.Feature;
+
+                    //Create description Textbox
+                    TextBox des = CreateDescription();
+                    des.Text = attribute.Description;
+
+                    //Create Stackpanel
+                    CreateStackPanel(att, des);
+                }
+            }
+        }
+
+        private void Enable_Click(object sender, RoutedEventArgs e)
+        {
+            OverlayUpdate.Visibility = Visibility.Collapsed;
         }
     }
 }

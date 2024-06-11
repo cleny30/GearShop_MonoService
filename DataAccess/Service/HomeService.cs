@@ -6,10 +6,15 @@ namespace DataAccess.Service
 {
     public class HomeService
     {
-        public HomeModel GetData()
+        private readonly ProductService productService;
+
+        public HomeService(ProductService productService)
         {
-            ProductService productService = new ProductService();
-            
+            this.productService = productService;
+        }
+
+        public HomeModel GetData()
+        {            
             var productList = productService.GetProducts();
             
             HomeModel homeModel = new HomeModel

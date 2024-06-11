@@ -28,12 +28,14 @@
                             <TextBox x:Name="txtCategoryName"
                  materialDesign:HintAssist.Hint="Insert Name"
                  Padding="5" Height="32" Width="283"/>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red"  x:Name="errorCateName" Width="280"/>
                         </StackPanel>
                         <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 15 0 0">
                             <TextBlock FontSize="15" FontWeight="Bold" Text="Category Keyword" Foreground="#FF673AB7" Width="131" />
                             <TextBox x:Name="txtCategoryKeyword"
                             materialDesign:HintAssist.Hint="Insert Keyword"
                             Padding="5" Height="32" Width="283"/>
+                            <TextBlock FontSize="10" FontWeight="Bold"  Foreground="Red"  x:Name="errorCateKeyword" Width="280"/>
                         </StackPanel>
 
 

@@ -64,6 +64,14 @@ materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60">
                             <TextBlock Width="112" Foreground="White">Customer Orders</TextBlock>
                         </WrapPanel>
                     </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="ExitButton_Click">
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="Cart" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="112" Foreground="White">Exit</TextBlock>
+                        </WrapPanel>
+                    </Button>
                 </StackPanel>
             </materialDesign:ColorZone>
             <Frame x:Name="frMain" Grid.Column="1" VerticalAlignment="Stretch" NavigationUIVisibility="Hidden"/>
