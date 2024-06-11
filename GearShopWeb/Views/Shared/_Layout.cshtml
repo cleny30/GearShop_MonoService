@@ -131,7 +131,7 @@
 
                         <div class="navbar-nav w-100">
                             <div class="nav-item dropdown dropright">
-                                <a href="/Product/Shop?category=@cateList[j].CateId" class="nav-link dropdown-toggle" data-toggle="dropdown" onmousedown="window.location.href='/Product/Shop?category=@cateList[j].CateId'">
+                                <a href="/Shop?category=@cateList[j].CateId" class="nav-link dropdown-toggle" data-toggle="dropdown" onmousedown="window.location.href='/Shop?category=@cateList[j].CateId'">
                                     @cateList[j].CateName<i class="fa fa-angle-right float-right mt-1"></i>
                                 </a>
                                 <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
@@ -143,7 +143,7 @@
 
                                     @for (int i = 0; i < brandList.Count; i++)
                                     {
-                                        <a href="/Product/Shop?category=@cateList[j].CateId&brand=@brandList[i].BrandId" class="dropdown-item">@brandList[i].BrandName</a>
+                                        <a href="/Shop?category=@cateList[j].CateId&brand=@brandList[i].BrandId" class="dropdown-item">@brandList[i].BrandName</a>
                                     }
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="/Home" class="nav-item nav-link ">Home</a>
-                            <a href="/Product/Shop" class="nav-item nav-link">Shop</a>
+                            <a href="/Shop" class="nav-item nav-link">Shop</a>
                             <a href="/Cart" class="nav-item nav-link">Cart</a>
                             <a href="/Cart/CheckOut" class="nav-item nav-link">Checkout</a>
                         </div>
@@ -212,7 +212,7 @@
                             @for (int i = 0; i < brandList.Count; i++)
                             {
 
-                                <a class="text-secondary mb-2" href="/Product/Shop?brand=@brandList[i].BrandId">
+                                <a class="text-secondary mb-2" href="/Shop?brand=@brandList[i].BrandId">
                                     <i class="fa fa-angle-right mr-2"></i>@brandList[i].BrandName
                                 </a>
                             }
@@ -225,7 +225,7 @@
                             {
 
 
-                                <a class="text-secondary mb-2" href="/Product/Shop?category=@cateList[i].CateId">
+                                <a class="text-secondary mb-2" href="/Shop?category=@cateList[i].CateId">
                                     <i class="fa fa-angle-right mr-2"></i>@cateList[i].CateName
                                 </a>
 
@@ -271,6 +271,5 @@
     <script src="~/mail/contact.js"></script>
     <!-- Template Javascript -->
     <script src="~/js/main.js"></script>
-    <script src="~/js/shop.js"></script>
 </body>
 </html>
