@@ -516,7 +516,7 @@ namespace WPFStylingTest
                 foreach (string file in SelectedFiles)
                 {
                     string extension = System.IO.Path.GetExtension(file);
-                    if (extension != ".png" && extension != ".jpg")
+                    if (extension != ".png" && extension != ".jpg" && extension != ".webp")
                     {
                         containsInvalidExtension = true;
                         break;
@@ -525,7 +525,7 @@ namespace WPFStylingTest
 
                 if (containsInvalidExtension)
                 {
-                    errorProImage.Text = "Please select only .png or .jpg files";
+                    errorProImage.Text = "Please select only .png, .jpg and .webp files";
                     allCheck = false;
                 }
                 else
