@@ -26,6 +26,7 @@ namespace DataAccess.Core
             services.AddScoped<ProductImageService>();
             services.AddScoped<ProductService>();
             services.AddScoped<ProductDetailService>();
+            services.AddScoped<ShopService>();
 
             // Other service registrations
         }
