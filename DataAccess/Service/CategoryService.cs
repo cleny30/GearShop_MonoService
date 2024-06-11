@@ -24,5 +24,15 @@ namespace DataAccess.Service
         {
             return _repo.AddCategory(cate);
         }
+
+        public bool UpdateCategory(CategoryModel cate)
+        {
+            return _repo.UpdateCategory(cate);
+        }
+
+        public bool ChangeCategoryStatus(int ID, bool availability)
+        {
+            return _repo.ChangeCategoryStatus(ID,  availability);
+        }
     }
 }
