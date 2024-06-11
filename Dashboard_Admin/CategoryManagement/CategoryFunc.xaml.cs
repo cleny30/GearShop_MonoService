@@ -19,10 +19,24 @@ namespace WPFStylingTest.CategoryManagement
         private readonly CategoryService categoryService;
         //------------------
 
-        public CategoryFunc()
+        //Used for Updating
+        public Boolean _IsUpdate { get; set; } 
+        public CategoryModel _CategoryModel { get; set; }
+        //-----------------
+
+        public event EventHandler CategoryFuncClosed;
+
+        public CategoryFunc(bool IsUpdate, CategoryModel _cate)
         {
             categoryService = App.GetService<CategoryService>();
+            _IsUpdate = IsUpdate;
+            _CategoryModel = _cate;
+
             InitializeComponent();
+            if (IsUpdate)
+            {
+                InputDataForUpdating();
+            }
         }
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -44,12 +58,31 @@ namespace WPFStylingTest.CategoryManagement
                     Keyword = txtCategoryKeyword.Text
                 };
 
-                if(categoryService.AddCategory(_cate))
+                if (!_IsUpdate)
                 {
-                    MessageBox.Show("Insert successful");
+                    if (categoryService.AddCategory(_cate))
+                    {
+                        MessageBox.Show("Insert successful");
+                        this.Close();
+                        CategoryFuncClosed?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something went wrong when inserting category!");
+                    }
                 } else
                 {
-                    MessageBox.Show("Something went wrong when inserting category!");
+                    _cate.CateId = _CategoryModel.CateId;
+                    if (categoryService.UpdateCategory(_cate))
+                    {
+                        MessageBox.Show("Update successful");
+                        this.Close();
+                        CategoryFuncClosed?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Something went wrong when inserting category!");
+                    }
                 }
 
             } else
@@ -59,8 +92,14 @@ namespace WPFStylingTest.CategoryManagement
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) =>this.Close();
-        
 
+        private void InputDataForUpdating()
+        {
+            txtCategoryName.Text = _CategoryModel.CateName;
+            txtCategoryKeyword.IsEnabled = false;
+            txtCategoryKeyword.Text = _CategoryModel.Keyword;
+        }
+        
         private Boolean Validation()
         {
             bool allCheck = true;
@@ -70,24 +109,29 @@ namespace WPFStylingTest.CategoryManagement
             errorCateKeyword.Text = "";
 
 
-            if(txtCategoryName.Text == "")
+            if (!_IsUpdate)
             {
-                allCheck = false;   
-                errorCateName.Text = "Name is empty!";
-            }
+                if (txtCategoryName.Text == "")
+                {
+                    allCheck = false;
+                    errorCateName.Text = "Name is empty!";
+                }
 
-            if(txtCategoryKeyword.Text == "")
-            {
-                errorCateKeyword.Text = "Keyword is empty!";
-                allCheck = false;
-            } else if (!IsKeywordExisted)
-            {
-                allCheck = false;
-                errorCateKeyword.Text = "Keyword Already Existed!";
-            } else if (txtCategoryKeyword.Text.Length == 0 || txtCategoryKeyword.Text.Length > 2)
-            {
-                allCheck = false;
-                errorCateKeyword.Text = "Keyword Length can't be longer than 2!";
+                if (txtCategoryKeyword.Text == "")
+                {
+                    errorCateKeyword.Text = "Keyword is empty!";
+                    allCheck = false;
+                }
+                else if (!IsKeywordExisted)
+                {
+                    allCheck = false;
+                    errorCateKeyword.Text = "Keyword Already Existed!";
+                }
+                else if (txtCategoryKeyword.Text.Length == 0 || txtCategoryKeyword.Text.Length > 2)
+                {
+                    allCheck = false;
+                    errorCateKeyword.Text = "Keyword Length can't be longer than 2!";
+                }
             }
 
             return allCheck;
