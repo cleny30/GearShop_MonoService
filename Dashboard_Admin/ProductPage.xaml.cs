@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Model.Entity;
 using BusinessObject.Model.Page;
+using Dashboard_Admin;
 using DataAccess.Service;
 using System;
 using System.Collections.Generic;
@@ -42,11 +43,11 @@ namespace WPFStylingTest
 
         public ProductPage()
         {
-            productService = new ProductService();
-            brandService = new BrandService();
-            categoryService = new CategoryService();
-            productImageService = new ProductImageService();
-            productAttributeService = new ProductAttributeService();
+            productService = App.GetService<ProductService>();
+            brandService = App.GetService<BrandService>();
+            categoryService = App.GetService<CategoryService>();
+            productImageService = App.GetService<ProductImageService>();
+            productAttributeService = App.GetService<ProductAttributeService>();
             DataContext = this;
             InitializeComponent();
             LoadStudents();

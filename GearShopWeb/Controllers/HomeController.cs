@@ -8,18 +8,19 @@ namespace GearShopWeb.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpContextAccessor _contx;
-        public HomeController(IHttpContextAccessor contx)
+        private readonly HomeService service;
+        private readonly HeaderService headerService;
+
+        public HomeController(IHttpContextAccessor contx, HomeService service, HeaderService headerService)
         {
             _contx = contx;
+            this.service = service;
+            this.headerService = headerService;
         }
 
         [HttpGet]
         public IActionResult Home()
         {
-            HomeService service = new HomeService();
-
-            HeaderService headerService = new HeaderService();
-
             DataResult data = new DataResult();
             _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData()));
 

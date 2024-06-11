@@ -13,18 +13,22 @@ namespace DataAccess.Service
     public class ProductService
     {
         private readonly IProductRepository _repo;
+        private readonly BrandService brandService;
+        private readonly CategoryService categoryService;
+        private readonly ProductImageService _productImageService;
+        private readonly ProductAttributeService _productAttributeService;
 
-        public ProductService()
+        public ProductService(IProductRepository repo, BrandService brandService, CategoryService categoryService, ProductImageService productImageService, ProductAttributeService productAttributeService)
         {
-            _repo = new ProductRepository();
+            _repo = repo;
+            this.brandService = brandService;
+            this.categoryService = categoryService;
+            _productImageService = productImageService;
+            _productAttributeService = productAttributeService;
         }
 
         public List<ProductModel> GetProductList()
         {
-            //initialize service
-            BrandService brandService = new BrandService();
-            CategoryService categoryService = new CategoryService();
-
             List<ProductModel> productModels = _repo.GetProduct();
             List<BrandModel> brandModels = brandService.GetBrandList();
             List<CategoryModel> categoryModels = categoryService.GetCategoryList();
@@ -40,8 +44,7 @@ namespace DataAccess.Service
 
         public List<ProductData> GetProducts()
         {
-            ProductImageService _productImageService = new ProductImageService();
-            ProductAttributeService _productAttributeService = new ProductAttributeService();
+           
             List<ProductData> products = _repo.GetProductData();
             List<ProductImageModel> imgs = _productImageService.GetProductImageList();
             List<ProductAttributeModel> att = _productAttributeService.GetProductAttributeList();

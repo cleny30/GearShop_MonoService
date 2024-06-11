@@ -13,9 +13,10 @@ namespace DataAccess.Service
     {
 
         private readonly IProductAttributeRepository _repo;
-        public ProductAttributeService()
+
+        public ProductAttributeService(IProductAttributeRepository repo)
         {
-            _repo = new ProductAttributeRepository();
+            _repo = repo;
         }
 
         public List<ProductAttributeModel> GetProductAttributeList()
