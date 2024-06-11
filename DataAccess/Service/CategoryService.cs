@@ -16,5 +16,12 @@ namespace DataAccess.Service
         {
             return _repo.GetCategory();
         }
+
+        public bool IsKeywordExisted(string Keyword) => _repo.IsKeywordExisted(Keyword);
+
+        public bool AddCategory(CategoryModel cate)
+        {
+            return _repo.AddCategory(cate);
+        }
     }
 }
