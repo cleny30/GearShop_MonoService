@@ -25,6 +25,7 @@ namespace DataAccess.Core
             services.AddScoped<ProductAttributeService>();
             services.AddScoped<ProductImageService>();
             services.AddScoped<ProductService>();
+            services.AddScoped<ProductDetailService>();
 
             // Other service registrations
         }
