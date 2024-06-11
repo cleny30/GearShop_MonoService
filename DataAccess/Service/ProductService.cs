@@ -84,5 +84,6 @@ namespace DataAccess.Service
         {
            _repo.UpdateProduct(product, deleteList, imageLink, attribute, description);
         }
+
     }
 }

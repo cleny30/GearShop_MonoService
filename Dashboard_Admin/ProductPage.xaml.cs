@@ -164,6 +164,7 @@ namespace WPFStylingTest
         //Reset the search and grid
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
+            InitialSearch();
             Reset();
         }
 

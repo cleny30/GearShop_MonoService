@@ -10,5 +10,9 @@ namespace DataAccess.IRepository
         public bool IsKeywordExisted(string Keyword);
 
         public bool AddCategory(CategoryModel cate);
+
+        public bool UpdateCategory(CategoryModel cate);
+
+        public bool ChangeCategoryStatus(int ID, bool availability);
     }
 }
