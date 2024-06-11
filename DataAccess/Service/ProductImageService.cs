@@ -7,9 +7,10 @@ namespace DataAccess.Service
     public class ProductImageService
     {
         private readonly IProductImageRepository _repo;
-        public ProductImageService()
+
+        public ProductImageService(IProductImageRepository repo)
         {
-            _repo = new ProductImageRepository();
+            _repo = repo;
         }
 
         public List<ProductImageModel> GetProductImageList()

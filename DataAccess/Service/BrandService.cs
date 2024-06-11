@@ -8,9 +8,10 @@ namespace DataAccess.Service
     {
 
         private readonly IBrandRepository _repo;
-        public BrandService()
+
+        public BrandService(IBrandRepository repo)
         {
-            _repo = new BrandRepository();
+            _repo = repo;
         }
 
         public List<BrandModel> GetBrandList()

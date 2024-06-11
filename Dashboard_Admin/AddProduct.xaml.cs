@@ -1,4 +1,5 @@
 ﻿using BusinessObject.Model.Page;
+using Dashboard_Admin;
 using DataAccess.Core.Cloudiary;
 using DataAccess.Service;
 using MaterialDesignThemes.Wpf;
@@ -45,9 +46,9 @@ namespace WPFStylingTest
 
         public AddProduct(Boolean IsUpdate, ProductModel Product, List<ProductImageModel> ProductImage, List<ProductAttributeModel> ProductAttribute)
         {
-            productService = new ProductService();
-            brandService = new BrandService();
-            categoryService = new CategoryService();
+            productService = App.GetService<ProductService>();
+            brandService = App.GetService<BrandService>();
+            categoryService = App.GetService<CategoryService>();
             DataContext = this;
             SelectedFiles = new ObservableCollection<string>();
             SelectedFilesUpdate = new ObservableCollection<string>();
@@ -61,11 +62,6 @@ namespace WPFStylingTest
             InitializeComponent();
             InitializeBrand();
             InputDataForUpdating();            
-        }
-
-        public AddProduct()
-        {
-
         }
 
         //Select Files for image

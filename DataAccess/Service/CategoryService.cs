@@ -7,9 +7,10 @@ namespace DataAccess.Service
     public class CategoryService
     {
         private readonly ICategoryRepository _repo;
-        public CategoryService()
+
+        public CategoryService(ICategoryRepository repo)
         {
-            _repo = new CategoryRepository();
+            _repo = repo;
         }
 
         public List<CategoryModel> GetCategoryList()

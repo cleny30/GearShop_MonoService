@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using WPFStylingTest.CategoryManagement;
-
+using Dashboard_Admin;
 namespace WPFStylingTest
 {
     /// <summary>
@@ -15,7 +15,7 @@ namespace WPFStylingTest
         private readonly CategoryService categoryService;
         public CategoryWindow()
         {
-            categoryService = new CategoryService();
+            categoryService = App.GetService<CategoryService>();
             InitializeComponent();
             LoadCategory();
         }
