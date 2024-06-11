@@ -7,10 +7,16 @@ namespace GearShopWeb.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly AccountService accountService;
+
+        public LoginController(AccountService accountService)
+        {
+            this.accountService = accountService;
+        }
+
         [HttpPost]
         public IActionResult OnPostLogin(string username, string password)
         {
-            AccountService accountService = new AccountService();
             DataResult data = new DataResult();
 
             LoginAccountModel model = new LoginAccountModel

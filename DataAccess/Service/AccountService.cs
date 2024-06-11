@@ -16,9 +16,10 @@ namespace DataAccess.Service
     public class AccountService
     {
         private readonly IAccountRepository _accountRepository;
-        public AccountService()
+
+        public AccountService(IAccountRepository accountRepository)
         {
-            _accountRepository = new AccountRepository();
+            _accountRepository = accountRepository;
         }
 
         public bool Login(LoginAccountModel userLogin)

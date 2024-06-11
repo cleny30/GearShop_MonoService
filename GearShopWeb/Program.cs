@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using DataAccess.Core;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -7,6 +9,7 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddRazorPages();
 
+builder.Services.ConfigureDependencyInjection();
 // Add session configuration
 builder.Services.AddSession(options =>
 {
