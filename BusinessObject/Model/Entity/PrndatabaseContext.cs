@@ -69,8 +69,8 @@ public partial class PrndatabaseContext : DbContext
 
         modelBuilder.Entity<Cart>(entity =>
         {
+            entity.HasKey(e => new { e.ProId, e.Username });
             entity
-                .HasNoKey()
                 .ToTable("Cart");
 
             entity.Property(e => e.Price).HasColumnName("price");
