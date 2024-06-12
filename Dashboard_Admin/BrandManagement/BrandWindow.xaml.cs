@@ -1,16 +1,16 @@
-﻿using System;
+﻿using BusinessObject.Model.Page;
+using DataAccess.Service;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Dashboard_Admin;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using WPFStylingTest.CategoryManagement;
 
 namespace WPFStylingTest.BrandManagement
@@ -20,35 +20,76 @@ namespace WPFStylingTest.BrandManagement
     /// </summary>
     public partial class BrandWindow : Window
     {
+        private readonly BrandService brandService;
+        public ObservableCollection<BrandModel> MyItems { get; set; }
+
         public BrandWindow()
         {
+            brandService = App.GetService<BrandService>();
+            this.DataContext = this;
             InitializeComponent();
-            LoadStudents();
+            LoadBrands();
         }
-        private void LoadStudents()
+        private void LoadBrands()
         {
-            var students = new List<Student>
+            var brands = brandService.GetBrandList();
+
+            foreach(var brand in brands)
             {
-                new Student { ID = 1, Name = "John Doe", Description = "A computer science major." },
-                new Student { ID = 2, Name = "Jane Smith", Description = "An art student." },
-                new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                 new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                  new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                   new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                    new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." },
-                     new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." }
+                var stackPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(10, 0, 0, 0) };
+                var editButton = new System.Windows.Controls.Button
+                {
+                    Margin = new Thickness(0, 0, 5, 0),
+                    Background = System.Windows.Media.Brushes.Transparent,
+                    BorderBrush = System.Windows.Media.Brushes.Transparent,
+                    Padding = new Thickness(0)
+                };
+                var editIcon = new PackIcon
+                {
+                    Kind = PackIconKind.Pencil,
+                    Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 254, 32))
+                };
+                editButton.Content = editIcon;
+                editButton.Click += EditButton_Click;
+                stackPanel.Children.Add(editButton);
+                if (brand.IsAvailable)
+                {
+                    var disableButton = new System.Windows.Controls.Button
+                    {
+                        Background = System.Windows.Media.Brushes.Transparent,
+                        BorderBrush = System.Windows.Media.Brushes.Transparent,
+                        Padding = new Thickness(0)
+                    };
+                    var disableIcon = new PackIcon
+                    {
+                        Kind = PackIconKind.TrashCan,
+                        Foreground = System.Windows.Media.Brushes.Red
+                    };
+                    disableButton.Content = disableIcon;
+                    disableButton.Click += DisableButton_Click;
 
-            };
+                    stackPanel.Children.Add(disableButton);
+                } else
+                {
+                    var disableButton = new System.Windows.Controls.Button
+                    {
+                        Background = System.Windows.Media.Brushes.Transparent,
+                        BorderBrush = System.Windows.Media.Brushes.Transparent,
+                        Padding = new Thickness(0)
+                    };
+                    var disableIcon = new PackIcon
+                    {
+                        Kind = PackIconKind.LockOpen,
+                        Foreground = System.Windows.Media.Brushes.Green
+                    };
+                    disableButton.Content = disableIcon;
+                    disableButton.Click += EnableButton_Click;
 
-            BrandDataGrid.ItemsSource = students;
-
+                    stackPanel.Children.Add(disableButton);
+                }
+                brand.FunctionContent = stackPanel;
+            }
+            BrandDataGrid.ItemsSource = brands;
         }
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -62,19 +103,86 @@ namespace WPFStylingTest.BrandManagement
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            var button = sender as System.Windows.Controls.Button;
+            var dataContext = button.DataContext as BrandModel;
+
+
+            if (dataContext != null)
+            {
+                var BrandID = dataContext.BrandId;
+                Boolean IsUpdate = true;
+                var brand = brandService.GetBrandList().SingleOrDefault(b => b.BrandId.Equals(BrandID));
+
+                BrandFunc func = new BrandFunc(IsUpdate, brand);
+                func.BrandFuncClosed += AddBrandWindow_Closed;
+                func.Show();
+            }
         }
 
         private void DisableButton_Click(object sender, RoutedEventArgs e)
         {
-            // Handle trash can icon click event here
-            MessageBox.Show("Trash can icon clicked");
+            var button = sender as System.Windows.Controls.Button;
+            var dataContext = button.DataContext as BrandModel;
+
+            if (dataContext != null)
+            {
+                var BrandID = dataContext.BrandId;
+                MessageBoxResult result = MessageBox.Show(
+        "Do you want to disable the product?",
+        "Confirm Disable",
+        MessageBoxButton.YesNo,
+        MessageBoxImage.Warning);
+
+                // Check the result and act accordingly
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (brandService.ChangeBrandStatus(BrandID, false))
+                    {
+                        // Code to delete the product goes here
+                        MessageBox.Show("Brand Disabled.");
+                        LoadBrands();
+                    }
+                }
+            }
+        }
+
+        private void EnableButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as System.Windows.Controls.Button;
+            var dataContext = button.DataContext as BrandModel;
+
+            if (dataContext != null)
+            {
+                var BrandID = dataContext.BrandId;
+                MessageBoxResult result = MessageBox.Show(
+        "Do you want to enable the product?",
+        "Confirm Disable",
+        MessageBoxButton.YesNo,
+        MessageBoxImage.Warning);
+
+                // Check the result and act accordingly
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (brandService.ChangeBrandStatus(BrandID, true))
+                    {
+                        // Code to delete the product goes here
+                        MessageBox.Show("Brand Enable.");
+                        LoadBrands();
+                    }
+                }
+            }
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            BrandFunc func = new BrandFunc();
+            BrandFunc func = new BrandFunc(false, null);
+            func.BrandFuncClosed += AddBrandWindow_Closed;
             func.Show();
+        }
+
+        private void AddBrandWindow_Closed(object sender, EventArgs e)
+        {
+            LoadBrands();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();

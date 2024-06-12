@@ -17,5 +17,7 @@ namespace BusinessObject.Model.Page
         public int quantity { get; set; }
 
         public bool IsAvailable { get; set; }
+
+        public object FunctionContent { get; set; } // Object type to hold any UI element
     }
 }

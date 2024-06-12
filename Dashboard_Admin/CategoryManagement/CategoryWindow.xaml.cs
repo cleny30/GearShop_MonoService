@@ -28,7 +28,7 @@ namespace WPFStylingTest
             this.DataContext = this;
             InitializeComponent();
             LoadCategory();
-            //CategoryDataGrid.LoadingRow += CategoryDataGrid_LoadingRow;
+          
 
         }
         private void LoadCategory()
@@ -83,7 +83,7 @@ namespace WPFStylingTest
                     };
                     var disableIcon = new PackIcon
                     {
-                        Kind = PackIconKind.TrashCan,
+                        Kind = PackIconKind.LockOpen,
                         Foreground = System.Windows.Media.Brushes.Green
                     };
                     disableButton.Content = disableIcon;
@@ -196,57 +196,5 @@ namespace WPFStylingTest
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
-
-        private void CategoryDataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            var item = e.Row.DataContext as CategoryModel;
-            if (item != null)
-            {
-                var contentControl = CategoryDataGrid.Columns[1].GetCellContent(e.Row) as ContentControl;
-                if (contentControl != null)
-                {
-                    var stackPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(10, 0, 0, 0) };
-
-                    var editButton = new System.Windows.Controls.Button
-                    {
-                        Margin = new Thickness(0, 0, 5, 0),
-                        Background = System.Windows.Media.Brushes.Transparent,
-                        BorderBrush = System.Windows.Media.Brushes.Transparent,
-                        Padding = new Thickness(0)
-                    };
-                    var editIcon = new PackIcon
-                    {
-                        Kind = PackIconKind.Pencil,
-                        Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 254, 32))
-                    };
-                    editButton.Content = editIcon;
-                    editButton.Click += EditButton_Click;
-
-                    stackPanel.Children.Add(editButton);
-
-                    if (item.IsAvailable)
-                    {
-                        var disableButton = new System.Windows.Controls.Button
-                        {
-                            Background = System.Windows.Media.Brushes.Transparent,
-                            BorderBrush = System.Windows.Media.Brushes.Transparent,
-                            Padding = new Thickness(0)
-                        };
-                        var disableIcon = new PackIcon
-                        {
-                            Kind = PackIconKind.TrashCan,
-                            Foreground = System.Windows.Media.Brushes.Red
-                        };
-                        disableButton.Content = disableIcon;
-                        disableButton.Click += DisableButton_Click;
-
-                        stackPanel.Children.Add(disableButton);
-                    }
-
-                    contentControl.Content = stackPanel;
-                }
-            }
-        }
-
     } 
 }

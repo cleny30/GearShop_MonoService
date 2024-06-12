@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFStylingTest.BrandManagement"
         mc:Ignorable="d"
-        Title="BrandWindow" Height="500" Width="800"
+        Title="BrandWindow" Height="550" Width="800"
                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
                 WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
     <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}"  Margin="25,25,29,0"  MouseLeftButtonDown="Window_MouseLeftButtonDown">
@@ -26,23 +26,16 @@
                         </Grid>
                     </WrapPanel>
                     <Grid>
-                        <ScrollViewer VerticalScrollBarVisibility="Auto"  Height="355" VerticalAlignment="Center" Padding="5">
-                            <DataGrid x:Name="BrandDataGrid" Margin="1,1,1,1" Background="White" AutoGenerateColumns="False" IsReadOnly="True"  Height="354" Width="733">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"  Height="401" VerticalAlignment="Center" Padding="5">
+                            <DataGrid x:Name="BrandDataGrid" Margin="1,1,1,1" Background="White" AutoGenerateColumns="False" IsReadOnly="True"  Height="387" Width="734">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="200" />
-                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
-                                    <DataGridTextColumn Header="Status" Binding="{Binding Description}" Width="200"/>
-                                    <DataGridTemplateColumn Header="Function"  Width="100">
+                                    <DataGridTextColumn Header="ID" Binding="{Binding BrandId}" Width="200" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding BrandName}" Width="200"/>
+                                    <DataGridTextColumn Header="Status" Binding="{Binding IsAvailable}" Width="200"/>
+                                    <DataGridTemplateColumn Header="Function" Width="100" x:Name="brandFunction">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
-                                                    <Button Margin="0,0,5,0" Background="Transparent" BorderBrush="Transparent" Click="EditButton_Click" Padding="0">
-                                                        <materialDesign:PackIcon Kind="Pencil" Foreground="#FFFFE200"/>
-                                                    </Button>
-                                                    <Button Background="Transparent" BorderBrush="Transparent" Click="DisableButton_Click" Padding="0">
-                                                        <materialDesign:PackIcon Kind="TrashCan" Foreground="red"/>
-                                                    </Button>
-                                                </StackPanel>
+                                                <ContentControl Content="{Binding FunctionContent}"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
