@@ -34,7 +34,7 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="ID" Binding="{Binding CateId}" Width="200" />
                                         <DataGridTextColumn Header="Name" Binding="{Binding CateName}" Width="200"/>
-                                        <DataGridTextColumn Header="Name" Binding="{Binding IsAvailable}" Width="200"/>
+                                        <DataGridTextColumn Header="Availability" Binding="{Binding IsAvailable}" Width="150"/>
                                         <DataGridTemplateColumn Header="Function" Width="100" x:Name="categoryFunction">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>

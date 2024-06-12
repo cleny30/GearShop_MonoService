@@ -18,5 +18,20 @@ namespace DataAccess.Service
         {
             return _repo.Getbrand();
         }
+
+        public bool ChangeBrandStatus(int ID, bool availability)
+        {
+            return _repo.ChangeBrandStatus(ID, availability);
+        }
+
+        public bool AddBrand(BrandModel brand)
+        {
+            return _repo.AddBrand(brand);
+        }
+
+        public bool UpdateBrand(BrandModel _brand)
+        {
+            return _repo.UpdateBrand(_brand);
+        }
     }
 }
