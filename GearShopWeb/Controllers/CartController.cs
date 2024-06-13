@@ -16,9 +16,15 @@ namespace GearShopWeb.Controllers
             _contx = contx;
         }
 
-        public IActionResult Index()
+        [HttpGet("/Cart")]
+        public IActionResult Cart()
         {
-            return View();
+            DataResult dataResult = new DataResult();
+
+            List<CartModel> list = cartService.GetCartsByUserName("cleny30");
+
+            dataResult.Result = list;
+            return View(dataResult);
         }
 
         [HttpPost]

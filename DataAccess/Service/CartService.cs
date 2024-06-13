@@ -29,7 +29,7 @@ namespace DataAccess.Service
             {
                 // Product exists in the cart, update the quantity and price
                 existingCart.Quantity += amount;
-                existingCart.Price = data.ProPrice-(data.ProPrice*data.Discount)/100; // Assuming you want to update the price to the latest one
+                existingCart.Price = (data.ProPrice-(data.ProPrice*data.Discount)/100)*existingCart.Quantity; // Assuming you want to update the price to the latest one
                 return _repo.UpdateCartData(existingCart);
             }
             else
@@ -37,7 +37,7 @@ namespace DataAccess.Service
                 CartModel cartModel = new CartModel()
                 {
                     Username = username,
-                    Price = data.ProPrice - (data.ProPrice * data.Discount) / 100,
+                    Price = (data.ProPrice - (data.ProPrice * data.Discount) / 100)*amount,
                     ProId = data.ProId,
                     ProName = data.ProName,
                     Quantity = amount,

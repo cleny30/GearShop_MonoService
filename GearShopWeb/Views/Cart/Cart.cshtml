@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model BusinessObject.Model.DataResult
+@{
+    var list = Model.Result;
+}
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark text-red-500" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
+                <span class="breadcrumb-item active">Shopping Cart</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<div class="row px-xl-5">
+    <div class="col-12 flex justify-between">
+        <table class="cart-table bg-white !w-[70%] ml-[15px] rounded-xl table shadow-md">
+            <thead class="text-[17px] bg-[#3d464d] text-white">
+            <th class="text-center w-13">
+                <div class="flex justify-center">
+                    <label class="relative flex items-center rounded-full cursor-pointer !mb-1"
+                           htmlFor="red">
+                        <input type="checkbox"
+                               class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10
+                      "
+                               id="red" />
+                        <span class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-3.5 w-3.5"
+                                 viewBox="0 0 20 20"
+                                 fill="currentColor"
+                                 stroke="currentColor"
+                                 stroke-width="1">
+                                <path fill-rule="evenodd"
+                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                      clip-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                    </label>
+                </div>
+            </th>
+            <th>Products</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Remove</th>
+            </thead>
+            <tbody>
+                <tr><td class="align-middle text-center"><div class="inline-flex items-center"><label class="relative flex items-center p-3 rounded-full cursor-pointer " for="red"><input type="checkbox" class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-red transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10" id="red" value="59"><span class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg></span></label><p class="bg-gray-500 text-white p-2 rounded-[20px] hidden">Out of stock</p></div></td><td><a class="flex items-center text-[#3d464d] hover:text-[#3d464d] hover:no-underline" href="/detail/SD001"><img src="\source_img\product_img\Sandal\SD001_1.png" alt="" class="w-[100px] mr-3"><div><span class="font-medium ">Buzz Y-Strap Gray</span><br><span>Size 22</span></div></a></td><td class="align-middle text-lg">$18</td><td class="align-middle"><div class="d-flex align-items-center"><div class="input-group quantity !w-[130px]"><div class="input-group-btn"><button class="btn btn-primary btn-minus"><i class="fa fa-minus"></i></button></div><input type="text" class="form-control bg-secondary border-0 text-center" value="1"><div class="input-group-btn"><button class="btn btn-primary btn-plus"><i class="fa fa-plus"></i></button></div></div></div></td><td class="align-middle text-lg max-w-5">$18</td><td class="align-middle"><button class="btn-common btn mt-0"><i class="fa solid fa-trash"></i></button></td></tr>
+            </tbody>
+        </table>
+        <div class="bg-white w-[25%] mr-[15px] p-4 h-fit rounded-xl shadow-md">
+            <div class="flex justify-between font-semibold text-2xl text-[#3D464D]">
+                <span>Total</span>
+                <span>$0</span>
+            </div>
+            <button id="btnLogin" class="btn-common btn-common-lg w-full" style=" color: #fff;
+    font-size: 1rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #ffc107;
+    margin-top: 10px;
+    outline: none !important;
+    border:none !important;
+    width: 100%;
+
+font-size: 1.25rem;
+    padding: 0.5rem 1rem;">
+                Login
+            </button>
+        </div>
+    </div>
+</div>
