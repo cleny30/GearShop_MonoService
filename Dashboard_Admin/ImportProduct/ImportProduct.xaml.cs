@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using WPFStylingTest.CategoryManagement;
 
 
 
@@ -184,6 +185,7 @@ namespace WPFStylingTest
                 {
                     // Update the quantity of the existing product
                     existingProduct.ProQuan += 1;
+                    Cart.ItemsSource = CartProducts;
                 }
                 else
                 {
@@ -196,7 +198,7 @@ namespace WPFStylingTest
                     };
 
 
-                    ImportChooser importChooser = new ImportChooser(product, CartProducts);
+                    ImportChooser importChooser = new ImportChooser(product, CartProducts , false);
                     bool? result = importChooser.ShowDialog();
                 }
               
@@ -222,6 +224,31 @@ namespace WPFStylingTest
                 // Remove the product from the CartProducts collection
                CartProducts.Remove(dataContext);
             
+        }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as System.Windows.Controls.Button;
+            var dataContext = button.DataContext as ProductModel;
+
+
+            if (dataContext != null)
+            {
+                var productId = dataContext.ProId;
+                var productName = dataContext.ProName;
+                var productPrice = dataContext.ProPrice;
+                var productQuantity = dataContext.ProQuan;
+
+                ProductModel product = new ProductModel
+                {
+                    ProId = productId,
+                    ProName = productName,
+                    ProPrice = productPrice,
+                    ProQuan = productQuantity,
+                };
+
+                ImportChooser importChooser = new ImportChooser(product, CartProducts, true);
+                bool? result = importChooser.ShowDialog();
+            }
         }
         private void Submit_Button(object sender, RoutedEventArgs e)
         {

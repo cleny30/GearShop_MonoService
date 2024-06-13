@@ -15,9 +15,21 @@ namespace BusinessObject.Model.Page
         private double proPrice;
         private int proQuan;
 
+        private double _totalPrice;
+
         public double TotalPrice
         {
             get { return ProPrice * ProQuan; }
+            set
+            {
+                // Optional: Adjust ProPrice or ProQuan if TotalPrice is manually set
+                if (_totalPrice != value)
+                {
+                    _totalPrice = value;
+                    // Implement logic to adjust ProPrice or ProQuan here if necessary
+                    OnPropertyChanged(nameof(TotalPrice));
+                }
+            }
         }
         public int Discount { get; set; }
         public int BrandId { get; set; }
@@ -65,6 +77,7 @@ namespace BusinessObject.Model.Page
                 {
                     proPrice = value;
                     OnPropertyChanged(nameof(ProPrice));
+                    OnPropertyChanged(nameof(TotalPrice));
                 }
             }
         }
@@ -80,6 +93,7 @@ namespace BusinessObject.Model.Page
                 {
                     proQuan = value;
                     OnPropertyChanged(nameof(ProQuan));
+                    OnPropertyChanged(nameof(TotalPrice));
                 }
             }
         }
