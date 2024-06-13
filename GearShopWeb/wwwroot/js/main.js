@@ -175,7 +175,3 @@ const handleWindowResize = () => {
 }
 
 $(window).on('resize', handleWindowResize);
-
-$(document).ready(function () {
-    handleWindowResize();
-});
