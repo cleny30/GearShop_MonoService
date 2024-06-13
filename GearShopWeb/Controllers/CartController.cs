@@ -21,7 +21,7 @@ namespace GearShopWeb.Controllers
         {
             DataResult dataResult = new DataResult();
 
-            List<CartModel> list = cartService.GetCartsByUserName("cleny30");
+            List<UserCartData> list = cartService.GetCartsByUserName("cleny30");
 
             dataResult.Result = list;
             return View(dataResult);

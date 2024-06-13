@@ -11,14 +11,29 @@ namespace DataAccess.Service
     public class CartService
     {
         private readonly ICartRepository _repo;
+        private readonly ProductService _productService;
 
-        public CartService(ICartRepository repo)
+        public CartService(ICartRepository repo, ProductService productService)
         {
             _repo = repo;
+            _productService = productService;
         }
 
-        public List<CartModel> GetCartsByUserName(string username) { 
-            return _repo.GetCartsByUsername(username);
+        public List<UserCartData> GetCartsByUserName(string username) {
+            var products = _productService.GetProducts();
+            var carts = _repo.GetCarts().Where(u=>u.Username==username);
+            List<UserCartData> list = new List<UserCartData>();
+            foreach(CartModel item in carts)
+            {
+                UserCartData cartData = new UserCartData
+                {
+                    model = item,
+                    Product = products.FirstOrDefault(p => p.ProId == item.ProId)
+                };
+                list.Add(cartData);
+            }
+
+            return list;
         }
 
         public bool AddOrUpdateCart(string username, ProductData data, int amount)

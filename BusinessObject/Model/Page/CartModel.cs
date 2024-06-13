@@ -18,4 +18,11 @@ namespace BusinessObject.Model.Page
 
         public double Price { get; set; }
     }
+
+    public class UserCartData
+    {
+        public CartModel model { get; set; }
+
+        public ProductData Product { get; set; }
+    }
 }
