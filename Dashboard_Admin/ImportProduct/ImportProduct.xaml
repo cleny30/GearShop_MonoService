@@ -1,0 +1,127 @@
+﻿<Page x:Class="WPFStylingTest.ImportProduct"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WPFStylingTest"
+      mc:Ignorable="d" 
+       d:DesignHeight="735" d:DesignWidth="1180"
+      Title="ImportProduct" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid >
+        <StackPanel Margin="0 12 0 0 " >
+            <DockPanel >
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Text="Import Product"
+                           Margin="30 10 0 20"></TextBlock>
+            </DockPanel>
+            <Grid Height="566" Width="1112">
+                <StackPanel Orientation="Horizontal">
+                    <!--STORE-->
+                    <Grid Width="500"  Margin="0 0 30 0" >
+                        <materialDesign:Card   Background="White" Margin="0,0,0,-73">
+                            <WrapPanel >
+
+                                <Border BorderBrush="#FF673AB7" BorderThickness="2"   Margin="10">
+                                    <TextBlock FontSize="25" FontWeight="Bold" Text="OUT OF STOCKS" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  Height="33" Width="500" Foreground="#FF673AB7" Background="#FFCFD8DC" x:Name="titleChange"/>
+                                </Border>
+                                <StackPanel Margin="20 0 0 0 " Orientation="Horizontal" MaxWidth="700">
+                                    <TextBox x:Name="SearchTextBox"
+                                             materialDesign:HintAssist.Hint="Search by Name"
+                                             Padding="5" Height="28" Width="204"/>
+                                    <ComboBox Name="cbBrand" SelectedIndex="0" VerticalAlignment="Top" Height="28" Margin="10 0 10 0" Width="114" />
+                                    <ComboBox Name="cbCategory" SelectedIndex="0"  VerticalAlignment="Top" Height="28"   Margin="10 0 10 0" Width="114"/>
+                                </StackPanel>
+                                <Grid  HorizontalAlignment="Center" Width="500"  Margin="0 10 0 0">
+                                    <Button Width="84" Content="Search" Click="SearchButton_Click" Height="28" Margin="166,0,250,0" />
+                                    <Button Width="79" Content="Reset" Click="ResetButton_Click" Height="28" Margin="255,0,166,0"/>
+                                </Grid>
+                                
+                                <DataGrid x:Name="ProductDataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True"  Height="455" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" />
+                                        <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="200"/>
+                                        <DataGridTextColumn Header="Brand" Binding="{Binding BrandName}" Width="100"/>
+                                        <DataGridTextColumn Header="Category" Binding="{Binding CateName}" Width="100"/>
+                                        <DataGridTextColumn Header="Price" Binding="{Binding ProPrice}" Width="100"/>
+                                        <DataGridTextColumn Header="Quantity" Binding="{Binding ProQuan}" Width="100"/>
+                                        <DataGridTemplateColumn Width="100">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button Width="50" Content="+"
+                                                                Style="{StaticResource MaterialDesignRaisedButton}"
+                                                                Click="AddButton_Click"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid  HorizontalAlignment="Center" Width="500" Height="56">
+                                    <Button x:Name="PreviousPageButton"  Click="PreviousPageButton_Click" Content="Previous" Width="100" Margin="139,10,261,14"/>
+                                    <Border BorderBrush="#FF673AB7" BorderThickness="1" Margin="244,10,229,14" Padding="5">
+                                        <TextBlock Name="PageCount" VerticalAlignment="Center" FontSize="25"/>
+                                    </Border>
+                                    <Button  x:Name="NextPageButton"  Click="NextPageButton_Click" Content="Next" Width="100" Margin="276,10,124,14"/>
+                                </Grid>
+                            </WrapPanel>
+                        </materialDesign:Card>
+                    </Grid>
+                    
+                    <Grid Width="568" Height="557" >
+                        <!-- Your second Grid content here -->
+                        <materialDesign:Card   Background="White" Margin="0,0,0,-74" >
+                            <Grid>
+                                <!-- Define the Row Definitions -->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Border with TextBlock -->
+                                <Border Grid.Row="0" BorderBrush="#FF673AB7" BorderThickness="2" Margin="10">
+                                    <TextBlock FontSize="25" FontWeight="Bold" Text="IMPORT PRODUCT" TextAlignment="Center"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Height="33" Width="548" Foreground="#FF673AB7" Background="#FFCFD8DC"/>
+                                </Border>
+                                <!-- Centered Button -->
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="1" Content="Show Normal Product" Width="214"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Click="ToggleContentButton_Click"/>
+                                </Grid>
+                                <Grid Margin="0,54,0,-427" Grid.Row="1">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="5" Height="422">
+                                        <DataGrid Background="White" AutoGenerateColumns="False" Margin="0,11,0,0"  Name="Cart" Height="384" IsReadOnly="True" >
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" IsReadOnly="True" />
+                                                <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="150" IsReadOnly="True"/>
+                                                <DataGridTextColumn Header="Price" Binding="{Binding ProPrice}" Width="150" IsReadOnly="True"/>
+                                                <DataGridTextColumn Header="Quantity" Binding="{Binding ProQuan}" Width="150" IsReadOnly="True"/>
+                                                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="150" IsReadOnly="True"/>
+                                                <DataGridTemplateColumn Header="Actions" Width="120">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Content="Delete" Click="DeleteButton_Click"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </ScrollViewer>
+                                </Grid>
+                                <Button  x:Name="SubmitButton"  Click="Submit_Button" Content="Submit" Width="100" Margin="234,487,234,-487" Grid.Row="1"/>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Page>

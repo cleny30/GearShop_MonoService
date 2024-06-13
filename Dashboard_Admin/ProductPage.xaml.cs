@@ -57,7 +57,6 @@ namespace WPFStylingTest
         //Load The List
         private void LoadStudents()
         {
-            //ProductService productService = new ProductService();
             List<ProductModel> productList = productService.GetProductList();
 
             // Convert the List to an ObservableCollection
