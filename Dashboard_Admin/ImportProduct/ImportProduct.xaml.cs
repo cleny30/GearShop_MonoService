@@ -28,6 +28,7 @@ namespace WPFStylingTest
         private readonly ProductService productService;
         private readonly CategoryService categoryService;
         private readonly BrandService brandService;
+        private readonly ImportReceiptService importReceiptService;
         //------------------
 
         //Load Product
@@ -47,6 +48,7 @@ namespace WPFStylingTest
             productService = App.GetService<ProductService>();
             brandService = App.GetService<BrandService>();
             categoryService = App.GetService<CategoryService>();
+            importReceiptService = App.GetService<ImportReceiptService>();
             DataContext = this;
             InitializeComponent();
             LoadProducts();
@@ -246,9 +248,11 @@ namespace WPFStylingTest
         }
 
         //Submit the cart
-        private void Submit_Button(object sender, RoutedEventArgs e)
+        private async void Submit_Button(object sender, RoutedEventArgs e)
         {
-           List<ProductModel> productModels = new List<ProductModel>();
+            // Show the overlay
+            Overlay.Visibility = Visibility.Visible;
+            List<ProductModel> productModels = new List<ProductModel>();
             if (CartProducts.Count != 0)
             {
                 foreach (var items in Cart.Items)
@@ -257,6 +261,43 @@ namespace WPFStylingTest
                     {
                         productModels.Add(product);
                     }
+                }
+
+                ImportProductModel IRmodel = new ImportProductModel
+                {
+                    DateImport = DateOnly.FromDateTime(DateTime.Now),
+                    Payment = CartProducts.Sum(p => p.TotalPrice),
+                    PersonChange = "Admin"
+                };
+                List<ReceiptProductModel> list = new List<ReceiptProductModel>();
+
+                foreach(var items in productModels)
+                {
+                    ReceiptProductModel receipt = new ReceiptProductModel
+                    {
+                        ProId = items.ProId,
+                        ProName = items.ProName,
+                        Amount = items.ProQuan,
+                        Price = items.ProPrice
+                    };
+                    list.Add(receipt);
+                }
+
+                bool check =  await importReceiptService.ImportProduct(IRmodel, list);
+                if(check == true)
+                {
+                    LoadProducts();
+                    // Hide the overlay and enable the window again
+                    Overlay.Visibility = Visibility.Collapsed;
+                    this.IsEnabled = true;
+                    CartProducts.Clear();
+                    //MessageBox.Show("Import Successfully");
+                } else
+                {
+                    MessageBox.Show("An unexpected errror has occured!");
+                    // Hide the overlay and enable the window again
+                    Overlay.Visibility = Visibility.Collapsed;
+                    this.IsEnabled = true;
                 }
             }
             else

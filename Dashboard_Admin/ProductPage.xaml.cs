@@ -115,7 +115,7 @@ namespace WPFStylingTest
             List<ProductAttributeModel> productAttributes = null;
             AddProduct addProductWindow = new AddProduct(IsUpdate = false, product, productImages, productAttributes) ;
             addProductWindow.AddProductWindowClosed += AddProductWindow_AddProductWindowClosed;
-            addProductWindow.Show();
+            addProductWindow.ShowDialog();
         }
 
         //Check AddProduct page closed
@@ -129,14 +129,14 @@ namespace WPFStylingTest
         private void CategoryButton_Click(object sender, RoutedEventArgs e)
         {
             CategoryWindow cate = new CategoryWindow();
-            cate.Show();
+            cate.ShowDialog();
         }
 
         //Open the Brand Page
         private void BrandButton_Click(object sender, RoutedEventArgs e)
         {
             BrandWindow brand = new BrandWindow();
-            brand.Show();
+            brand.ShowDialog();
         }
 
         //Unused
@@ -218,7 +218,7 @@ namespace WPFStylingTest
                 AddProduct addProductWindowUpdate = new AddProduct(IsUpdate = true, product, productImages, productAttributes);
 
                 addProductWindowUpdate.AddProductWindowClosed += AddProductWindow_AddProductWindowClosed;
-                addProductWindowUpdate.Show();
+                addProductWindowUpdate.ShowDialog();
 
             }
         }

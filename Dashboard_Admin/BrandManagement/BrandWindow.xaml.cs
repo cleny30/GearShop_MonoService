@@ -115,7 +115,7 @@ namespace WPFStylingTest.BrandManagement
 
                 BrandFunc func = new BrandFunc(IsUpdate, brand);
                 func.BrandFuncClosed += AddBrandWindow_Closed;
-                func.Show();
+                func.ShowDialog();
             }
         }
 
@@ -177,7 +177,7 @@ namespace WPFStylingTest.BrandManagement
         {
             BrandFunc func = new BrandFunc(false, null);
             func.BrandFuncClosed += AddBrandWindow_Closed;
-            func.Show();
+            func.ShowDialog();
         }
 
         private void AddBrandWindow_Closed(object sender, EventArgs e)

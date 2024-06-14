@@ -4,6 +4,7 @@ using DataAccess.IRepository;
 using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace DataAccess.Repository
 {
@@ -240,6 +241,34 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 
+            }
+        }
+
+        public async Task<bool> AddQuantityToProductAsync(List<ReceiptProductModel> products)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    foreach (var item in products)
+                    {
+                        var _product = await dbContext.Products.FirstOrDefaultAsync(p => p.ProId == item.ProId);
+
+                        if (_product == null)
+                        {
+                            return false; // Early return if any product is not found
+                        }
+                        _product.ProQuan += item.Amount;
+                        dbContext.Entry(_product).State = EntityState.Modified;
+                    }
+                    await dbContext.SaveChangesAsync();
+                    return true; // Operation successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
             }
         }
     }

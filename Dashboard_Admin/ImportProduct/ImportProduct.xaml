@@ -99,11 +99,11 @@
                                     <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="5" Height="402">
                                         <DataGrid Background="White" AutoGenerateColumns="False" Margin="0,11,0,0"  Name="Cart" Height="399" IsReadOnly="True" >
                                             <DataGrid.Columns>
-                                                <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" IsReadOnly="True" />
-                                                <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="150" IsReadOnly="True"/>
-                                                <DataGridTextColumn Header="Price" Binding="{Binding ProPrice}" Width="90" IsReadOnly="True"/>
-                                                <DataGridTextColumn Header="Quantity" Binding="{Binding ProQuan}" Width="90" IsReadOnly="True"/>
-                                                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="100" IsReadOnly="True"/>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" />
+                                                <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="150" />
+                                                <DataGridTextColumn Header="Quantity" Binding="{Binding ProQuan}" Width="90" />
+                                                <DataGridTextColumn Header="Price" Binding="{Binding ProPrice}" Width="90" />
+                                                <DataGridTextColumn Header="Total Price" Binding="{Binding TotalPrice}" Width="100"/>
                                                 <DataGridTemplateColumn Header="Actions" Width="90">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
@@ -131,7 +131,13 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </StackPanel>
+        <Grid x:Name="Overlay" Background="Transparent" Visibility="Collapsed">
+    <Grid Background="#80000000" Opacity="0.8"/>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
+        <TextBlock Text="Processing, please wait..." Foreground="White" HorizontalAlignment="Center" Margin="10"/>
+    </StackPanel>
+</Grid>
     </Grid>
 </Page>
