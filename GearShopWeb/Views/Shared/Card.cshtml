@@ -1,13 +1,13 @@
 ﻿@model BusinessObject.Model.Page.ProductData
+@using Newtonsoft.Json
 
 <div class="product-item bg-light mb-4">
     <div class="product-img position-relative overflow-hidden">
         <img class="img-fluid w-100" src="@Model.ProImg[0]" alt="@Model.ProName">
         <div class="product-action">
             <a class="btn btn-outline-dark btn-square"
-               data-pro_quan_available="@Model.ProQuan"
-               data-pro_id="@Model.ProId"
-               data-isAvailable="@Model.IsAvailable.ToString()"
+               data-model ="@System.Text.Json.JsonSerializer.Serialize(Model)"
+               data-amount ="1"
                onclick="AddToCart(this)">
                 <i class="fa fa-shopping-cart"></i>
             </a>
