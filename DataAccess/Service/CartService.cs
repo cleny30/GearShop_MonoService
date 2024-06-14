@@ -1,10 +1,13 @@
-﻿using BusinessObject.Model.Page;
+﻿using BusinessObject.Model.Entity;
+using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DataAccess.Service
 {
@@ -60,6 +63,27 @@ namespace DataAccess.Service
 
                 return _repo.AddCart(cartModel);
             }
+        }
+
+        public Tuple<bool,double> UpdateCart(string username, string proId, int amount)
+        {
+            var _cart = _repo.GetCarts().FirstOrDefault(c => c.Username == username && c.ProId == proId);
+            _cart.Quantity = amount;
+          
+            var p = _productService.GetProducts().FirstOrDefault(p => p.ProId == proId);
+
+            _cart.Price = amount * (p.ProPrice - (p.ProPrice * p.Discount) / 100);
+            
+            bool rs =_repo.UpdateCartData(_cart);
+
+            var carts = _repo.GetCarts().Where(c => c.Username == username);
+            double total = 0;
+            foreach( var c in carts )
+            {
+                total += c.Price;
+            }
+
+            return Tuple.Create(rs, total);
         }
     }
 }
