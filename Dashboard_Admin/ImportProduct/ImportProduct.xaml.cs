@@ -4,6 +4,7 @@ using BusinessObject.Model.Page;
 using Dashboard_Admin;
 using Dashboard_Admin.ImportProduct;
 using DataAccess.Service;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -49,19 +50,19 @@ namespace WPFStylingTest
             DataContext = this;
             InitializeComponent();
             LoadProducts();
-            InitialSearch();
-            
+            InitialSearch();           
             CartImport();
-
 
         }
 
+        //Import Cart
         public void CartImport()
         {
             CartProducts = new ObservableCollection<ProductModel>();
             Cart.ItemsSource = CartProducts;
         }
 
+        //Change Product List
         private void ToggleContentButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -103,8 +104,6 @@ namespace WPFStylingTest
             // Display data for the current page
             UpdateDataGrid();
             PageCount.Text = currentPage.ToString();
-
-           
         }
 
         //Update datagrid when using search
@@ -113,11 +112,11 @@ namespace WPFStylingTest
             // Calculate the starting index and number of items for the current page
             int startIndex = (currentPage - 1) * itemsPerPage;
             int count = Math.Min(itemsPerPage, filteredProducts.Count - startIndex);
-
             // Update the data grid with the items for the current page
             ProductDataGrid.ItemsSource = filteredProducts.Skip(startIndex).Take(count);
         }
 
+        //Go to next page
         private void NextPageButton_Click(object sender, RoutedEventArgs e)
         {
             // Check if there are more pages
@@ -150,7 +149,6 @@ namespace WPFStylingTest
             int? CateID = cbCategory.SelectedValue as int?;
             filteredProducts = new ObservableCollection<ProductModel>(products.Where(s => s.ProName.ToLower().Contains(searchText) && (s.BrandId == BrandID || !BrandID.HasValue || BrandID == -1)
                                                                       && (s.CateId == CateID || !CateID.HasValue || CateID == -1)));
-
             // Reset to the first page after a search
             currentPage = 1;
             PageCount.Text = currentPage.ToString();
@@ -186,6 +184,7 @@ namespace WPFStylingTest
                     // Update the quantity of the existing product
                     existingProduct.ProQuan += 1;
                     Cart.ItemsSource = CartProducts;
+                    GetTotalMoney();
                 }
                 else
                 {
@@ -200,37 +199,31 @@ namespace WPFStylingTest
 
                     ImportChooser importChooser = new ImportChooser(product, CartProducts , false);
                     bool? result = importChooser.ShowDialog();
+                    GetTotalMoney();
                 }
               
             }
         }
 
-
-        public void SerializeToJsonFile(string filePath)
-        {
-            // Serialize ObservableCollection<ProductModel> to JSON
-            string json = JsonConvert.SerializeObject(CartProducts, Formatting.Indented);
-
-            // Write JSON to file
-            File.WriteAllText(filePath, json);
-        }
+        //Delete product from cart
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the current row's data context (which is the bound data item)
             var button = sender as Button;
             var dataContext = button.DataContext as ProductModel; // Assuming your data item class is named ProductModel
-
-            
+            if(dataContext != null)
+            {
                 // Remove the product from the CartProducts collection
-               CartProducts.Remove(dataContext);
-            
+                CartProducts.Remove(dataContext);
+                GetTotalMoney();
+            }                      
         }
+
+        //Edit product in cart (change quantity and price)
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as System.Windows.Controls.Button;
             var dataContext = button.DataContext as ProductModel;
-
-
             if (dataContext != null)
             {
                 var productId = dataContext.ProId;
@@ -248,17 +241,27 @@ namespace WPFStylingTest
 
                 ImportChooser importChooser = new ImportChooser(product, CartProducts, true);
                 bool? result = importChooser.ShowDialog();
+                GetTotalMoney();
             }
         }
+
+        //Submit the cart
         private void Submit_Button(object sender, RoutedEventArgs e)
         {
            List<ProductModel> productModels = new List<ProductModel>();
-            foreach (var items in Cart.Items)
+            if (CartProducts.Count != 0)
             {
-                if(items is ProductModel product)
+                foreach (var items in Cart.Items)
                 {
-                    productModels.Add(product);
+                    if (items is ProductModel product)
+                    {
+                        productModels.Add(product);
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("There are no product in cart!");
             }
         }
 
@@ -291,7 +294,11 @@ namespace WPFStylingTest
             UpdateDataGrid();
         }
 
-
+        //Get Total Money
+        public void GetTotalMoney()
+        {
+            TotalMoney.Text = CartProducts.Sum(p => p.TotalPrice).ToString() + "$";
+        }
 
     }
 }

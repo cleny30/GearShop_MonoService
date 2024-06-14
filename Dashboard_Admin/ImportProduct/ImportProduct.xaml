@@ -35,7 +35,7 @@
                                     <Button Width="84" Content="Search" Click="SearchButton_Click" Height="28" Margin="166,0,250,0" />
                                     <Button Width="79" Content="Reset" Click="ResetButton_Click" Height="28" Margin="255,0,166,0"/>
                                 </Grid>
-                                
+
                                 <DataGrid x:Name="ProductDataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True"  Height="455" >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" />
@@ -67,7 +67,7 @@
                             </WrapPanel>
                         </materialDesign:Card>
                     </Grid>
-                    
+
                     <Grid Width="568" Height="557" >
                         <!-- Your second Grid content here -->
                         <materialDesign:Card   Background="White" Margin="0,0,0,-74" >
@@ -96,8 +96,8 @@
                     Click="ToggleContentButton_Click"/>
                                 </Grid>
                                 <Grid Margin="0,54,0,-427" Grid.Row="1">
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="5" Height="422">
-                                        <DataGrid Background="White" AutoGenerateColumns="False" Margin="0,11,0,0"  Name="Cart" Height="384" IsReadOnly="True" >
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="5" Height="402">
+                                        <DataGrid Background="White" AutoGenerateColumns="False" Margin="0,11,0,0"  Name="Cart" Height="399" IsReadOnly="True" >
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" IsReadOnly="True" />
                                                 <DataGridTextColumn Header="Name" Binding="{Binding ProName}" Width="150" IsReadOnly="True"/>
@@ -115,7 +115,7 @@
                                                                     <materialDesign:PackIcon Kind="Pencil" Foreground="#FFFFE200"/>
                                                                 </Button>
                                                             </StackPanel>
-                                                            
+
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
@@ -123,7 +123,9 @@
                                         </DataGrid>
                                     </ScrollViewer>
                                 </Grid>
-                                <Button  x:Name="SubmitButton"  Click="Submit_Button" Content="Submit" Width="100" Margin="234,487,234,-487" Grid.Row="1"/>
+                                <Button  x:Name="SubmitButton"  Click="Submit_Button" Content="Submit" Width="100" Margin="234,515,234,-515" Grid.Row="1"/>
+                                <TextBlock Margin="348,49,132,-33" Grid.Row="1" Foreground="Red" FontSize="15" >Total Money:</TextBlock>
+                                <TextBlock Margin="436,49,37,-33" Grid.Row="1" Foreground="Red" FontSize="15" Name="TotalMoney"></TextBlock>
                             </Grid>
                         </materialDesign:Card>
                     </Grid>
