@@ -43,7 +43,7 @@ public partial class PrndatabaseContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=ADMIN-PC\\SQLEXPRESS;Initial Catalog=PRNDatabase;Integrated Security=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-D68OI64J\\UNKEPTHAROLDDPC;Initial Catalog=PRNDatabase_PRN221;uid=sa;pwd=222;Integrated Security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -265,9 +265,10 @@ public partial class PrndatabaseContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity
-                .HasNoKey()
+            entity              
                 .ToTable("Order_Detail");
+
+            entity.HasKey(e => new { e.ProId, e.OrderId });
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(10)
@@ -379,8 +380,9 @@ public partial class PrndatabaseContext : DbContext
         modelBuilder.Entity<ReceiptProduct>(entity =>
         {
             entity
-                .HasNoKey()
                 .ToTable("Receipt_Product");
+
+            entity.HasKey(e => new { e.ReceiptId, e.ProId });
 
             entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.Price).HasColumnName("price");

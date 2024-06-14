@@ -84,6 +84,11 @@ namespace DataAccess.Service
         {
            _repo.UpdateProduct(product, deleteList, imageLink, attribute, description);
         }
+        
 
+        public async Task<bool> AddQuantityToProduct(List<ReceiptProductModel> list)
+        {
+            return await _repo.AddQuantityToProductAsync(list);
+        }
     }
 }
