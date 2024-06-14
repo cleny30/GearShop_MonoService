@@ -265,9 +265,10 @@ public partial class PrndatabaseContext : DbContext
 
         modelBuilder.Entity<OrderDetail>(entity =>
         {
-            entity
-                .HasNoKey()
+            entity              
                 .ToTable("Order_Detail");
+
+            entity.HasKey(e => new { e.ProId, e.OrderId });
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(10)
@@ -379,8 +380,9 @@ public partial class PrndatabaseContext : DbContext
         modelBuilder.Entity<ReceiptProduct>(entity =>
         {
             entity
-                .HasNoKey()
                 .ToTable("Receipt_Product");
+
+            entity.HasKey(e => new { e.ReceiptId, e.ProId });
 
             entity.Property(e => e.Amount).HasColumnName("amount");
             entity.Property(e => e.Price).HasColumnName("price");
