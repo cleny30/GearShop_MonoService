@@ -125,7 +125,7 @@ namespace WPFStylingTest
 
                 CategoryFunc func = new CategoryFunc(IsUpdate, category);
                 func.CategoryFuncClosed += AddCategoryWindow_Closed;
-                func.Show();
+                func.ShowDialog();
             }
          }
 
@@ -187,7 +187,7 @@ namespace WPFStylingTest
         {
             CategoryFunc func = new CategoryFunc(false, null);
             func.CategoryFuncClosed += AddCategoryWindow_Closed;
-            func.Show();
+            func.ShowDialog();
         }
 
         private void AddCategoryWindow_Closed(object sender, EventArgs e)

@@ -93,7 +93,7 @@ namespace WPFStylingTest.BrandManagement
 
                     if (!_IsUpdate)
                     {
-                        string cloudinaryLink = await cloud.Upload(SelectedBrandLogo[0], "Brand");
+                        string cloudinaryLink = await cloud.Upload(SelectedBrandLogo[0], "Brands");
                         string BrandImage = cloudinaryLink;
                         BrandModel _brand = new BrandModel
                         {
