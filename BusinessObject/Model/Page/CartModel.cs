@@ -16,7 +16,7 @@ namespace BusinessObject.Model.Page
 
         public int Quantity { get; set; }
 
-        public double Price { get; set; }
+        public double Price { get; set; } //Total Price
     }
 
     public class UserCartData

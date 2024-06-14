@@ -2,7 +2,7 @@
     var productData = JSON.parse(element.getAttribute('data-model'));
     var amount = element.getAttribute('data-amount')
     $.ajax({
-        url: '/Cart/AddProductToCard',
+        url: '/Cart/AddProductToCart',
         type: "POST",
         data: {
             data: productData,
@@ -32,6 +32,8 @@ const handleIncrease = (button) => {
         newVal = parseInt(stock);
     }
     input.val(newVal);
+    var input = button.parent().parent().find('input');
+    UpdateCart(input[0]);
 }
 
 const handleDecrease = (button) => {
@@ -44,4 +46,32 @@ const handleDecrease = (button) => {
         newVal = 1;
     }
     input.val(newVal);
+    var input = button.parent().parent().find('input');
+    UpdateCart(input[0]);
+}
+
+const UpdateCart = (element) => {
+    var ProId = element.getAttribute('data-proID');
+    var amount = $(element).val();
+    var ProPrice = parseFloat($('#dp-' + ProId).text().replace('$', ''));
+    $('#total-' + ProId).text(amount * ProPrice);
+    $('#cartPrice').text()
+    $.ajax({
+        url: '/Cart/UpdateCartData',
+        type: "POST",
+        data: {
+            ProId: ProId,
+            amount: amount
+        },
+        success: function (data) {
+            if (data.isSuccess === true) {                
+                $('#cartPrice').text('$'+data.result);
+            } else {
+                console.log(data);
+            }
+        },
+        error: function () {
+            $('#loginError').text('An error occurred. Please try again later.').show();
+        }
+    });
 }
