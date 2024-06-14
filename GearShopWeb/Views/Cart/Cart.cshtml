@@ -90,12 +90,13 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex align-items-center">
-                                <div class="input-group quantity !w-[130px]">
+                                <div class="input-group !w-[130px]">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-primary btn-minus"><i class="fa fa-minus"></i></button>
-                                    </div><input type="text" class="form-control bg-secondary border-0 text-center" value="@item.model.Quantity">
+                                        <button class="btn btn-primary btn-minus" onclick="handleDecrease(this)"><i class="fa fa-minus"></i></button>
+                                    </div>
+                                    <input type="text" class="form-control bg-secondary border-0 text-center" id="cart-view-quan" data-proQuan ="@item.Product.ProQuan" value="@item.model.Quantity">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-primary btn-plus"><i class="fa fa-plus"></i></button>
+                                        <button class="btn btn-primary btn-plus" onclick="handleIncrease(this)"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>

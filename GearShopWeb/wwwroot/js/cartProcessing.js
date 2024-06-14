@@ -20,3 +20,28 @@
         }
     });
 }
+
+const handleIncrease = (button) => {
+    var button = $(button);
+    var input = button.parent().parent().find('input');
+    var oldValue = parseInt(input.val());
+    var stock = parseInt(input.attr('data-proQuan'));
+    if (oldValue < stock) {
+        var newVal = parseInt(parseInt(oldValue) + 1);
+    } else {
+        newVal = parseInt(stock);
+    }
+    input.val(newVal);
+}
+
+const handleDecrease = (button) => {
+    var button = $(button);
+    var input = button.parent().parent().find('input');
+    var oldValue = parseInt(input.val());
+    if (oldValue > 1) {
+        var newVal = parseInt(parseInt(oldValue) - 1);
+    } else {
+        newVal = 1;
+    }
+    input.val(newVal);
+}
