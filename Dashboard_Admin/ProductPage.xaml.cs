@@ -58,7 +58,6 @@ namespace WPFStylingTest
         private void LoadStudents()
         {
             List<ProductModel> productList = productService.GetProductList();
-
             // Convert the List to an ObservableCollection
             products = new ObservableCollection<ProductModel>(productList);
             // Initially, filteredStudents is the same as students
@@ -66,7 +65,6 @@ namespace WPFStylingTest
             // Display data for the current page
             UpdateDataGrid();
             PageCount.Text = currentPage.ToString();
-            
         }
 
         //Update datagrid when using search
@@ -78,8 +76,6 @@ namespace WPFStylingTest
 
             // Update the data grid with the items for the current page
             ProductDataGrid.ItemsSource = filteredProducts.Skip(startIndex).Take(count);
-
-
         }
 
         //Went to Next Page
@@ -219,7 +215,6 @@ namespace WPFStylingTest
 
                 addProductWindowUpdate.AddProductWindowClosed += AddProductWindow_AddProductWindowClosed;
                 addProductWindowUpdate.ShowDialog();
-
             }
         }
     }

@@ -251,10 +251,11 @@ namespace WPFStylingTest
         private async void Submit_Button(object sender, RoutedEventArgs e)
         {
             // Show the overlay
-            Overlay.Visibility = Visibility.Visible;
-            List<ProductModel> productModels = new List<ProductModel>();
+            
             if (CartProducts.Count != 0)
             {
+                Overlay.Visibility = Visibility.Visible;
+                List<ProductModel> productModels = new List<ProductModel>();
                 foreach (var items in Cart.Items)
                 {
                     if (items is ProductModel product)
