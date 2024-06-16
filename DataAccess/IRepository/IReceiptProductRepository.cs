@@ -10,5 +10,6 @@ namespace DataAccess.IRepository
     public interface IReceiptProductRepository
     {
         public Task<bool> AddReceiptProductAsync(List<ReceiptProductModel> receiptProducts, int receiptID);
+        public List<ReceiptProductModel> GetReceiptProducts(int ReceiptID);
     }
 }

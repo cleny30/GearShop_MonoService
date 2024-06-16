@@ -50,7 +50,7 @@ materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="Imp
                     </Button>
 
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
-materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" >
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="ImportReceipt_Click">
                         <WrapPanel Width="180">
                             <materialDesign:PackIcon Kind="ReceiptText" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
                             <TextBlock Width="107" Foreground="White">Import Receipts</TextBlock>
