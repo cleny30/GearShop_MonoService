@@ -1,13 +1,7 @@
 ﻿using BusinessObject.Model.Page;
 using DataAccess.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Dashboard_Admin;
-
 namespace WPFStylingTest.CategoryManagement
 {
     /// <summary>
@@ -47,7 +41,6 @@ namespace WPFStylingTest.CategoryManagement
                 this.DragMove();
             }
         }
-
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             if (Validation())
@@ -90,16 +83,13 @@ namespace WPFStylingTest.CategoryManagement
                 MessageBox.Show("Something went wrong! Check the error for more information");
             }
         }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e) =>this.Close();
-
         private void InputDataForUpdating()
         {
             txtCategoryName.Text = _CategoryModel.CateName;
             txtCategoryKeyword.IsEnabled = false;
             txtCategoryKeyword.Text = _CategoryModel.Keyword;
         }
-        
         private Boolean Validation()
         {
             bool allCheck = true;
@@ -133,7 +123,6 @@ namespace WPFStylingTest.CategoryManagement
                     errorCateKeyword.Text = "Keyword Length can't be longer than 2!";
                 }
             }
-
             return allCheck;
         }
     }

@@ -2,20 +2,9 @@
 using Dashboard_Admin;
 using DataAccess.Service;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using DataAccess.Core.Cloudiary;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using WPFStylingTest.ViewModel;
-
 namespace WPFStylingTest.BrandManagement
 {
     /// <summary>
@@ -32,29 +21,21 @@ namespace WPFStylingTest.BrandManagement
         //Used for updating
         public Boolean _IsUpdate { get; set; }
         public BrandModel _BrandModel { get; set; }
-
         public string changedBrandLogo {  get; set; }
         //-----------------
-
         public event EventHandler BrandFuncClosed;
         public BrandFunc(bool IsUpdate, BrandModel brand)
         {
             brandService = App.GetService<BrandService>();  
-
             _IsUpdate = IsUpdate;
             _BrandModel = brand;
-
             SelectedBrandLogo = new ObservableCollection<string>();
-
             DataContext = this;
-
             InitializeComponent();
             if (IsUpdate)
             {
                 InputDataForUpdating();
             }
-            
-            
         }
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -78,19 +59,14 @@ namespace WPFStylingTest.BrandManagement
         private async void Submit_Click(object sender, RoutedEventArgs e)
         {
             CloudinaryManagement cloud = new CloudinaryManagement();
-
             // Show the overlay
             Overlay.Visibility = Visibility.Visible;
-
             // Disable the main window
             this.IsEnabled = false;
-
             try
             {
                 if (Validation())
                 {
-                    
-
                     if (!_IsUpdate)
                     {
                         string cloudinaryLink = await cloud.Upload(SelectedBrandLogo[0], "Brands");
@@ -141,7 +117,6 @@ namespace WPFStylingTest.BrandManagement
                         }
 
                     }
-
                 }
                 else
                 {
@@ -160,7 +135,6 @@ namespace WPFStylingTest.BrandManagement
             }
         }
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
-
         private void InputDataForUpdating()
         {
             txtBrandName.Text = _BrandModel.BrandName;
@@ -205,8 +179,6 @@ namespace WPFStylingTest.BrandManagement
                     allCheck = false;
                 }            
             }
-
-
             return allCheck;
         }
     }
