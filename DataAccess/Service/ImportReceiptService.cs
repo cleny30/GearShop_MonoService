@@ -14,14 +14,12 @@ namespace DataAccess.Service
         private readonly IImportProductRepository _IRRepository;
         private readonly ProductService _productService;
         private readonly ReceiptProductService _receiptProductService;  
-
         public ImportReceiptService(IImportProductRepository IRRepository, ProductService productService, ReceiptProductService receiptProductService)
         {
             _IRRepository = IRRepository;
             _productService = productService;
             _receiptProductService = receiptProductService;
         }
-
         public async Task<bool> ImportProduct(ImportProductModel _IRproduct, List<ReceiptProductModel> list)
         {
             ImportProductModel IR = await _IRRepository.CreateImportReceiptAsync(_IRproduct);
@@ -39,6 +37,14 @@ namespace DataAccess.Service
             }
 
             return false;
+        }
+        public List<ImportProductModel> GetImportProductsList()
+        {
+            return _IRRepository.GetImportProductsList();
+        }
+        public ImportProductModel GetImportProduct(int receiptID)
+        {
+            return _IRRepository.GetImportProduct(receiptID);
         }
     }
 }

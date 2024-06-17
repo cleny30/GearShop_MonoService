@@ -170,7 +170,6 @@ namespace WPFStylingTest
             // Get the current row's data context (which is the bound data item)
             var button = sender as System.Windows.Controls.Button;
             var dataContext = button.DataContext as ProductModel; // Assuming your data item class is named Product
-           
             if (dataContext != null)
             {
                 // Retrieve the ID of the product
@@ -251,10 +250,11 @@ namespace WPFStylingTest
         private async void Submit_Button(object sender, RoutedEventArgs e)
         {
             // Show the overlay
-            Overlay.Visibility = Visibility.Visible;
-            List<ProductModel> productModels = new List<ProductModel>();
+            
             if (CartProducts.Count != 0)
             {
+                Overlay.Visibility = Visibility.Visible;
+                List<ProductModel> productModels = new List<ProductModel>();
                 foreach (var items in Cart.Items)
                 {
                     if (items is ProductModel product)
@@ -291,7 +291,7 @@ namespace WPFStylingTest
                     Overlay.Visibility = Visibility.Collapsed;
                     this.IsEnabled = true;
                     CartProducts.Clear();
-                    //MessageBox.Show("Import Successfully");
+                    MessageBox.Show("Import Successfully");
                 } else
                 {
                     MessageBox.Show("An unexpected errror has occured!");

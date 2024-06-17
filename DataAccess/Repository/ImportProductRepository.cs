@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BusinessObject.Model.Entity;
 using BusinessObject.Model.Page;
 using DataAccess.IRepository;
+using ISUZU_NEXT.Server.Core.Extentions;
 
 namespace DataAccess.Repository
 {
@@ -29,6 +30,7 @@ namespace DataAccess.Repository
 
                 if (check > 0)
                 {
+                    _ImportProduct.ReceiptId = _receipt.ReceiptId;
                     return _ImportProduct;
                 }
                 else
@@ -42,7 +44,6 @@ namespace DataAccess.Repository
                 return null;
             }
         }
-
         public int GetNewestImportReceiptID()
         {
             try
@@ -65,6 +66,54 @@ namespace DataAccess.Repository
             }
 
             return 0;
+        }
+        public List<ImportProductModel> GetImportProductsList()
+        {
+            List <ImportProduct> list = new List<ImportProduct>(); 
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                list = dbContext.ImportProducts.ToList();
+                List<ImportProductModel> _list = new List<ImportProductModel>();
+                foreach (var item in list)
+                {
+                    ImportProductModel model = new ImportProductModel();
+                    model.CopyProperties(item);
+                    _list.Add(model);
+                }
+                return _list;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public ImportProductModel GetImportProduct(int receiptID)
+        {
+            ImportProduct importProduct = new ImportProduct();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                importProduct = dbContext.ImportProducts.Where(p => p.ReceiptId == receiptID).FirstOrDefault();
+                if(importProduct != null)
+                {
+                    ImportProductModel _importProduct = new ImportProductModel
+                    {
+                        ReceiptId = receiptID,  
+                        DateImport = importProduct.DateImport,
+                        Payment = importProduct.Payment,
+                        PersonChange = importProduct.PersonChange
+                    };
+                    return _importProduct;
+                } else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

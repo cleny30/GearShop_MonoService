@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Dashboard_Admin.ImportProduct;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
@@ -36,6 +37,11 @@ namespace WPFStylingTest
         private void ImportButton_Click(object sender, RoutedEventArgs e)
         {
             frMain.Content = new ImportProduct();
+        }
+
+        private void ImportReceipt_Click(object sender, RoutedEventArgs e)
+        {
+            frMain.Content = new ImportReceiptPage();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
