@@ -14,7 +14,7 @@ namespace WPFStylingTest.BrandManagement
     public partial class BrandWindow : Window
     {
         private readonly BrandService brandService;
-        public ObservableCollection<BrandModel> MyItems { get; set; 
+        public ObservableCollection<BrandModel> MyItems { get; set; }
         public BrandWindow()
         {
             brandService = App.GetService<BrandService>();
