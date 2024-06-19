@@ -29,6 +29,7 @@ namespace Dashboard_Admin.OrderManagement
         private ObservableCollection<OrderModel> filteredOrders;
         private int itemsPerPage = 7;
         private int currentPage = 1;
+
         public OrderManagement()
         {
             InitializeComponent();
