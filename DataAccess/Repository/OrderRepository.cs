@@ -2,6 +2,7 @@
 using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using ISUZU_NEXT.Server.Core.Extentions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,15 @@ namespace DataAccess.Repository
                 {
                     OrderModel _order = new OrderModel
                     {
-
+                        ManagerId = order.ManagerId,
+                        Address = order.Address,
+                        EndDate = order.EndDate,
+                        OrderDes = order.OrderDes,
+                        OrderId = order.OrderId,
+                        StartDate = order.StartDate,
+                        Status = order.Status,
+                        TotalPrice = order.TotalPrice,
+                        Username = order.Username
                     };
 
                     return _order;
@@ -57,6 +66,41 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+        public bool ChangeOrderStatus(OrderModel _order, int Status)
+        {
+            Order order;
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                if (_order != null)
+                {
+                    order = new Order
+                    {
+                        OrderId = _order.OrderId,   
+                        Status = Status,
+                    };
+                    dbContext.Entry<Order>(order).State = EntityState.Modified;
+                    int check = dbContext.SaveChanges();
+
+                    if(check > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 
