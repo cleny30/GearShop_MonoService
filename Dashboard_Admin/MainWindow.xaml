@@ -58,7 +58,7 @@ materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="Imp
                     </Button>
 
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
-materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60">
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="OrderManagement_Click">
                         <WrapPanel Width="180">
                             <materialDesign:PackIcon Kind="Cart" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
                             <TextBlock Width="112" Foreground="White">Customer Orders</TextBlock>
@@ -68,8 +68,15 @@ materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60">
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
 materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="ExitButton_Click">
                         <WrapPanel Width="180">
-                            <materialDesign:PackIcon Kind="Cart" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <materialDesign:PackIcon Kind="ExitToApp" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
                             <TextBlock Width="112" Foreground="White">Exit</TextBlock>
+                        </WrapPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" >
+                        <WrapPanel Width="180">
+                            <materialDesign:PackIcon Kind="Logout" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
+                            <TextBlock Width="112" Foreground="White"><Run Text="Logout"/></TextBlock>
                         </WrapPanel>
                     </Button>
                 </StackPanel>

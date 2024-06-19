@@ -82,7 +82,7 @@ namespace WPFStylingTest
         private void NextPageButton_Click(object sender, RoutedEventArgs e)
         {
             // Check if there are more pages
-            if ((currentPage * itemsPerPage) < products.Count)
+            if ((currentPage * itemsPerPage) < filteredProducts.Count)
             {
                 currentPage++;
                 PageCount.Text = currentPage.ToString();
