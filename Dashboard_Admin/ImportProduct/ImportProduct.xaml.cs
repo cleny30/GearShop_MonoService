@@ -1,21 +1,11 @@
 ﻿
-using BusinessObject.Model.Entity;
 using BusinessObject.Model.Page;
 using Dashboard_Admin;
 using Dashboard_Admin.ImportProduct;
 using DataAccess.Service;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using WPFStylingTest.CategoryManagement;
-
-
-
-
 namespace WPFStylingTest
 {
     /// <summary>
@@ -23,26 +13,22 @@ namespace WPFStylingTest
     /// </summary>
     public partial class ImportProduct : Page
     {
-
         //Initialize Service
         private readonly ProductService productService;
         private readonly CategoryService categoryService;
         private readonly BrandService brandService;
         private readonly ImportReceiptService importReceiptService;
         //------------------
-
         //Load Product
         private ObservableCollection<ProductModel> products { get; set; }
         private ObservableCollection<ProductModel> filteredProducts { get; set; }
         public ObservableCollection<ProductModel>? CartProducts { get; set; }
         bool isOutOfStock = true;
         //------------
-
         //Paging
         private int itemsPerPage = 8;
         private int currentPage = 1;
         //------
-
         public ImportProduct()
         {
             productService = App.GetService<ProductService>();
@@ -54,16 +40,13 @@ namespace WPFStylingTest
             LoadProducts();
             InitialSearch();           
             CartImport();
-
         }
-
         //Import Cart
         public void CartImport()
         {
             CartProducts = new ObservableCollection<ProductModel>();
             Cart.ItemsSource = CartProducts;
         }
-
         //Change Product List
         private void ToggleContentButton_Click(object sender, RoutedEventArgs e)
         {
@@ -87,7 +70,6 @@ namespace WPFStylingTest
                 }
             }
         }
-
         //Load Product into Grid
         private void LoadProducts()
         {
@@ -107,7 +89,6 @@ namespace WPFStylingTest
             UpdateDataGrid();
             PageCount.Text = currentPage.ToString();
         }
-
         //Update datagrid when using search
         private void UpdateDataGrid()
         {
@@ -117,7 +98,6 @@ namespace WPFStylingTest
             // Update the data grid with the items for the current page
             ProductDataGrid.ItemsSource = filteredProducts.Skip(startIndex).Take(count);
         }
-
         //Go to next page
         private void NextPageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -129,7 +109,6 @@ namespace WPFStylingTest
                 UpdateDataGrid();
             }
         }
-
         //Go back to the previous page
         private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -141,7 +120,6 @@ namespace WPFStylingTest
                 UpdateDataGrid();
             }
         }
-
         //Search The grid
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -163,14 +141,12 @@ namespace WPFStylingTest
             InitialSearch();
             Reset();
         }
-
         //Add Product to Cart
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             // Get the current row's data context (which is the bound data item)
             var button = sender as System.Windows.Controls.Button;
             var dataContext = button.DataContext as ProductModel; // Assuming your data item class is named Product
-           
             if (dataContext != null)
             {
                 // Retrieve the ID of the product
@@ -197,8 +173,6 @@ namespace WPFStylingTest
                         ProPrice = productPrice,
                         ProQuan = productQuantity,
                     };
-
-
                     ImportChooser importChooser = new ImportChooser(product, CartProducts , false);
                     bool? result = importChooser.ShowDialog();
                     GetTotalMoney();
@@ -206,7 +180,6 @@ namespace WPFStylingTest
               
             }
         }
-
         //Delete product from cart
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -220,7 +193,6 @@ namespace WPFStylingTest
                 GetTotalMoney();
             }                      
         }
-
         //Edit product in cart (change quantity and price)
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -251,10 +223,11 @@ namespace WPFStylingTest
         private async void Submit_Button(object sender, RoutedEventArgs e)
         {
             // Show the overlay
-            Overlay.Visibility = Visibility.Visible;
-            List<ProductModel> productModels = new List<ProductModel>();
+            
             if (CartProducts.Count != 0)
             {
+                Overlay.Visibility = Visibility.Visible;
+                List<ProductModel> productModels = new List<ProductModel>();
                 foreach (var items in Cart.Items)
                 {
                     if (items is ProductModel product)
@@ -291,7 +264,7 @@ namespace WPFStylingTest
                     Overlay.Visibility = Visibility.Collapsed;
                     this.IsEnabled = true;
                     CartProducts.Clear();
-                    //MessageBox.Show("Import Successfully");
+                    MessageBox.Show("Import Successfully");
                 } else
                 {
                     MessageBox.Show("An unexpected errror has occured!");

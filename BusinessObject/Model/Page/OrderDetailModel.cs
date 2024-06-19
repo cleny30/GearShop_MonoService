@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.Model.Page
 {
-    public class CartModel
+    public class OrderDetailModel
     {
-        public string Username { get; set; } = null!;
+        public string OrderId { get; set; } = null!;
 
         public string ProId { get; set; } = null!;
 
@@ -16,13 +16,6 @@ namespace BusinessObject.Model.Page
 
         public int Quantity { get; set; }
 
-        public double Price { get; set; } //Total Price
-    }
-
-    public class UserCartData
-    {
-        public CartModel model { get; set; }
-
-        public ProductData Product { get; set; }
+        public double Price { get; set; }
     }
 }

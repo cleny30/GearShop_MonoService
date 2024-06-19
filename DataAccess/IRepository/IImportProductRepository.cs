@@ -10,7 +10,8 @@ namespace DataAccess.IRepository
     public interface IImportProductRepository
     {
         public Task<ImportProductModel> CreateImportReceiptAsync(ImportProductModel _ImportProduct);
-
         public int GetNewestImportReceiptID();
+        public List<ImportProductModel> GetImportProductsList();
+        public ImportProductModel GetImportProduct(int receiptID);
     }
 }

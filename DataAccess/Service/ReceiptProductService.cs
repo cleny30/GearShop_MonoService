@@ -16,10 +16,13 @@ namespace DataAccess.Service
         {
             _receiptProductRepository = receiptProductRepository;
         }
-
         public async Task<bool> AddReceiptProductAsync(List<ReceiptProductModel> list, int ID)
         {
             return await _receiptProductRepository.AddReceiptProductAsync(list, ID);
+        }
+        public List<ReceiptProductModel> GetReceiptProducts(int ReceiptID)
+        {
+            return _receiptProductRepository.GetReceiptProducts(ReceiptID);
         }
 
     }

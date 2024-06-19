@@ -17,9 +17,7 @@ namespace DataAccess.Repository
             {
                 var dbContext = new PrndatabaseContext();
                 products = dbContext.Products.ToList();
-
                 List<ProductModel> ProductModels = new List<ProductModel>();
-
                 foreach (var product in products)
                 {
                     ProductModel ProductModel = new ProductModel();
