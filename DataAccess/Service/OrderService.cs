@@ -26,12 +26,19 @@ namespace DataAccess.Service
                 AccountModel account = _accountService.getAccount(order.Username);
                 order.Fullname = account.Fullname;
                 order.Phone = account.Phone;
+                order.Email = account.Email;
             }
             return orderList;
         }
         public OrderModel GetOrderByID(string ID)
         {
-            return _repository.GetOrderByID(ID);
+            OrderModel order = _repository.GetOrderByID(ID);
+            AccountModel account = _accountService.getAccount(order.Username);
+            order.Fullname = account.Fullname;
+            order.Phone = account.Phone;
+            order.Email = account.Email;
+
+            return order;
         }
         public bool ChangeOrderStatus(OrderModel _order, int Status)
         {

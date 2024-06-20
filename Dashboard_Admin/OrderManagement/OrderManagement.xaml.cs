@@ -1,9 +1,12 @@
 ﻿
+using BusinessObject.Model.Entity;
 using BusinessObject.Model.Page;
 using DataAccess.Service;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+
 
 namespace Dashboard_Admin.OrderManagement
 {
@@ -105,8 +108,24 @@ namespace Dashboard_Admin.OrderManagement
         }
         private void ViewButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var button = sender as Button;
+            var dataContext = button.DataContext as OrderModel;
+            if(dataContext != null)
+            {
+                var OrderID = dataContext.OrderId;
+                OrderModel model = orderService.GetOrderByID(OrderID);
+                List<OrderDetailModel> orderDetailModels = orderDetailService.GetOrderDetailList(model);
+                OrderInfo info = new OrderInfo(model, orderDetailModels);
+                info.OrderInfoClosed += OrderInfoWindow_Closed;
+                info.ShowDialog();
+                
+            }
         }
-       
+        private void OrderInfoWindow_Closed(object sender, EventArgs e)
+        {
+            RoutedEventArgs _e = new RoutedEventArgs();
+            PendingOrder_Click( sender, _e);
+        }
+
     }
 }
