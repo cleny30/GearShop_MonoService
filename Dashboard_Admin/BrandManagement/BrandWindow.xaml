@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:WPFStylingTest.BrandManagement"
         mc:Ignorable="d"
         Title="BrandWindow" Height="550" Width="800"
-                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-                WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" Background="{x:Null}" AllowsTransparency="True">
     <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}"  Margin="25,25,29,0"  MouseLeftButtonDown="Window_MouseLeftButtonDown">
         <Grid Background="White">
             <Border BorderBrush="#FF673AB7" BorderThickness="6">

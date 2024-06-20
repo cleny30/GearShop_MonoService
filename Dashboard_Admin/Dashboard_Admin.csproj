@@ -7,6 +7,22 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Image\GearShopBanner.png" />
+    <None Remove="Image\logoGearshop.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Image\GearShopBanner.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Image\logoGearshop.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
 

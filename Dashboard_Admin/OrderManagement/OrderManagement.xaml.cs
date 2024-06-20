@@ -1,22 +1,9 @@
-﻿using BusinessObject.Model.Entity;
+﻿
 using BusinessObject.Model.Page;
-using System;
-using System.Collections.Generic;
+using DataAccess.Service;
 using System.Collections.ObjectModel;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using WPFStylingTest;
 
 namespace Dashboard_Admin.OrderManagement
 {
@@ -25,6 +12,10 @@ namespace Dashboard_Admin.OrderManagement
     /// </summary>
     public partial class OrderManagement : Page
     {
+        //Initialize Service
+        private readonly OrderDetailService orderDetailService;
+        private readonly OrderService orderService;
+        //------------------
         private ObservableCollection<OrderModel> orders;
         private ObservableCollection<OrderModel> filteredOrders;
         private int itemsPerPage = 7;
@@ -32,16 +23,27 @@ namespace Dashboard_Admin.OrderManagement
 
         public OrderManagement()
         {
+            orderDetailService = App.GetService<OrderDetailService>();
+            orderService = App.GetService<OrderService>();
+            DataContext = this;
             InitializeComponent();
+            LoadOrder();
         }
 
         private void LoadOrder()
         {
-            List<OrderModel> orderList = new List<OrderModel>();
+            Title.Header = "PENDING ORDERS";
+            ChangeOrderList(1);
+            PageCount.Text = currentPage.ToString();
+        }
+
+        private void ChangeOrderList(int Status)
+        {
+            List<OrderModel> orderList = orderService.GetOrderList();
+            orderList = orderList.Where(o => o.Status == Status).ToList();
             orders = new ObservableCollection<OrderModel>(orderList);
             filteredOrders = new ObservableCollection<OrderModel>(orders);
             UpdateDataGrid();
-            PageCount.Text = currentPage.ToString();
         }
         private void UpdateDataGrid()
         {
@@ -75,19 +77,23 @@ namespace Dashboard_Admin.OrderManagement
         }
         private void PendingOrder_Click(object sender, RoutedEventArgs e)
         {
-            
+            Title.Header = "PENDING ORDERS";
+            ChangeOrderList(1);
         }
         private void AcceptedOrder_Click(object sender, RoutedEventArgs e)
         {
-            
+            Title.Header = "ACCEPTED ORDERS";
+            ChangeOrderList(2);
         }
         private void ShippingOrder_Click(object sender, RoutedEventArgs e)
         {
-            
+            Title.Header = "SHIPPING ORDERS";
+            ChangeOrderList(3);
         }
         private void CompletedOrder_Click(object sender, RoutedEventArgs e)
         {
-            
+            Title.Header = "COMPLETED ORDERS";
+            ChangeOrderList(4);
         }
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {

@@ -23,5 +23,15 @@ namespace Dashboard_Admin.OrderManagement
         {
             InitializeComponent();
         }
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Check if the left mouse button was pressed
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                // Initiate the drag-and-drop operation
+                this.DragMove();
+            }
+        }
     }
 }

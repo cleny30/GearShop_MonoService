@@ -11,10 +11,23 @@ namespace DataAccess.Service
     public class OrderService
     {
         private readonly IOrderRepository _repository;
+        private readonly AccountService _accountService;
 
+        public OrderService(IOrderRepository repo, AccountService accountService)
+        {
+            _repository = repo;
+            _accountService = accountService;
+        }
         public List<OrderModel> GetOrderList()
         {
-            return _repository.GetOrderList();
+            List<OrderModel> orderList = _repository.GetOrderList();
+            foreach (var order in orderList)
+            {
+                AccountModel account = _accountService.getAccount(order.Username);
+                order.Fullname = account.Fullname;
+                order.Phone = account.Phone;
+            }
+            return orderList;
         }
         public OrderModel GetOrderByID(string ID)
         {
