@@ -73,7 +73,7 @@ materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" Click="Exi
                         </WrapPanel>
                     </Button>
                     <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
-materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60" >
+materialDesign:ButtonAssist.CornerRadius="6" Width="auto" Height="60"  Click="LogoutButton_Click">
                         <WrapPanel Width="180">
                             <materialDesign:PackIcon Kind="Logout" Height="19" VerticalAlignment="Center" Width="31" Foreground="White"/>
                             <TextBlock Width="112" Foreground="White"><Run Text="Logout"/></TextBlock>
