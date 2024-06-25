@@ -15,6 +15,8 @@ public partial class DeliveryAddress
 
     public string Address { get; set; } = null!;
 
+    public string? Specific { get; set; } = null!;
+
     public bool IsDefault { get; set; }
 
     public virtual Customer UsernameNavigation { get; set; } = null!;
