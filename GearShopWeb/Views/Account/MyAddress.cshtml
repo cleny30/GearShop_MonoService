@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewData["Title"] = "MyAddress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model BusinessObject.Model.DataResult
+@{
+    var list = Model.Result as List<BusinessObject.Model.Page.DeliveryAddressModel>;
+}
+
+<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Account/MyAccount">My Account</a>
+                <span class="breadcrumb-item active">Account's Address</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+<!-- Contact Start -->
+<div class="container-fluid">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+        <span class="bg-secondary pr-3">
+            My
+            Account
+        </span>
+    </h2>
+    <div class="row px-xl-5">
+        <div class="col-lg-4 mb-5">
+            <div class="contact-form bg-light p-30">
+                <div id="success"></div>
+                <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                    <img style="border-radius: 50%;" alt=""
+                         src="https://secure.gravatar.com/avatar/9e0afa26bc1077afbf9bebfbbb0a9b41?s=70&amp;d=mm&amp;r=g"
+                         srcset="https://secure.gravatar.com/avatar/9e0afa26bc1077afbf9bebfbbb0a9b41?s=140&amp;d=mm&amp;r=g 2x"
+                         height="70" width="70" decoding="async">
+                    <p style="font-size: 20px;">Personal Account</p>
+
+                    <div style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/MyAccount" style="text-decoration: none;">
+                            <i class="fa fa-user-circle " style="color: black; margin-right: 10px;"></i>Account
+                            information
+                        </a>
+
+                    </div>
+
+                    <div style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/ChangePassword" style="text-decoration: none;">
+                            <i class="fa fa-key" style="color: black; margin-right: 10px;"></i>Change Password
+                        </a>
+
+                    </div>
+
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/Account/MyOrder" style="text-decoration: none;">
+                            <i class="fa fa-gift" style="color: black; margin-right: 10px;"></i>Your Order
+                        </a>
+
+                    </div>
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" style="background-color: #ffcb0d" href="/Account/MyAddress" style="text-decoration: none;">
+                            <i class="fa fa-home" style="color: black; margin-right: 10px;"></i>Address
+                        </a>
+
+                    </div>
+                    <div class="control-group" style="margin-bottom: 5px;">
+                        <a class="form-control_1" href="/LogOut" style="text-decoration: none;">
+                            <i class="fa fa-sign-out-alt" style="color: black; margin-right: 10px;"></i>Log Out
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-8 mb-5">
+
+            <div class="bg-light p-30 mb-3 " style="height: 100%;">
+                <div class="row">
+                    @if (list != null && list.Count > 0)
+                    {
+                        <div class="col-md-12 form-group ">
+                            @foreach (var item in list)
+                            {
+
+                                <label style="margin-right: 3px;">Full Name: </label>
+
+                                <label style="font-weight:bold"> @item.Fullname </label> <label style="margin-left:10px;margin-right:10px;">|</label>
+
+                                <label style="margin-right: 3px;">Phone Number: </label>
+
+                                <label style="font-weight:bold"> @item.Phone</label>
+                                <input class="form-control" type="text" name="accAddress" value="@item.Address" readonly style="background-color: #fff;">
+
+                                <div style="display:flex">
+                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" onclick="UpdateAddress(this)" id="shipto" >
+
+                                    <form id="deleteForm" method="post" action="/Account/DeleteAddress">
+                                        <input type="hidden" name="id" value="@item.Id">
+                                        <input type="submit" value="Delete" class="addressButton">
+                                    </form>
+
+                                </div>
+                     
+
+                             
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="hide">
+                            <p style="color:red">
+                                You dont have any address. Please enter new address here!
+                            </p>
+                        </div>
+                    }
+
+                    @if (list.Count < 3)
+                    {
+                        <div class="col-md-12">
+                            <button class="addnewButton" onclick="toggleAddNewAddressForm()">Add new address</button>
+                        </div>
+                    }
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+
+<!-- Form Update Address -->
+<form method="post" class="update_address_form" action="/Account/UpdateAddress">
+    <div class="popup-overlay hidden" id="updateAddressForm" data-addressID="">
+        <div class="popup-form-container">
+            <div class="popup-header">
+                <span class="popup-title">Update Address</span>
+            </div>
+            <div class="popup-form-content">
+                <!-- Item -->      
+                <input type="hidden" value="" id="idUpdate" name="id">
+                <div class="popup-row">
+                    <div class="popup-col">
+                        <input type="text" value="" placeholder="Your full name" class="popup-input" name="fullname" id="fullnameUpdate">
+                    </div>
+                    <div class="popup-col">
+                        <input type="text" value="" placeholder="Phone number" class="popup-input" name="phone" id="phonenumUpdate">
+                    </div>
+                </div>
+                <div class="popup-row">
+                    <div class="popup-col popup-full-width">
+                        <label for="option" class="popup-address-label">
+                            <input type="text" value="" class="popup-form-control" id="addressUpdate" readonly>
+                            <div class="popup-icon">
+                                <i class="fa solid fa-chevron-down"></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="popup-col popup-full-width" id="optionFields1">
+                        <select id="provincesUpdate" class="popup-input" onchange="getDistrictsUpdate(event)">
+                            <option value="">Select provinces</option>
+                            <!-- Options will be populated here -->
+                        </select>
+
+                        <select id="districtsUpdate" class="popup-input" onchange="getWardsUpdate(event)">
+                            <option value="">Select districts</option>
+                        </select>
+                        <select id="wardsUpdate" class="popup-input" onchange="AddressFieldUpdate()">
+                            <option value="">Select ward</option>
+                            <!-- Options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                <div class="popup-row">
+                    <input type="text" placeholder="Specific address" class="popup-input popup-full-width" name="address" value="" id="specificAddressUpdate">
+                </div>
+                <div class="popup-row">
+                    <label class="popup-checkbox-container">
+                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
+                        <span class="popup-checkmark"></span>
+                        Default address
+                    </label>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button class="popup-button cancel" onclick="closeUpdateAddressForm()">Cancel</button>
+                <button class="popup-button submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<!-- Form Add Address -->
+<form method="post" class="add_address_form" action="/Account/AddAddress">
+    <div class="popup-overlay hidden" id="addAddressForm">
+    <div class="popup-form-container">
+        <div class="popup-header">
+            <span class="popup-title">Add new address</span>
+        </div>
+        <div class="popup-form-content">
+            <!-- Item -->
+            <div class="popup-row">
+          
+                <div class="popup-col">
+                    <input type="text" placeholder="Your full name" class="popup-input" name="fullname" id="fullName">
+                </div>
+                <div class="popup-col">
+                    <input type="text" placeholder="Phone number" class="popup-input" name="phone" id="phoneNumber">
+                </div>
+            </div>
+                <div class="popup-row">
+                    <div class="popup-col popup-full-width">
+                        <label for="option" class="popup-address-label" onclick="toggleShowOption()">
+                            <input type="text" value="" class="popup-form-control" id="address" readonly>
+                            <div class="popup-icon">
+                                <i class="fa solid fa-chevron-down"></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="popup-col popup-full-width" id="optionFields">
+                        <select id="provinces" class="popup-input" onchange="getDistricts(event)">
+                            <option value="">Select provinces</option>
+                            <!-- Options will be populated here -->
+                        </select>
+
+                        <select id="districts" class="popup-input" onchange="getWards(event)">
+                            <option value="">Select districts</option>
+                        </select>
+                        <select id="wards" class="popup-input" onchange="updateAddressField()">
+                            <option value="">Select ward</option>
+                            <!-- Options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+            <div class="popup-row" >
+           
+                <input type="text" placeholder="Specific address" class="popup-input popup-full-width" name="address" id="specificAddress">
+            </div>
+            <div class="popup-row">
+                <label class="popup-checkbox-container">
+                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
+                        <span class="popup-checkmark"></span>
+                    Default address
+                </label>
+            </div>
+        </div>
+        <div class="popup-footer">
+            <button class="popup-button cancel" onclick="closeAddNewAddressForm()">Cancel</button>
+            <button class="popup-button submit">Submit</button>
+        </div>
+    </div>
+</div>
+</form>
+
+<script src="~/js/address.js"></script>

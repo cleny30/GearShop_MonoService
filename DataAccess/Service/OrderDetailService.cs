@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Model.Page;
 using DataAccess.IRepository;
+using DataAccess.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,21 @@ namespace DataAccess.Service
     {
         private readonly IOrderDetailRepository _repo;
 
+
+        public OrderDetailService(IOrderDetailRepository accountRepository)
+        {
+            _repo = accountRepository;
+        }
+
         public List<OrderDetailModel> GetOrderDetailList(OrderModel order)
         {
             return _repo.GetOrderDetailList(order); 
         }
+        public List<OrderDetailModel>GetOrderDetailsById(string id)
+        {
+            return _repo.GetOrdersDetailByCustomer(id);
+        }
+
+ 
     }
 }

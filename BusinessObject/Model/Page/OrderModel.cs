@@ -26,4 +26,16 @@ namespace BusinessObject.Model.Page
 
         public string Address { get; set; } = null!;
     }
+    public class OrderDataModel
+    {
+        public string? OrderId { get; set; }
+        public string? UserName { get; set; } 
+        public double TotalPrice { get; set; }
+        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime? EndDate { get; set; }
+        public string? OrderDes { get; set; } 
+        public int Status { get; set; } = 0;
+        public string? Address { get; set; } 
+        public List<OrderDetailModel>? orderDetail { get; set; }
+    }
 }

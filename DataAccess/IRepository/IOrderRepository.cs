@@ -12,5 +12,7 @@ namespace DataAccess.IRepository
         public List<OrderModel> GetOrderList();
         public OrderModel GetOrderByID(string ID);
         public bool ChangeOrderStatus(OrderModel _order, int Status);
+        public List<OrderDataModel> GetOrderListByUser(string username);
+
     }
 }
