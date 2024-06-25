@@ -68,11 +68,6 @@
                     <h2 class="font-weight-semi-bold mb-4">$@p.ProPrice</h2>
                 }
 
-
-
-
-
-
                 <p class="mb-4">
                     The product @p.ProName is designed with high quality, providing you with a smooth experience and suitability for various types of tasks, from gaming to office work. This makes it an excellent choice for both entertainment enthusiasts and those in need of a reliable tool for daily work.
                 </p>
@@ -87,16 +82,14 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                            <input type="text" class="form-control bg-secondary border-0 text-center" id="quan_input" onkeydown="return isValidInput(event)" value="1">
+                            <input type="text" class="form-control bg-secondary border-0 text-center" id="quan_input" data-amount="" onkeydown="return isValidInput(event)" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
-
-
-                    <a class="btn btn-outline-dark btn-square" data-pro_quan_available="@p.ProQuan" data-cart_quan_current="0" data-pro_id="@p.ProId" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
+                        <a class="btn btn-outline-dark btn-square" data-pro_quan_available="@p.ProQuan" data-cart_quan_current="0" data-model="@System.Text.Json.JsonSerializer.Serialize(p)" data-pro_id="@p.ProId" id="shopDetail_quan" data-quan_input="1" onclick="AddToCart(this)">
                         <i class="fa fa-shopping-cart"></i>
                     </a>
                     @if (p.ProQuan == 1)
@@ -153,7 +146,6 @@
                                             @item.Key
                                         </li>
                                     }
-
                                 </ul>
                             </div>
 
@@ -165,13 +157,10 @@
                                             @item.Value
                                         </li>
                                     }
-
-
                                 </ul>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -218,11 +207,9 @@
                                 {
                                     <h5>$@item.ProPrice</h5>
                                 }
-                            </div>
-                            
+                            </div>                       
                         </div>
                     </div>
-
                 }
             </div>
         </div>
