@@ -5,6 +5,8 @@ function UpdateAddress(button) {
     const phone = button.getAttribute('data-phonenum');
     const address = button.getAttribute('data-address');
     const addressID = button.getAttribute('data-ID');
+    const isdefault = button.getAttribute('data-isdefault')
+
 
     // Populate the form fields with the existing data
     document.getElementById('idUpdate').value = addressID;
@@ -12,6 +14,7 @@ function UpdateAddress(button) {
     document.getElementById('phonenumUpdate').value = phone;
     document.getElementById('addressUpdate').value = address;
     document.getElementById('specificAddressUpdate').value = address;
+    document.getElementById('defaultAddress').value = isdefault;
     document.getElementById('updateAddressForm').setAttribute('data-addressID', addressID);
 
     // Show the popup form
@@ -278,47 +281,7 @@ function AddressFieldUpdate() {
     addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
     specificAddressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
 }
-//function AddressFieldUpdate() {
-//    const addressInput = document.getElementById('specificAddressUpdate').value.trim();
-//    if (!addressInput) return;
 
-//    const wardsSelect = document.getElementById('wardsUpdate');
-//    const districtsSelect = document.getElementById('districtsUpdate');
-//    const provincesSelect = document.getElementById('provincesUpdate');
-
-//    // Split the addressInput into components
-//    const addressComponents = addressInput.split(',').map(item => item.trim());
-//    if (addressComponents.length !== 3) {
-//        console.error('Invalid address format');
-//        return;
-//    }
-
-//    const [wardText, districtText, provinceText] = addressComponents;
-
-//    // Find and select the ward option
-//    for (let i = 0; i < wardsSelect.options.length; i++) {
-//        if (wardsSelect.options[i].text === wardText) {
-//            wardsSelect.selectedIndex = i;
-//            break;
-//        }
-//    }
-
-//    // Find and select the district option
-//    for (let i = 0; i < districtsSelect.options.length; i++) {
-//        if (districtsSelect.options[i].text === districtText) {
-//            districtsSelect.selectedIndex = i;
-//            break;
-//        }
-//    }
-
-//    // Find and select the province option
-//    for (let i = 0; i < provincesSelect.options.length; i++) {
-//        if (provincesSelect.options[i].text === provinceText) {
-//            provincesSelect.selectedIndex = i;
-//            break;
-//        }
-//    }
-//}
 
 
 

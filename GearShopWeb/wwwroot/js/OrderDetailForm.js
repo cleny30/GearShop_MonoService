@@ -69,7 +69,7 @@
             $('#totalPriceRecipt').empty();
             $('#totalPriceRecipt').append("<big>$" + totalPrice + "</big>");
 
-            $('#orderDateOD').text(data.orderDick.start_date);
+            $('#orderDateOD').text(data.orderDick.startDate);
             $('#fullnameOD').text(data.orderDick.fullname);
             $('#phonenumOD').text(data.orderDick.phone);
             $('#addressOD').text(data.orderDick.address);

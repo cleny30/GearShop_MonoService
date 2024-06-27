@@ -19,6 +19,8 @@ namespace BusinessObject.Model.Page
 
         public string Address { get; set; } = string.Empty;
 
+        public string? Specific { get; set; } = null!;
+
         public bool IsDefault { get; set; }
 
         public virtual Customer UsernameNavigation { get; set; } = null!;

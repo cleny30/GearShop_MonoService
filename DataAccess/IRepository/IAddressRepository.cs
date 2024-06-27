@@ -13,6 +13,6 @@ namespace DataAccess.IRepository
         public List<DeliveryAddressModel> GetAddressByUsername(string username);
         public bool UpdateAddress(DeliveryAddressModel deliveryAddressModel);
         public bool DeleteAddress(string username, int id);
-        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname);
+        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address);
     }
 }

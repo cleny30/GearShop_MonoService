@@ -93,49 +93,49 @@
                 </thead>
 
                 <tbody class="align-middle">
-                         @if (list.Count() > 0)
+                    @if (list.Count() > 0)
                     {
-                    @foreach (var item in list)
-                    {
-                    var status = "";
-
-                    @switch (item.Status)
-                    {
-                    case 1:
-                    status = "Pending";
-                    break;
-                    case 2:
-                    status = "Accepted";
-                    break;
-                    case 3:
-                    status = "Delivering";
-                    break;
-                    case 4:
-                    status = "Completed";
-                    break;
-                    }
-            
-                    <tr>
-                        <td class="align-middle">@item.OrderId</td> 
-                        <td class="align-middle">@item.StartDate</td>
-                              @if (item.EndDate != null)
+                        @foreach (var item in list)
                         {
-                        <td class="align-middle">@item.EndDate</td>
-                        }
-                        else
-                        {
+                            var status = "";
+
+                            @switch (item.Status)
+                            {
+                                case 1:
+                                    status = "Pending";
+                                    break;
+                                case 2:
+                                    status = "Accepted";
+                                    break;
+                                case 3:
+                                    status = "Delivering";
+                                    break;
+                                case 4:
+                                    status = "Completed";
+                                    break;
+                            }
+
+                            <tr>
+                                <td class="align-middle">@item.OrderId</td>
+                                <td class="align-middle">@item.StartDate</td>
+                                @if (item.EndDate != null)
+                                {
+                                    <td class="align-middle">@item.EndDate</td>
+                                }
+                                else
+                                {
 
 
-                        <td class="align-middle">Not Complete</td>
+                                    <td class="align-middle">Not Complete</td>
+                                }
+                                <td class="align-middle"> @status</td>
+                                <td class="align-middle">$@item.TotalPrice</td>
+                                <td class="align-middle">
+                                    <button data-orderId="@item.OrderId" onclick="openForm(this)" class="fa fa-eye"
+                                            style="background-color:transparent; border: none;"></button>
+                                </td>
+                            </tr>
                         }
-                        <td class="align-middle"> @item.Status</td>
-                        <td class="align-middle">$@item.TotalPrice</td>
-                        <td class="align-middle">
-                            <button data-orderId="@item.OrderId" onclick="openForm(this)" class="fa fa-eye"
-                                    style="background-color:transparent; border: none;"></button>
-                        </td>
-                    </tr>
-                      }
                     }
                 </tbody>
             </table>
@@ -143,8 +143,6 @@
     </div>
 </div>
 <!-- Contact End -->
-
-
 <!--View Details Start-->
 <div class="user">
     <section class="h-100" id="myForm" style="display:none;">

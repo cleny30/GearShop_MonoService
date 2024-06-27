@@ -56,7 +56,9 @@ namespace DataAccess.Repository
                         StartDate = order.StartDate,
                         Status = order.Status,
                         TotalPrice = order.TotalPrice,
-                        Username = order.Username
+                        Username = order.Username,
+                        Fullname = order.Fullname,
+                        Phone = order.Phone,
                     };
 
                     return _order;

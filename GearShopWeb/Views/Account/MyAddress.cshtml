@@ -93,10 +93,10 @@
                                 <label style="margin-right: 3px;">Phone Number: </label>
 
                                 <label style="font-weight:bold"> @item.Phone</label>
-                                <input class="form-control" type="text" name="accAddress" value="@item.Address" readonly style="background-color: #fff;">
+                                <input class="form-control" type="text" name="accAddress" value="@item.Specific" readonly style="background-color: #fff;">
 
                                 <div style="display:flex">
-                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" onclick="UpdateAddress(this)" id="shipto" >
+                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" data-isdefault="@item.IsDefault" onclick="UpdateAddress(this)" id="shipto" >
 
                                     <form id="deleteForm" method="post" action="/Account/DeleteAddress">
                                         <input type="hidden" name="id" value="@item.Id">
@@ -135,60 +135,63 @@
 
 <!-- Form Update Address -->
 <form method="post" class="update_address_form" action="/Account/UpdateAddress">
-    <div class="popup-overlay hidden" id="updateAddressForm" data-addressID="">
-        <div class="popup-form-container">
-            <div class="popup-header">
-                <span class="popup-title">Update Address</span>
+    <div class="popup-overlay-update hidden" id="updateAddressForm" data-addressID="">
+        <div class="popup-form-container-update">
+            <div class="popup-header-update">
+                <span class="popup-title-update">Update Address</span>
             </div>
-            <div class="popup-form-content">
+            <div class="popup-form-content-update">
                 <!-- Item -->      
                 <input type="hidden" value="" id="idUpdate" name="id">
-                <div class="popup-row">
-                    <div class="popup-col">
-                        <input type="text" value="" placeholder="Your full name" class="popup-input" name="fullname" id="fullnameUpdate">
+                <div class="popup-row-update">
+                    <div class="popup-col-update">
+                        <input type="text" value="" placeholder="Your full name" class="popup-input-update" name="fullname" id="fullnameUpdate">
+                        <p style="color: red;"></p>
                     </div>
-                    <div class="popup-col">
-                        <input type="text" value="" placeholder="Phone number" class="popup-input" name="phone" id="phonenumUpdate">
+                    <div class="popup-col-update">
+                        <input type="text" value="" placeholder="Phone number" class="popup-input-update" name="phone" id="phonenumUpdate">
+                        <p style="color: red;"></p>
                     </div>
                 </div>
-                <div class="popup-row">
-                    <div class="popup-col popup-full-width">
-                        <label for="option" class="popup-address-label">
-                            <input type="text" value="" class="popup-form-control" id="addressUpdate" readonly>
-                            <div class="popup-icon">
+                <div class="popup-row-update">
+                    <div class="popup-col-update popup-full-width-update">
+                        <label for="option" class="popup-address-label-update">
+                            <input type="text" value="" class="popup-form-control-update" name="address" id="addressUpdate" readonly>
+                            <p style="color: red;"></p>
+                            <div class="popup-icon-update">
                                 <i class="fa solid fa-chevron-down"></i>
                             </div>
                         </label>
                     </div>
-                    <div class="popup-col popup-full-width" id="optionFields1">
-                        <select id="provincesUpdate" class="popup-input" onchange="getDistrictsUpdate(event)">
+                    <div class="popup-col-update popup-full-width-update" id="optionFields1">
+                        <select id="provincesUpdate" class="popup-input-update" onchange="getDistrictsUpdate(event)">
                             <option value="">Select provinces</option>
                             <!-- Options will be populated here -->
                         </select>
 
-                        <select id="districtsUpdate" class="popup-input" onchange="getWardsUpdate(event)">
+                        <select id="districtsUpdate" class="popup-input-update" onchange="getWardsUpdate(event)">
                             <option value="">Select districts</option>
                         </select>
-                        <select id="wardsUpdate" class="popup-input" onchange="AddressFieldUpdate()">
+                        <select id="wardsUpdate" class="popup-input-update" onchange="AddressFieldUpdate()">
                             <option value="">Select ward</option>
                             <!-- Options will be populated here -->
                         </select>
                     </div>
                 </div>
-                <div class="popup-row">
-                    <input type="text" placeholder="Specific address" class="popup-input popup-full-width" name="address" value="" id="specificAddressUpdate">
+                <div class="popup-row-update">
+                    <input type="text" placeholder="Specific address" class="popup-input-update popup-full-width" name="specific" value="" id="specificAddressUpdate">
                 </div>
-                <div class="popup-row">
-                    <label class="popup-checkbox-container">
+                <div class="popup-row-update">
+                    <label class="popup-checkbox-container-update">
                         <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
-                        <span class="popup-checkmark"></span>
+                        <span class="popup-checkmark-update"></span>
                         Default address
                     </label>
                 </div>
             </div>
-            <div class="popup-footer">
-                <button class="popup-button cancel" onclick="closeUpdateAddressForm()">Cancel</button>
-                <button class="popup-button submit">Submit</button>
+            <div class="popup-footer-update">
+                <button class="popup-button-update cancel" onclick="closeUpdateAddressForm()">Cancel</button>
+                <button class="popup-button-update submit">Submit</button>
             </div>
         </div>
     </div>
@@ -209,15 +212,18 @@
           
                 <div class="popup-col">
                     <input type="text" placeholder="Your full name" class="popup-input" name="fullname" id="fullName">
+                        <p style="color: red;"></p>
                 </div>
                 <div class="popup-col">
                     <input type="text" placeholder="Phone number" class="popup-input" name="phone" id="phoneNumber">
+                        <p style="color: red;"></p>
                 </div>
             </div>
                 <div class="popup-row">
                     <div class="popup-col popup-full-width">
                         <label for="option" class="popup-address-label" onclick="toggleShowOption()">
-                            <input type="text" value="" class="popup-form-control" id="address" readonly>
+                            <input type="text" value="" class="popup-form-control" name="address" id="address" readonly>
+                            <p style="color: red;"></p>
                             <div class="popup-icon">
                                 <i class="fa solid fa-chevron-down"></i>
                             </div>
@@ -240,7 +246,7 @@
                 </div>
             <div class="popup-row" >
            
-                <input type="text" placeholder="Specific address" class="popup-input popup-full-width" name="address" id="specificAddress">
+                <input type="text" placeholder="Specific address" class="popup-input popup-full-width" name="specific" id="specificAddress">
             </div>
             <div class="popup-row">
                 <label class="popup-checkbox-container">
@@ -259,3 +265,4 @@
 </form>
 
 <script src="~/js/address.js"></script>
+<script src="~/js/addressvalidate.js"></script>

@@ -72,6 +72,7 @@ namespace GearShopWeb.Controllers
             accountService.UpdateCustomerInfor(accountModel, username);
             return RedirectToAction("MyAccount", "Account");
         }
+
         [HttpPost]
         public IActionResult OrderDetail(string id)
         {

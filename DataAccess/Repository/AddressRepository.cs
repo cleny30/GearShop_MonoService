@@ -24,6 +24,16 @@ namespace DataAccess.Repository
                 {
                     DeliveryAddress deliveryAddress = new DeliveryAddress();
                     deliveryAddress.CopyProperties(deliAddressModel);
+
+                    if (deliAddressModel.IsDefault)
+                    {
+                        // Find all addresses with the same username and set their isDefault to false
+                        var otherAddresses = dbContext.DeliveryAddresses.Where(p => p.Username == deliveryAddress.Username).ToList();
+                        foreach (var address in otherAddresses)
+                        {
+                            address.IsDefault = false;
+                        }
+                    }
                     dbContext.DeliveryAddresses.Add(deliveryAddress);
                     dbContext.SaveChanges();
                     return true;
@@ -64,11 +74,11 @@ namespace DataAccess.Repository
         /// <param name="address"></param>
         /// <param name="fullname"></param>
         /// <returns></returns>
-        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname)
+        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address)
         {
             using (var context = new PrndatabaseContext())
             {
-                var deliveryAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Username == username && c.Phone == phoneNumber && c.Fullname == fullname);
+                var deliveryAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Username == username && c.Phone == phoneNumber && c.Fullname == fullname && c.Address == address);
                 if (deliveryAddress != null)
                 {
                     DeliveryAddressModel deliveryAddressModel = new DeliveryAddressModel();
@@ -96,13 +106,14 @@ namespace DataAccess.Repository
                         existingAddress.Fullname = deliveryAddressModel.Fullname;
                         existingAddress.Phone = deliveryAddressModel.Phone;
                         existingAddress.Address = deliveryAddressModel.Address;
+                        existingAddress.Specific = deliveryAddressModel.Specific;
        
 
                         // Check if isDefault is being set to true
                         if (deliveryAddressModel.IsDefault)
                         {
                             // Find all addresses with the same username and set their isDefault to false
-                            var otherAddresses = context.DeliveryAddresses.Where(p => p.Username == deliveryAddressModel.Username && p.Id != existingAddress.Id).ToList();
+                            var otherAddresses = context.DeliveryAddresses.Where(p => p.Username == deliveryAddressModel.Username && p.Id != existingAddress.Id ).ToList();
                             foreach (var address in otherAddresses)
                             {
                                 address.IsDefault = false;

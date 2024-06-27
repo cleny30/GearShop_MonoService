@@ -27,7 +27,7 @@ namespace DataAccess.Service
         {
   
             deliveryAddressModel.Username = username;
-            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname);
+            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address);
             if (existingAddressItem != null)
             {
                 return false; // address already exist 
@@ -51,7 +51,7 @@ namespace DataAccess.Service
 
         public bool UpdateAddress(DeliveryAddressModel deliveryAddressModel)
         {
-            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname);
+            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address);
             if (existingAddressItem != null)
             {
                 return false; // Address already exist 
