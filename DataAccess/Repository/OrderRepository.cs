@@ -85,6 +85,8 @@ namespace DataAccess.Repository
                         ManagerId = _order.ManagerId,
                         OrderDes= _order.OrderDes,
                         Username = _order.Username,
+                        Fullname = _order.Fullname,
+                        Phone = _order.Phone,
                         TotalPrice= _order.TotalPrice,
                         Status = Status,
                     };

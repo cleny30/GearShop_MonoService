@@ -21,13 +21,6 @@ namespace DataAccess.Service
         public List<OrderModel> GetOrderList()
         {
             List<OrderModel> orderList = _repository.GetOrderList();
-            foreach (var order in orderList)
-            {
-                AccountModel account = _accountService.getAccount(order.Username);
-                order.Fullname = account.Fullname;
-                order.Phone = account.Phone;
-                order.Email = account.Email;
-            }
             return orderList;
         }
         public OrderModel GetOrderByID(string ID)
