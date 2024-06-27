@@ -28,14 +28,24 @@ namespace GearShopWeb.Controllers
         }
 
         [HttpPost]
-        public DataResult AddProductToCard(ProductData data, int amount)
+        public DataResult AddProductToCart(string data, int amount)
         {
             //string username = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-
-            dataResult.IsSuccess = cartService.AddOrUpdateCart("cleny30", data, amount);
+            ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
+            dataResult.IsSuccess = cartService.AddOrUpdateCart("cleny30", productData, amount);
 
             return dataResult;
+        }
+
+        [HttpPost]
+        public DataResult UpdateCartData(string ProId, int amount)
+        {
+            DataResult data = new DataResult();
+            Tuple<bool,double> result = cartService.UpdateCart("cleny30", ProId, amount);
+            data.IsSuccess = result.Item1;
+            data.Result = result.Item2;
+            return data;
         }
     }
 }

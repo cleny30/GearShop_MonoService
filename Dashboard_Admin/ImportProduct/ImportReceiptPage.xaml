@@ -5,10 +5,148 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Dashboard_Admin.ImportProduct"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ImportReceiptPage">
+       d:DesignHeight="735" d:DesignWidth="1180"
+      Title="ImportReceiptPage" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <Grid >
+        <StackPanel Margin="0 12 0 0 " >
+            <DockPanel >
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Text="Import Receipts"
+                           Margin="30 10 0 20"></TextBlock>
+            </DockPanel>
+            <Grid Height="566" Width="1112">
+                <StackPanel Orientation="Horizontal">
+                    <!--STORE-->
+                    <Grid Width="500"  Margin="0 0 30 0" >
+                        <materialDesign:Card   Background="White" Margin="0,0,0,-73">
+                            <WrapPanel >
 
-    <Grid>
-        
+                                <Border BorderBrush="#FF673AB7" BorderThickness="2"   Margin="10">
+                                    <TextBlock FontSize="25" FontWeight="Bold" Text="IMPORT RECEIPTS" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                  Height="33" Width="500" Foreground="#FF673AB7" Background="#FFCFD8DC" x:Name="titleChange"/>
+                                </Border>
+                                <DataGrid x:Name="ImportReceiptDataGrid" Background="White" AutoGenerateColumns="False" IsReadOnly="True"  Height="511" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="ID" Binding="{Binding ReceiptId}" Width="50" />
+                                        <DataGridTextColumn Header="Person In Charge" Binding="{Binding PersonChange}" Width="150"/>
+                                        <DataGridTextColumn Header="Date" Binding="{Binding DateImport}" Width="100"/>
+                                        <DataGridTextColumn Header="Total Price" Width="100">
+                                            <DataGridTextColumn.Binding>
+                                                <MultiBinding StringFormat="{}{0:C}">
+                                                    <Binding Path="Payment"/>
+                                                </MultiBinding>
+                                            </DataGridTextColumn.Binding>
+                                        </DataGridTextColumn>
+                                        <DataGridTemplateColumn Width="100">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button Width="50" Style="{StaticResource MaterialDesignRaisedButton}" Click="ViewButton_Click">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <materialDesign:PackIcon Kind="EyeSettings" />
+                                                                <TextBlock Text="S" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                            </StackPanel>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Grid  HorizontalAlignment="Center" Width="500" Height="56">
+                                    <Button x:Name="PreviousPageButton"  Click="PreviousPageButton_Click" Content="Previous" Width="100" Margin="139,10,261,14"/>
+                                    <Border BorderBrush="#FF673AB7" BorderThickness="1" Margin="244,10,229,14" Padding="5">
+                                        <TextBlock Name="PageCount" VerticalAlignment="Center" FontSize="25"/>
+                                    </Border>
+                                    <Button  x:Name="NextPageButton"  Click="NextPageButton_Click" Content="Next" Width="100" Margin="276,10,0,14" HorizontalAlignment="Left"/>
+                                </Grid>
+                            </WrapPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                    <Grid Width="568" Height="557" >
+                        <!-- Your second Grid content here -->
+                        <materialDesign:Card   Background="White" Margin="0,0,0,-74" >
+                            <Grid>
+                                <!-- Define the Row Definitions -->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Border with TextBlock -->
+                                <Border Grid.Row="0" BorderBrush="#FF673AB7" BorderThickness="2" Margin="10">
+                                    <TextBlock FontSize="25" FontWeight="Bold" Text="INFORMATION" TextAlignment="Center"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Height="33" Width="548" Foreground="#FF673AB7" Background="#FFCFD8DC"/>
+                                </Border>
+                                <StackPanel Grid.Row="1">
+                                    <TextBlock FontSize="20" Foreground="#FF673AB7" FontWeight="Bold"  Margin="5 0 0 0">Invoice:</TextBlock>
+                                    <StackPanel Orientation="Horizontal" Margin="5 5 0 0">
+                                        <materialDesign:PackIcon Kind="CheckboxBlankCircle" Foreground="#FF673AB7" Width="20" Height="20" />
+                                        <TextBlock FontSize="15" FontWeight="Bold" Margin="0 0 5 0">ID:</TextBlock>
+                                        <TextBlock FontSize="15" Foreground="#FF673AB7" x:Name="ImportProductID">1</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"  Margin="5 5 0 0">
+                                        <materialDesign:PackIcon Kind="CheckboxBlankCircle" Foreground="#FF673AB7" Width="20" Height="20" />
+                                        <TextBlock FontSize="15" FontWeight="Bold" Margin="0 0 5 0">Person in Charge:</TextBlock>
+                                        <TextBlock FontSize="15" Foreground="#FF673AB7" x:Name="ImportProductName">Nguyen Huu Duy</TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"  Margin="5 5 0 0">
+                                        <materialDesign:PackIcon Kind="CheckboxBlankCircle" Foreground="#FF673AB7" Width="20" Height="20" />
+                                        <TextBlock FontSize="15" FontWeight="Bold" Margin="0 0 5 0">Issue Date:</TextBlock>
+                                        <TextBlock FontSize="15" Foreground="#FF673AB7" x:Name="ImportProductDate">5/10/2023</TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                                <!-- Centered Button -->
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                                <Grid Margin="0,0,0,0" Grid.Row="2">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="5" Height="392">
+                                        <DataGrid  AutoGenerateColumns="False" Margin="0,11,0,0" x:Name="ReceiptDataGrid" Height="381" IsReadOnly="True" >
+                                            <DataGrid.Resources>
+                                                <Style TargetType="DataGridColumnHeader">
+                                                    <Setter Property="Background" Value="DarkSlateBlue"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                    <Setter Property="Padding" Value="20 10 5 10"/>
+                                                </Style>
+                                                <Style TargetType="DataGridRow">
+                                                    <Setter Property="Background" Value="White"/>
+                                                </Style>
+                                            </DataGrid.Resources>
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="ID" Binding="{Binding ProId}" Width="100" />
+                                                <DataGridTextColumn Header="Product" Binding="{Binding ProName}" Width="150" />
+                                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="90" />
+                                                <DataGridTextColumn Header="Quantity" Binding="{Binding Amount}" Width="90" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </ScrollViewer>
+                                </Grid>
+                                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left" Margin="179,10,0,0" Width="389">
+                                    <TextBlock Foreground="#FF673AB7" FontSize="25"  FontWeight="Bold" Width="158" Margin="0 0 10 0">Total Money:</TextBlock>
+                                    <TextBlock FontSize="25" Name="TotalMoney"> 1000$</TextBlock>
+                                </StackPanel>
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+        <Grid x:Name="Overlay" Background="Transparent" Visibility="Collapsed">
+            <Grid Background="#80000000" Opacity="0.8"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
+                <TextBlock Text="Processing, please wait..." Foreground="White" HorizontalAlignment="Center" Margin="10"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

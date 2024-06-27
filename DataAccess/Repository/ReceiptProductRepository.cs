@@ -1,6 +1,8 @@
 ﻿using BusinessObject.Model.Entity;
 using BusinessObject.Model.Page;
 using DataAccess.IRepository;
+using ISUZU_NEXT.Server.Core.Extentions;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +40,27 @@ namespace DataAccess.Repository
             {
                 // Log the exception if necessary
                 return false;
+            }
+        }
+        public List<ReceiptProductModel> GetReceiptProducts(int ReceiptID)
+        {
+            List<ReceiptProduct> receiptProducts = new List<ReceiptProduct>();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                receiptProducts = dbContext.ReceiptProducts.Where(r => r.ReceiptId == ReceiptID).ToList();
+                List<ReceiptProductModel> list = new List<ReceiptProductModel>();
+                foreach (var item in receiptProducts)
+                {
+                    ReceiptProductModel receiptProduct = new ReceiptProductModel();
+                    receiptProduct.CopyProperties(item);
+                    list.Add(receiptProduct);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 

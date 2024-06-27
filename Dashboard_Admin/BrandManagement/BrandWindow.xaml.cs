@@ -1,18 +1,11 @@
 ﻿using BusinessObject.Model.Page;
 using DataAccess.Service;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Dashboard_Admin;
 using System.Windows.Controls;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
-using WPFStylingTest.CategoryManagement;
-
 namespace WPFStylingTest.BrandManagement
 {
     /// <summary>
@@ -22,7 +15,6 @@ namespace WPFStylingTest.BrandManagement
     {
         private readonly BrandService brandService;
         public ObservableCollection<BrandModel> MyItems { get; set; }
-
         public BrandWindow()
         {
             brandService = App.GetService<BrandService>();
@@ -33,7 +25,6 @@ namespace WPFStylingTest.BrandManagement
         private void LoadBrands()
         {
             var brands = brandService.GetBrandList();
-
             foreach(var brand in brands)
             {
                 var stackPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(10, 0, 0, 0) };
@@ -100,7 +91,6 @@ namespace WPFStylingTest.BrandManagement
                 this.DragMove();
             }
         }
-
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as System.Windows.Controls.Button;
@@ -118,7 +108,6 @@ namespace WPFStylingTest.BrandManagement
                 func.ShowDialog();
             }
         }
-
         private void DisableButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as System.Windows.Controls.Button;
@@ -145,7 +134,6 @@ namespace WPFStylingTest.BrandManagement
                 }
             }
         }
-
         private void EnableButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as System.Windows.Controls.Button;
@@ -172,19 +160,16 @@ namespace WPFStylingTest.BrandManagement
                 }
             }
         }
-
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             BrandFunc func = new BrandFunc(false, null);
             func.BrandFuncClosed += AddBrandWindow_Closed;
             func.ShowDialog();
         }
-
         private void AddBrandWindow_Closed(object sender, EventArgs e)
         {
             LoadBrands();
         }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
     }
 }

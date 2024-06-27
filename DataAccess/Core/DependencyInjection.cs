@@ -19,6 +19,9 @@ namespace DataAccess.Core
             services.AddScoped<IImportProductRepository, ImportProductRepository>();
             services.AddScoped<IReceiptProductRepository, ReceiptProductRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+            services.AddScoped<IManagerRepository, ManagerRepository>();
 
             services.AddScoped<AccountService>();
             services.AddScoped<BrandService>();
@@ -33,6 +36,9 @@ namespace DataAccess.Core
             services.AddScoped<ImportReceiptService>();
             services.AddScoped<ReceiptProductService>();
             services.AddScoped<CartService>();
+            services.AddScoped<OrderService>();
+            services.AddScoped<OrderDetailService>();
+            services.AddScoped<ManagerService>();
 
             // Other service registrations
         }

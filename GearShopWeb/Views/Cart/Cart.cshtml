@@ -5,6 +5,7 @@
 @model BusinessObject.Model.DataResult
 @{
     var list = Model.Result as List<BusinessObject.Model.Page.UserCartData>;
+    double cartPrice = 0;
 }
 
 <div class="container-fluid">
@@ -77,15 +78,10 @@
                             </a>
                         </td>
                         <td class="align-middle text-lg">
-                            @if (item.Product.Discount > 0)
-                            {
+                            @{                            
                                 var priceDiscount = item.Product.ProPrice - (item.Product.ProPrice * item.Product.Discount) / 100;
                                 priceDiscount = Math.Round(priceDiscount, 2);
-                                <span>$@priceDiscount</span>
-                            }
-                            else
-                            {
-                                <span>$@item.Product.ProPrice</span>
+                                <span id="dp-@item.Product.ProId">$@priceDiscount</span>
                             }
                         </td>
                         <td class="align-middle">
@@ -94,14 +90,14 @@
                                     <div class="input-group-btn">
                                         <button class="btn btn-primary btn-minus" onclick="handleDecrease(this)"><i class="fa fa-minus"></i></button>
                                     </div>
-                                    <input type="text" class="form-control bg-secondary border-0 text-center" id="cart-view-quan" data-proQuan ="@item.Product.ProQuan" value="@item.model.Quantity">
+                                    <input onchange="UpdateCart(this)" type="text" class="form-control bg-secondary border-0 text-center" data-proQuan="@item.Product.ProQuan" data-proID="@item.Product.ProId" value="@item.model.Quantity">
                                     <div class="input-group-btn">
                                         <button class="btn btn-primary btn-plus" onclick="handleIncrease(this)"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td class="align-middle text-lg max-w-5">
+                        <td id="total-@item.Product.ProId" class="align-middle text-lg max-w-5">
                             @item.model.Price
                         </td>
                         <td class="align-middle">
@@ -110,14 +106,15 @@
                             </button>
                         </td>
                     </tr>
-                }
 
+                    cartPrice += item.model.Price;
+                }
             </tbody>
         </table>
         <div class="bg-white w-[25%] mr-[15px] p-4 h-fit rounded-xl shadow-md">
             <div class="flex justify-between font-semibold text-2xl text-[#3D464D]">
                 <span>Total</span>
-                <span>$0</span>
+                <span id="cartPrice">$@cartPrice</span>
             </div>
             <button id="btnLogin" class="btn-common btn-common-lg w-full" style=" color: #fff;
     font-size: 1rem;

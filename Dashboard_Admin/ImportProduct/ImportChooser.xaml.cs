@@ -1,11 +1,7 @@
-﻿using BusinessObject.Model.Entity;
+﻿
 using BusinessObject.Model.Page;
-using DataAccess.Service;
 using System.Collections.ObjectModel;
 using System.Windows;
-using WPFStylingTest;
-
-
 namespace Dashboard_Admin.ImportProduct
 {
     /// <summary>
@@ -30,8 +26,6 @@ namespace Dashboard_Admin.ImportProduct
             InsertData();
             _IsUpdate = isUpdate;
         }
-
-
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             // Check if the product should be updated
@@ -96,7 +90,6 @@ namespace Dashboard_Admin.ImportProduct
             this.Close();
 
         }
-
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Check if the left mouse button was pressed
@@ -106,9 +99,7 @@ namespace Dashboard_Admin.ImportProduct
                 this.DragMove();
             }
         }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
-
         private void InsertData()
         {
             txtProductName.Text = _product.ProName;
@@ -117,7 +108,6 @@ namespace Dashboard_Admin.ImportProduct
                 txtProductPrice.Text = _product.ProPrice.ToString();
                 txtProductQuantity.Text = _product.ProQuan.ToString();
             }
-
         }
     }
 }

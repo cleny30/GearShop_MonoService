@@ -1,15 +1,10 @@
 ﻿using DataAccess.Service;
-using System.Drawing;
-using System.Globalization;
 using System.Windows;
-using System.Windows.Data;
 using WPFStylingTest.CategoryManagement;
 using Dashboard_Admin;
-using System;
 using BusinessObject.Model.Page;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
-using static MaterialDesignThemes.Wpf.Theme;
 using MaterialDesignThemes.Wpf;
 using System.Windows.Media;
 namespace WPFStylingTest
@@ -21,20 +16,16 @@ namespace WPFStylingTest
     {
         private readonly CategoryService categoryService;
         public ObservableCollection<CategoryModel> MyItems { get; set; }
-
         public CategoryWindow()
         {
             categoryService = App.GetService<CategoryService>();
             this.DataContext = this;
             InitializeComponent();
             LoadCategory();
-          
-
         }
         private void LoadCategory()
         {
             var categories = categoryService.GetCategoryList();
-
             foreach (var category in categories)
             {
                 var stackPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(10, 0, 0, 0) };
@@ -108,7 +99,6 @@ namespace WPFStylingTest
                 this.DragMove();
             }
         }
-
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             
@@ -128,7 +118,6 @@ namespace WPFStylingTest
                 func.ShowDialog();
             }
          }
-
         private void DisableButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as System.Windows.Controls.Button;
@@ -155,8 +144,6 @@ namespace WPFStylingTest
                 }               
             }
         }
-
-
         private void EnableButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as System.Windows.Controls.Button;
@@ -189,12 +176,10 @@ namespace WPFStylingTest
             func.CategoryFuncClosed += AddCategoryWindow_Closed;
             func.ShowDialog();
         }
-
         private void AddCategoryWindow_Closed(object sender, EventArgs e)
         {
             LoadCategory();
         }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
     } 
 }
