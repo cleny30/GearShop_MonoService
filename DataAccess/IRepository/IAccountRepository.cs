@@ -11,6 +11,7 @@ namespace DataAccess.IRepository
         public bool ChangePassword(string username, string newPassword);
         public bool Regist(AccountModel userRegist);
         public AccountModel GetAccount<T>(Expression<Func<Customer, bool>> filterExpression);
+        public AccountModel GetAccountByUsername(string username);
         public bool UpdateCustomerInfor(AccountModel accountModel);
 
     }

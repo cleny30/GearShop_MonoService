@@ -23,7 +23,7 @@ namespace DataAccess.Repository
                 foreach (var orderDetail in orderDetails)
                 {
                     OrderDetailModel _orderDetail = new OrderDetailModel();
-                    _orderDetails.CopyProperties(_orderDetail);
+                    _orderDetail.CopyProperties(orderDetail);
                     _orderDetails.Add(_orderDetail);
                 }
 

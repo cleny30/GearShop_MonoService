@@ -25,7 +25,6 @@ namespace WPFStylingTest.BrandManagement
         private void LoadBrands()
         {
             var brands = brandService.GetBrandList();
-
             foreach(var brand in brands)
             {
                 var stackPanel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(10, 0, 0, 0) };

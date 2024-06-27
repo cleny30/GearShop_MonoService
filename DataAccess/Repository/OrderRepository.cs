@@ -82,15 +82,32 @@ namespace DataAccess.Repository
                 {
                     order = new Order
                     {
-                        OrderId = _order.OrderId,   
+                        OrderId = _order.OrderId,
+                        Address = _order.Address,
+                        EndDate= _order.EndDate,
+                        StartDate= _order.StartDate,
+                        ManagerId = _order.ManagerId,
+                        OrderDes= _order.OrderDes,
+                        Username = _order.Username,
+                        Fullname = _order.Fullname,
+                        Phone = _order.Phone,
+                        TotalPrice= _order.TotalPrice,
                         Status = Status,
                     };
+
+                    if(Status == 4)
+                    {
+                        order.EndDate = DateOnly.FromDateTime(DateTime.Now);
+                    }
                     dbContext.Entry<Order>(order).State = EntityState.Modified;
                     int check = dbContext.SaveChanges();
 
                     if(check > 0)
                     {
                         return true;
+                        /*
+                         * Add SignalR Here
+                         */
                     }
                     else
                     {
@@ -107,6 +124,7 @@ namespace DataAccess.Repository
                 return false;
             }
         }
+        
 
         /// <summary>
         /// Get Order List of customer

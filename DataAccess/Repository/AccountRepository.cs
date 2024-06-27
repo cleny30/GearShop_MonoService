@@ -115,6 +115,22 @@ namespace DataAccess.Repository
             return null;
         }
 
+        public AccountModel GetAccountByUsername(string username)
+        {
+
+            using (var dbContext = new PrndatabaseContext())
+            {
+                Customer? customer = dbContext.Customers.Where(a => a.Username.Equals(username)).SingleOrDefault();
+                if (customer != null)
+                {
+                    var account = new AccountModel();
+                    account.CopyProperties(customer);
+                    return account;
+                }
+            }
+            return null;
+        }
+
 
         /// <summary>
         /// Update Customer Addcount

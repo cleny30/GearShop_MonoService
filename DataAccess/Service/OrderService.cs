@@ -12,18 +12,27 @@ namespace DataAccess.Service
     public class OrderService
     {
         private readonly IOrderRepository _repository;
-        public OrderService()
-        {
-            _repository = new OrderRepository();
-        }
+        private readonly AccountService _accountService;
 
+        public OrderService(IOrderRepository repo, AccountService accountService)
+        {
+            _repository = repo;
+            _accountService = accountService;
+        }
         public List<OrderModel> GetOrderList()
         {
-            return _repository.GetOrderList();
+            List<OrderModel> orderList = _repository.GetOrderList();
+            return orderList;
         }
         public OrderModel GetOrderByID(string ID)
         {
-            return _repository.GetOrderByID(ID);
+            OrderModel order = _repository.GetOrderByID(ID);
+            AccountModel account = _accountService.getAccount(order.Username);
+            order.Fullname = account.Fullname;
+            order.Phone = account.Phone;
+            order.Email = account.Email;
+
+            return order;
         }
         public bool ChangeOrderStatus(OrderModel _order, int Status)
         {

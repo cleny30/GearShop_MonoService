@@ -13,6 +13,10 @@ namespace DataAccess.Service
     {
         private readonly IOrderDetailRepository _repo;
 
+        public OrderDetailService(IOrderDetailRepository repo)
+        {
+            _repo = repo;
+        }
 
         public OrderDetailService(IOrderDetailRepository accountRepository)
         {
