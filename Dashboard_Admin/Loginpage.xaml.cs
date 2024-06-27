@@ -42,6 +42,7 @@ namespace Dashboard_Admin
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            Overlay.Visibility = Visibility.Visible;
             bool? isChecked = RememberMeCheckbox.IsChecked;
             if (Verification())
             {
@@ -64,10 +65,13 @@ namespace Dashboard_Admin
                         File.WriteAllText(filePath, jsonContent);
                     }
                 }
-
+                Overlay.Visibility = Visibility.Collapsed;
                 MainWindow main = new MainWindow();
                 main.Show();
                 this.Close();
+            } else
+            {
+                Overlay.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -90,7 +94,7 @@ namespace Dashboard_Admin
                 errorUsername.Text = "Username does not exist";
                 Check = false;
             }
-
+            
             return Check;
         }
 
