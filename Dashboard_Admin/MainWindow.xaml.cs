@@ -1,8 +1,11 @@
-﻿using Dashboard_Admin.ImportProduct;
+﻿using Dashboard_Admin;
+using Dashboard_Admin.ImportProduct;
 using Dashboard_Admin.OrderManagement;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -51,6 +54,21 @@ namespace WPFStylingTest
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            string FilePath = "RememberMe.json";
+            var settings = new Settings { RememberMe = false };
+            string jsonContent = JsonSerializer.Serialize(settings);
+
+            File.WriteAllText(FilePath, jsonContent);
+            Loginpage loginpage = new Loginpage();
+            this.Close();
+            loginpage.Show();  
+        }
+        public class Settings
+        {
+            public bool RememberMe { get; set; }
         }
     }
 }

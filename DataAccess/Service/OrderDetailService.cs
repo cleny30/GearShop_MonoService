@@ -12,6 +12,10 @@ namespace DataAccess.Service
     {
         private readonly IOrderDetailRepository _repo;
 
+        public OrderDetailService(IOrderDetailRepository repo)
+        {
+            _repo = repo;
+        }
         public List<OrderDetailModel> GetOrderDetailList(OrderModel order)
         {
             return _repo.GetOrderDetailList(order); 
