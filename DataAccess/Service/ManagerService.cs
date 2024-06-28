@@ -16,14 +16,14 @@ namespace DataAccess.Service
             _repository = repo;
         }
 
-        public bool CheckUsernameExisted(string username)
+        public async Task<bool> CheckUsernameExistedAsync(string username)
         {
-            return _repository.CheckUsernameExisted(username);
+            return await _repository.CheckUsernameExistedAsync(username);
         }
 
-        public bool CheckManagerExisted(string username, string password)
+        public async Task<bool> CheckManagerExistedAsync(string username, string password)
         {
-            return !_repository.CheckManagerExisted(username, password);
+            return await _repository.CheckManagerExistedAsync(username, password);
         }
     }
 }

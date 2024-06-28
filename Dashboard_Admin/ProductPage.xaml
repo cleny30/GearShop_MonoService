@@ -33,23 +33,28 @@
                                
                                Style="{StaticResource MaterialDesignPaperButton}"
                                     Background="White" Foreground="Purple" BorderBrush="Purple"
-                               ToolTip="Resource name: MaterialDesignPaperButton" Margin="0,9,250,20" Click="AddProductButton_Click" Grid.Column="1"
+                               ToolTip="Resource name: MaterialDesignPaperButton" Margin="314,10,312,19" Click="AddProductButton_Click" Grid.ColumnSpan="2"
                                  />
 
                                 <Button
                                  Width="auto" Content="Categories" 
                                     Style="{StaticResource MaterialDesignPaperButton}"
                                     Background="White" Foreground="Purple" BorderBrush="Purple"
-                                    ToolTip="Resource name: MaterialDesignPaperButton" Margin="141,9,132,20" Grid.Column="1" Click="CategoryButton_Click"/>
+                                    ToolTip="Resource name: MaterialDesignPaperButton" Margin="85,9,187,20" Grid.Column="1" Click="CategoryButton_Click"/>
 
                                 <Button Width="auto" Content="Brands" 
                                         Style="{StaticResource MaterialDesignPaperButton}" 
                                         Background="White" Foreground="Purple" BorderBrush="Purple"
-                                        ToolTip="Resource name: MaterialDesignPaperButton" Margin="261,9,36,20" Grid.Column="1" Click="BrandButton_Click" RenderTransformOrigin="0.419,-0.105"/>
+                                        ToolTip="Resource name: MaterialDesignPaperButton" Margin="205,9,92,20" Grid.Column="1" Click="BrandButton_Click" RenderTransformOrigin="0.419,-0.105"/>
+
+                                <Button Width="auto" Content="Show Disable Products" 
+                                        Style="{StaticResource MaterialDesignPaperButton}" 
+                                        Background="White" Foreground="Purple" BorderBrush="Purple" Name="DisableProduct"
+                                        ToolTip="Resource name: MaterialDesignPaperButton" Margin="304,9,271,20" Grid.Column="1" Click="ShowButton_Click" RenderTransformOrigin="0.419,-0.105" Grid.ColumnSpan="2"/>
 
 
                             </Grid>
-                            <StackPanel Orientation="Horizontal" Margin="10" Width="652">
+                            <StackPanel Orientation="Horizontal" Margin="10" Width="656">
                                 <TextBox x:Name="SearchTextBox" Width="200" Margin="0 0 10 0" Height="25"  materialDesign:HintAssist.Hint="Search by Name"/>
                                 <ComboBox Name="cbBrand" SelectedIndex="0" VerticalAlignment="Top" Height="28" Margin="10 0 10 0" Width="114" />
                                 <ComboBox Name="cbCategory" SelectedIndex="0"  VerticalAlignment="Top" Height="28"   Margin="10 0 10 0" Width="114"/>
