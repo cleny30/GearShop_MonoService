@@ -40,11 +40,11 @@ namespace Dashboard_Admin
             }
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             Overlay.Visibility = Visibility.Visible;
             bool? isChecked = RememberMeCheckbox.IsChecked;
-            if (Verification())
+            if (await VerificationAsync())
             {
                 MessageBox.Show("Login Successfully");
                 if (isChecked == true)
@@ -77,24 +77,26 @@ namespace Dashboard_Admin
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) => this.Close();
 
-        private bool Verification()
+        private async Task<bool> VerificationAsync()
         {
             bool Check = true;
             errorUsername.Text = "";
             errorPassword.Text = "";
-            if (managerService.CheckUsernameExisted(txtUsername.Text))
+
+            if (await managerService.CheckUsernameExistedAsync(txtUsername.Text))
             {
-                if(managerService.CheckManagerExisted(txtUsername.Text, txtPassword.Password))
+                if (!await managerService.CheckManagerExistedAsync(txtUsername.Text, txtPassword.Password))
                 {
                     errorPassword.Text = "Username or Password does not exist";
                     Check = false;
-                } 
-            } else
+                }
+            }
+            else
             {
                 errorUsername.Text = "Username does not exist";
                 Check = false;
             }
-            
+
             return Check;
         }
 

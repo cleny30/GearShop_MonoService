@@ -36,7 +36,7 @@
                 <Grid Background="#80000000" Opacity="0.8"/>
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
-                    <TextBlock Text="Processing, please wait..." Foreground="White" HorizontalAlignment="Center" Margin="10"/>
+                    <TextBlock Text="We are checking credential, please wait..." Foreground="White" HorizontalAlignment="Center" Margin="10"/>
                 </StackPanel>
             </Grid>
         </Grid>
