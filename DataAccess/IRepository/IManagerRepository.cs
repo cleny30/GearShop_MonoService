@@ -8,7 +8,7 @@ namespace DataAccess.IRepository
 {
     public interface IManagerRepository
     {
-        public bool CheckUsernameExisted(string username);
-        public bool CheckManagerExisted(string username, string password);
+        Task<bool> CheckUsernameExistedAsync(string username);
+        Task<bool> CheckManagerExistedAsync(string username, string password);
     }
 }

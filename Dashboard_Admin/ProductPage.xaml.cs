@@ -50,16 +50,17 @@ namespace WPFStylingTest
             productAttributeService = App.GetService<ProductAttributeService>();
             DataContext = this;
             InitializeComponent();
-            LoadStudents();
+            LoadProducts(true);
             InitialSearch();
         }
 
         //Load The List
-        private void LoadStudents()
+        private void LoadProducts(Boolean IsAvailable)
         {
             List<ProductModel> productList = productService.GetProductList();
+            List<ProductModel> availableProducts = productList.Where(p => p.IsAvailable == IsAvailable).ToList();
             // Convert the List to an ObservableCollection
-            products = new ObservableCollection<ProductModel>(productList);
+            products = new ObservableCollection<ProductModel>(availableProducts);
             // Initially, filteredStudents is the same as students
             filteredProducts = new ObservableCollection<ProductModel>(products);
             // Display data for the current page
@@ -118,7 +119,7 @@ namespace WPFStylingTest
         private void AddProductWindow_AddProductWindowClosed(object sender, EventArgs e)
         {
             Reset();
-            LoadStudents();
+            LoadProducts(true);
         }
 
         //Open The Category Page
@@ -161,6 +162,19 @@ namespace WPFStylingTest
         {
             InitialSearch();
             Reset();
+        }
+
+        private void ShowButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(DisableProduct.Content == "Show Enable Products")
+            {
+                LoadProducts(true);
+                DisableProduct.Content = "Show Disable Products";
+            } else
+            {
+                LoadProducts(false);
+                DisableProduct.Content = "Show Enable Products";
+            }
         }
 
         //Reset

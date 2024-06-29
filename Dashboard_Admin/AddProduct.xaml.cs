@@ -18,7 +18,7 @@ namespace WPFStylingTest
     /// </summary>
     public partial class AddProduct : Window
     {
-        
+
 
         private List<string> attributesList = new List<string>();
         private List<string> descriptionsList = new List<string>();
@@ -61,7 +61,7 @@ namespace WPFStylingTest
 
             InitializeComponent();
             InitializeBrand();
-            InputDataForUpdating();            
+            InputDataForUpdating();
         }
 
         //Select Files for image
@@ -88,7 +88,7 @@ namespace WPFStylingTest
             Button button = sender as Button;
             string fileName = button.Tag as string;
             if (fileName != null && SelectedFiles.Contains(fileName))
-            {               
+            {
                 if (_IsUpdate)
                 {
                     SelectedFilesDelete.Add(fileName);
@@ -126,7 +126,8 @@ namespace WPFStylingTest
             {
                 Content = "Delete",
                 Margin = new Thickness(5, 5, 0, 5),
-                VerticalAlignment = VerticalAlignment.Top
+                VerticalAlignment = VerticalAlignment.Top,
+                Name = "Delete",
             };
             // Attach the event handler to the Delete Button
             deleteButton.Click += (s, args) => DeleteRow(newPanel);
@@ -183,7 +184,7 @@ namespace WPFStylingTest
         private void cbCategory_Loaded(object sender, RoutedEventArgs e)
         {
             cbCategory.ItemsSource = categoryService.GetCategoryList();
-            if(_IsUpdate == true)
+            if (_IsUpdate == true)
             {
                 cbCategory.SelectedValue = _Product.CateId;
             }
@@ -193,7 +194,7 @@ namespace WPFStylingTest
         //Action when change category
         private void cbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(_IsUpdate == false)
+            if (_IsUpdate == false)
             {
                 int categoryModel = (int)cbCategory.SelectedValue;
                 if (categoryModel != null)
@@ -250,7 +251,7 @@ namespace WPFStylingTest
 
                 if (Validation())
                 {
-                    if(_IsUpdate == false)
+                    if (_IsUpdate == false)
                     {
                         ProductData model = new ProductData
                         {
@@ -260,11 +261,11 @@ namespace WPFStylingTest
                             CateId = (int)cbCategory.SelectedValue,
                             BrandId = (int)cbBrand.SelectedValue,
                             Discount = int.Parse(txtProductDiscount.Text),
-                            ProDes = txtProductDescription.Text, 
+                            ProDes = txtProductDescription.Text,
                             IsAvailable = true
                         };
 
-                        
+
                         List<string> imageLink = new List<string>();
                         foreach (string items in SelectedFiles)
                         {
@@ -278,7 +279,8 @@ namespace WPFStylingTest
                         MessageBox.Show("Insert Successful");
                         this.Close();
                         AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
-                    } else
+                    }
+                    else
                     {
                         /*
                          * 1. Update Product
@@ -301,7 +303,8 @@ namespace WPFStylingTest
                         };
 
                         List<string> deleteList = new List<string>();
-                        foreach(string items in SelectedFilesDelete) {
+                        foreach (string items in SelectedFilesDelete)
+                        {
                             bool delete = await cloud.Delete(items);
                             deleteList.Add(items);
                         }
@@ -564,7 +567,6 @@ namespace WPFStylingTest
             if (_IsUpdate == true)
             {
                 Title.Text = "UPDATE " + _Product.ProId;
-                OverlayUpdate.Visibility = Visibility.Visible;
                 //Add Into Product
                 txtProductID.Text = _Product.ProId;
                 txtProductName.Text = _Product.ProName;
@@ -574,10 +576,31 @@ namespace WPFStylingTest
                 cbBrand.SelectedValue = _Product.BrandId;
                 cbCategory.IsEnabled = false;
 
+                //Disable for readonly
+                txtProductID.IsEnabled = false;
+                txtProductName.IsEnabled = false;
+                txtProductPrice.IsEnabled = false;
+                txtProductDiscount.IsEnabled = false;
+                txtProductDescription.IsEnabled = false;
+                cbBrand.IsEnabled = false;
+                SelectedFileButton.IsEnabled = false;
+                AddDescriptionButton.IsEnabled = false;
+                SubmitButton.IsEnabled = false;
+                OverlayUpdate.Visibility = Visibility.Visible;
+                OverlayAttribute.Visibility = Visibility.Visible;
+                OverlayImage.Visibility = Visibility.Visible;
+
+                if (!_Product.IsAvailable)
+                {
+                    DisableButton.Content = "Enable";
+                }
+                DisableButton.Visibility = Visibility.Visible;
+                DisableButton.IsEnabled = false;
+
                 //Add Into Product Image
                 foreach (ProductImageModel fileName in _ProductImage)
                 {
-                  SelectedFiles.Add(fileName.ProImg);
+                    SelectedFiles.Add(fileName.ProImg);
                 }
 
                 foreach (ProductAttributeModel attribute in _ProductAttribute)
@@ -598,7 +621,56 @@ namespace WPFStylingTest
 
         private void Enable_Click(object sender, RoutedEventArgs e)
         {
+            txtProductID.IsEnabled = true;
+            txtProductName.IsEnabled = true;
+            txtProductPrice.IsEnabled = true;
+            txtProductDiscount.IsEnabled = true;
+            txtProductDescription.IsEnabled = true;
+            cbBrand.IsEnabled = true;
+            SelectedFileButton.IsEnabled = true;
+            AddDescriptionButton.IsEnabled = true;
+            SubmitButton.IsEnabled = true;
+            DisableButton.IsEnabled = true;
             OverlayUpdate.Visibility = Visibility.Collapsed;
+            OverlayAttribute.Visibility = Visibility.Collapsed;
+            OverlayImage.Visibility = Visibility.Collapsed;
+        }
+
+        private async void Disable_Click(object sender, RoutedEventArgs e)
+        {
+            if (_Product.IsAvailable == true)
+            {
+                // Show a message box to confirm disabling
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to disable this product?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Overlay.Visibility = Visibility.Collapsed;
+                    if(await productService.ChangeProductStatus(_Product, false))
+                    {
+                        MessageBox.Show("Disable Product Successfully!");
+                        this.Close();
+                        AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+               
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to enable this product?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    Overlay.Visibility = Visibility.Collapsed;
+                    if (await productService.ChangeProductStatus(_Product, true))
+                    {
+                        MessageBox.Show("Enable Product Successfully!");
+                        this.Close();
+                        AddProductWindowClosed?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+                
+            }
         }
     }
 }
