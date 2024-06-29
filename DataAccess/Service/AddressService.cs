@@ -27,7 +27,7 @@ namespace DataAccess.Service
         {
   
             deliveryAddressModel.Username = username;
-            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address);
+            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address, deliveryAddressModel.IsDefault);
             if (existingAddressItem != null)
             {
                 return false; // address already exist 
@@ -44,6 +44,7 @@ namespace DataAccess.Service
 
                     deliveryAddressModel.Id = newestAddressId + 1;
                     _deliveryAddressRepository.AddNewAddress(deliveryAddressModel);
+                    _deliveryAddressRepository.CheckAllFalse(username);
                     return true;
                 }
             }
@@ -51,7 +52,7 @@ namespace DataAccess.Service
 
         public bool UpdateAddress(DeliveryAddressModel deliveryAddressModel)
         {
-            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address);
+            var existingAddressItem = _deliveryAddressRepository.FindExistingAddressItem(deliveryAddressModel.Username, deliveryAddressModel.Phone, deliveryAddressModel.Fullname, deliveryAddressModel.Address, deliveryAddressModel.IsDefault);
             if (existingAddressItem != null)
             {
                 return false; // Address already exist 
@@ -59,18 +60,22 @@ namespace DataAccess.Service
             else
             {
                 _deliveryAddressRepository.UpdateAddress(deliveryAddressModel);
+                _deliveryAddressRepository.CheckAllFalse(deliveryAddressModel.Username);
                 return true;
             }
         }
 
         public bool DeleteAddress(string username, int id)
         {
-            return _deliveryAddressRepository.DeleteAddress(username, id);
+            _deliveryAddressRepository.DeleteAddress(username, id);
+            _deliveryAddressRepository.CheckAllFalse(username);
+            return true;
         }
 
         public List<DeliveryAddressModel> GetAddressListByUsername(string userName)
         {
             List<DeliveryAddressModel> AddressList = _deliveryAddressRepository.GetAddressByUsername(userName).OrderByDescending(address => address.IsDefault).ToList();
+ 
             return AddressList;
         }
     }

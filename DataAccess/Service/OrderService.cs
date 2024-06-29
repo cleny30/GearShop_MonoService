@@ -27,10 +27,7 @@ namespace DataAccess.Service
         public OrderModel GetOrderByID(string ID)
         {
             OrderModel order = _repository.GetOrderByID(ID);
-            AccountModel account = _accountService.getAccount(order.Username);
-            order.Fullname = account.Fullname;
-            order.Phone = account.Phone;
-            order.Email = account.Email;
+            
 
             return order;
         }

@@ -31,10 +31,6 @@ namespace BusinessObject.Model.Page
 
         public string Address { get; set; } = null!;
 
-        public string Fullname { get; set; } = null!;
-
-        public string Phone { get; set; } = null!;
-
         public string Email { get; set; } = null!;
 
         public virtual Manager? Manager { get; set; }

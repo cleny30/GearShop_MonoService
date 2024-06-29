@@ -6,14 +6,21 @@ function UpdateAddress(button) {
     const address = button.getAttribute('data-address');
     const addressID = button.getAttribute('data-ID');
     const isdefault = button.getAttribute('data-isdefault')
-
+    const checkbox = document.getElementById('defaultAddress');
     // Populate the form fields with the existing data
     document.getElementById('idUpdate').value = addressID;
     document.getElementById('fullnameUpdate').value = fullname;
     document.getElementById('phonenumUpdate').value = phone;
     document.getElementById('addressUpdate').value = address;
     document.getElementById('specificAddressUpdate').value = address;
-    document.getElementById('defaultAddress').value = isdefault;
+
+    if (isdefault === 'True') {
+        checkbox.checked = true;
+        checkbox.disabled = true; // Disable the checkbox if it's checked
+    } else {
+        checkbox.checked = false;
+        checkbox.disabled = false; // Enable the checkbox if it's not checked
+    }
     document.getElementById('updateAddressForm').setAttribute('data-addressID', addressID);
 
     // Show the popup form
@@ -24,13 +31,6 @@ function closeUpdateAddressForm() {
     // Hide the popup form
     document.getElementById('updateAddressForm').classList.add('hidden');
 }
-
-
-
-
-
-
-
 
 
 ////////////////////////////////
@@ -48,18 +48,10 @@ function toggleUpdateAddressForm() {
     const formOverlay = document.getElementById('updateAddressForm');
     formOverlay.classList.toggle('hidden');
 }
-function closeUpdateAddressForm() {
-    // Close the add new address form
-    document.querySelector('.popup-overlay-update').style.display = 'none';
-}
 
 function toggleAddNewAddressForm() {
     const formOverlay = document.getElementById('addAddressForm');
     formOverlay.classList.toggle('hidden');
-}
-function closeAddNewAddressForm() {
-    // Close the add new address form
-    document.querySelector('.popup-overlay').style.display = 'none';
 }
 
 function AddNewAddress() {
@@ -163,7 +155,8 @@ function updateAddressField() {
     const districtsSelect = document.getElementById('districts');
     const wardsSelect = document.getElementById('wards');
     const addressInput = document.getElementById('address');
-    const specificAddressInput = document.getElementById("specificAddress")
+    const specificAddressInput = document.getElementById("specificAddress");
+
     // Lấy giá trị đã chọn từ các dropdown
 
     const provinceText = provincesSelect.options[provincesSelect.selectedIndex].text;
@@ -263,25 +256,6 @@ async function getWardsUpdate(event) {
         console.error('Error fetching wards:', error);
     }
 }
-
-function AddressFieldUpdate() {
-    const provincesSelect = document.getElementById('provincesUpdate');
-    const districtsSelect = document.getElementById('districtsUpdate');
-    const wardsSelect = document.getElementById('wardsUpdate');
-    const addressInput = document.getElementById('addressUpdate');
-    const specificAddressInput = document.getElementById("specificAddressUpdate")
-    // Lấy giá trị đã chọn từ các dropdown
-
-    const provinceText = provincesSelect.options[provincesSelect.selectedIndex].text;
-    const districtText = districtsSelect.options[districtsSelect.selectedIndex].text;
-    const wardText = wardsSelect.options[wardsSelect.selectedIndex].text;
-
-    // Cập nhật giá trị vào ô input
-    addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
-    specificAddressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
-}
-
-
 
 
 

@@ -5,6 +5,7 @@ using ISUZU_NEXT.Server.Core.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,15 +26,7 @@ namespace DataAccess.Repository
                     DeliveryAddress deliveryAddress = new DeliveryAddress();
                     deliveryAddress.CopyProperties(deliAddressModel);
 
-                    if (deliAddressModel.IsDefault)
-                    {
-                        // Find all addresses with the same username and set their isDefault to false
-                        var otherAddresses = dbContext.DeliveryAddresses.Where(p => p.Username == deliveryAddress.Username).ToList();
-                        foreach (var address in otherAddresses)
-                        {
-                            address.IsDefault = false;
-                        }
-                    }
+               
                     dbContext.DeliveryAddresses.Add(deliveryAddress);
                     dbContext.SaveChanges();
                     return true;
@@ -74,11 +67,11 @@ namespace DataAccess.Repository
         /// <param name="address"></param>
         /// <param name="fullname"></param>
         /// <returns></returns>
-        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address)
+        public DeliveryAddressModel? FindExistingAddressItem(string username, string phoneNumber, string fullname, string address, bool isdefault)
         {
             using (var context = new PrndatabaseContext())
             {
-                var deliveryAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Username == username && c.Phone == phoneNumber && c.Fullname == fullname && c.Address == address);
+                var deliveryAddress = context.DeliveryAddresses.FirstOrDefault(c => c.Username == username && c.Phone == phoneNumber && c.Fullname == fullname && c.Address == address && c.IsDefault == isdefault);
                 if (deliveryAddress != null)
                 {
                     DeliveryAddressModel deliveryAddressModel = new DeliveryAddressModel();
@@ -88,6 +81,29 @@ namespace DataAccess.Repository
                 return null;
             }
         }
+
+        public void CheckAllFalse(string username)
+        {
+            using (var context = new PrndatabaseContext())
+            {
+                bool hasDefaultAddress = context.DeliveryAddresses.Any(c => c.Username == username && c.IsDefault == true);
+                if (!hasDefaultAddress)
+                {
+                    var firstAddress = context.DeliveryAddresses
+                                              .Where(c => c.Username == username)
+                                              .OrderBy(c => c.Id)
+                                              .FirstOrDefault();
+
+                    if (firstAddress != null)
+                    {
+                        firstAddress.IsDefault = true;
+                        context.SaveChanges();
+                    }
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Update user's Address
@@ -109,16 +125,7 @@ namespace DataAccess.Repository
                         existingAddress.Specific = deliveryAddressModel.Specific;
        
 
-                        // Check if isDefault is being set to true
-                        if (deliveryAddressModel.IsDefault)
-                        {
-                            // Find all addresses with the same username and set their isDefault to false
-                            var otherAddresses = context.DeliveryAddresses.Where(p => p.Username == deliveryAddressModel.Username && p.Id != existingAddress.Id ).ToList();
-                            foreach (var address in otherAddresses)
-                            {
-                                address.IsDefault = false;
-                            }
-                        }
+                  
 
                         existingAddress.IsDefault = deliveryAddressModel.IsDefault;
                         context.SaveChanges();

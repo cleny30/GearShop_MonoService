@@ -9,18 +9,21 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\Address.js" />
     <Content Remove="wwwroot\js\AddressValidate.js" />
+    <Content Remove="wwwroot\js\login\AddressNotification.js" />
     <Content Remove="wwwroot\js\OrderDetailForm.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\Address.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\AddressValidate.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\login\AddressNotification.js" />
     <_ContentIncludedByDefault Remove="wwwroot\js\OrderDetailForm.js" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\Address.js" />
     <None Include="wwwroot\js\AddressValidate.js" />
+    <None Include="wwwroot\js\AddressNotification.js" />
     <None Include="wwwroot\js\OrderDetailForm.js" />
   </ItemGroup>
 

@@ -18,11 +18,6 @@ namespace DataAccess.Service
             _repo = repo;
         }
 
-        public OrderDetailService(IOrderDetailRepository accountRepository)
-        {
-            _repo = accountRepository;
-        }
-
         public List<OrderDetailModel> GetOrderDetailList(OrderModel order)
         {
             return _repo.GetOrderDetailList(order); 

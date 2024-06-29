@@ -73,8 +73,6 @@ $('form.add_address_form').submit(function (event) {
     } else {
         hideError('phoneNumber');
     }
-
-
     if (!address) {
         showError('address', 'Please enter address');
         noError = false;
@@ -91,6 +89,59 @@ $('form.add_address_form').submit(function (event) {
 });
 
 
+$('form.changepw').submit(function (event) {
+    var oldpassword = getValueById('pwrs');
+    var newpassword = getValueById('newPass');
+    var repassword = getValueById('newPassConfirm');
+
+    var noError = true;
+
+
+    if (!oldpassword) {
+        showError('pwrs', 'Please enter your current passowrd');
+        noError = false;
+    } else if (oldpassword.length > 30) {
+        showError('pwrs', ' your current passowrd must be less than 30 characters!');
+        noError = false;
+    } else {
+        hideError('pwrs');
+    }
+
+    var passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])/;
+
+    if (!newpassword) {
+        showError('newPass', 'Please enter your new password !!');
+        noError = false;
+    } else if (newpassword.length <= 6) {
+        showError('newPass', 'Your new password must be more than 6 characters!');
+        noError = false;
+    } else if (!passwordRegex.test(newpassword)) {
+        showError('newPass', 'Your new password must have at least one uppercase letter and one special character!');
+        noError = false;
+    } else if (newpassword.length > 30) {
+        showError('pwrs', ' your new passowrd must be less than 30 characters!');
+        noError = false;
+    } else {
+        hideError('newPass');
+    }
+
+    if (!repassword) {
+        showError('newPassConfirm', 'Please enter your new password again');
+        noError = false;
+    } else if (repassword !== newpassword) {
+        showError('newPassConfirm', 'Passwords do not match!');
+        noError = false;
+    } else if (repassword.length > 30) {
+        showError('newPassConfirm', 'your new passowrd must be less than 30 characters!');
+        noError = false;
+    } else {
+        hideError('newPassConfirm');
+    }
+    if (!noError) {
+        event.preventDefault();
+    }
+
+});
 // Lấy giá tin input
 function getValueById(id) {
     return $('#' + id).val();
