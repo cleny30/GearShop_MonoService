@@ -1,5 +1,6 @@
 ﻿using BusinessObject.Model.Page;
 using DataAccess.IRepository;
+using DataAccess.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,7 @@ namespace DataAccess.Service
         public OrderModel GetOrderByID(string ID)
         {
             OrderModel order = _repository.GetOrderByID(ID);
-            AccountModel account = _accountService.getAccount(order.Username);
-            order.Fullname = account.Fullname;
-            order.Phone = account.Phone;
-            order.Email = account.Email;
+            
 
             return order;
         }
@@ -77,6 +75,9 @@ namespace DataAccess.Service
         public List<Tuple<string, double>> GetTop10Customer()
         {
             return _repository.GetTop10Customer().ToList();
+
+        public List<OrderDataModel> GetOrdersByCustomer(string username) { 
+        return _repository.GetOrderListByUser(username);
         }
     }
 }

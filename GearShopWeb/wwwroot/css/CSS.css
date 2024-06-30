@@ -6,7 +6,7 @@
 }
 .card{
     margin: auto;
-    width: 38%;
+    width: 250%;
     max-width:600px;
     padding: 4vh 0;
     box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -17,7 +17,7 @@
 }
 .card1{
     margin: auto;
-    width: 50%;
+    width: 38%;
     max-width:900px;
     border-radius: 5%;
     background-color: #fff;
@@ -27,6 +27,10 @@
     border-bottom: 5px solid rgb(252, 103, 49);
     border-left: none;
     border-right: none;
+    position:absolute;
+    top:0;
+    margin-top: 35px;
+    margin-left: 30%;
 }
 
 .card-address{

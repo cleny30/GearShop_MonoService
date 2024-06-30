@@ -22,6 +22,7 @@ namespace DataAccess.Core
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
             services.AddScoped<IManagerRepository, ManagerRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
 
             services.AddScoped<AccountService>();
             services.AddScoped<BrandService>();
@@ -39,6 +40,9 @@ namespace DataAccess.Core
             services.AddScoped<OrderService>();
             services.AddScoped<OrderDetailService>();
             services.AddScoped<ManagerService>();
+            services.AddScoped<OrderService>();
+            services.AddScoped<AddressService>();
+            services.AddScoped<OrderDetailService>();
 
             // Other service registrations
         }
