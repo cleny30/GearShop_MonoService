@@ -35,7 +35,26 @@ namespace DataAccess.Repository
             }
         }
 
+        public List<OrderDetailModel> GetAllOrderDetailList()
+        {
+            List<OrderDetail> orderDetails = new List<OrderDetail>();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                orderDetails = dbContext.OrderDetails.ToList();
+                List<OrderDetailModel> _orderDetails = new List<OrderDetailModel>();
+                foreach (var orderDetail in orderDetails)
+                {
+                    OrderDetailModel _orderDetail = new OrderDetailModel();
+                    _orderDetail.CopyProperties(orderDetail);
+                    _orderDetails.Add(_orderDetail);
+                }
 
+                return _orderDetails;
+            }
+            catch (Exception ex)
+            {
+                return null;
 
         /// <summary>
         /// Get Order Detail in Order

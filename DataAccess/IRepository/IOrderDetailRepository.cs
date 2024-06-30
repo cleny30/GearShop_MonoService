@@ -11,7 +11,8 @@ namespace DataAccess.IRepository
     {
         public List<OrderDetailModel> GetOrderDetailList(OrderModel order);
 
+        public List<OrderDetailModel> GetAllOrderDetailList();
+      
         public List<OrderDetailModel> GetOrdersDetailByCustomer(string orderId);
-
     }
 }

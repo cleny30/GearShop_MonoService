@@ -22,11 +22,15 @@ namespace DataAccess.Service
         {
             return _repo.GetOrderDetailList(order); 
         }
+
+        public List<OrderDetailModel> GetAllOrderDetailList()
+        {
+            return _repo.GetAllOrderDetailList();
+        }
+
         public List<OrderDetailModel>GetOrderDetailsById(string id)
         {
             return _repo.GetOrdersDetailByCustomer(id);
         }
-
- 
-    }
+     }
 }
