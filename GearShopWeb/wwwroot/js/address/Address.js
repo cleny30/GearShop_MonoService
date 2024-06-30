@@ -5,14 +5,15 @@ function UpdateAddress(button) {
     const phone = button.getAttribute('data-phonenum');
     const address = button.getAttribute('data-address');
     const addressID = button.getAttribute('data-ID');
-    const isdefault = button.getAttribute('data-isdefault')
+    const isdefault = button.getAttribute('data-isdefault');
+    const specific = button.getAttribute('data-specific');
     const checkbox = document.getElementById('defaultAddress');
     // Populate the form fields with the existing data
     document.getElementById('idUpdate').value = addressID;
     document.getElementById('fullnameUpdate').value = fullname;
     document.getElementById('phonenumUpdate').value = phone;
     document.getElementById('addressUpdate').value = address;
-    document.getElementById('specificAddressUpdate').value = address;
+    document.getElementById('specificAddressUpdate').value = specific;
 
     if (isdefault === 'True') {
         checkbox.checked = true;
@@ -165,7 +166,6 @@ function updateAddressField() {
 
     // Cập nhật giá trị vào ô input
     addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
-    specificAddressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
 }
 
 async function fetchProvincesUpdate() {

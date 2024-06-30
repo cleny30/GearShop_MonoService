@@ -93,10 +93,15 @@
                                 <label style="margin-right: 3px;">Phone Number: </label>
 
                                 <label style="font-weight:bold"> @item.Phone</label>
-                                <input class="form-control" type="text" name="accAddress" value="@item.Specific" readonly style="background-color: #fff;">
-
+                                @if(item.Specific != null)
+                                {
+                                    <input class="form-control" type="text" name="accAddress" value="@item.Specific, @item.Address" readonly style="background-color: #fff;">
+                                }else{
+                                    <input class="form-control" type="text" name="accAddress" value="@item.Address" readonly style="background-color: #fff;">
+                                }
+                                
                                 <div style="display:flex">
-                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" data-isdefault="@item.IsDefault" onclick="UpdateAddress(this)" id="shipto" >
+                                    <input type="button" class="addressButton" value="Update" data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" data-isdefault="@item.IsDefault" data-specific="@item.Specific" onclick="UpdateAddress(this)" id="shipto" >
 
                                     <form id="deleteForm" method="post" action="/Account/DeleteAddress">
                                         <input type="hidden" name="id" value="@item.Id">
@@ -264,5 +269,5 @@
 </div>
 </form>
 
-<script src="~/js/address.js"></script>
-<script src="~/js/addressvalidate.js"></script>
+<script src="~/js/address/address.js"></script>
+<script src="~/js/address/addressvalidate.js"></script>

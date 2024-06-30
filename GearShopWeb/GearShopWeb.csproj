@@ -9,7 +9,6 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\Address.js" />
     <Content Remove="wwwroot\js\AddressValidate.js" />
-    <Content Remove="wwwroot\js\login\AddressNotification.js" />
     <Content Remove="wwwroot\js\OrderDetailForm.js" />
   </ItemGroup>
 
@@ -21,10 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\js\Address.js" />
-    <None Include="wwwroot\js\AddressValidate.js" />
-    <None Include="wwwroot\js\AddressNotification.js" />
-    <None Include="wwwroot\js\OrderDetailForm.js" />
+    <None Include="wwwroot\js\address\Address.js" />
+    <None Include="wwwroot\js\address\AddressValidate.js" />
+    <None Include="wwwroot\js\address\AddressNotification.js" />
+    <None Include="wwwroot\js\address\OrderDetailForm.js" />
   </ItemGroup>
 
   <ItemGroup>
