@@ -31,7 +31,7 @@ namespace DataAccess.Service
         public OrderModel GetOrderByID(string ID)
         {
             OrderModel order = _repository.GetOrderByID(ID);
-
+            order.Email = _accountService.getAccount(order.Username).Email;
 
             return order;
         }
