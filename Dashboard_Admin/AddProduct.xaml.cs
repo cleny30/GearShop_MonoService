@@ -462,9 +462,9 @@ namespace WPFStylingTest
                 decimal price = decimal.Parse(Discount);
 
                 // Check if the price is greater than zero
-                if (price <= 0 || price > 100)
+                if (price < 0 || price > 100)
                 {
-                    errorProDiscount.Text = "Discount can't be 0 or above 100%";
+                    errorProDiscount.Text = "Discount can't be under 0 or above 100%";
                     allCheck = false;
                 }
                 else
@@ -537,6 +537,7 @@ namespace WPFStylingTest
             //Product Attribute
             bool hasEmptyAttribute = attributesList.Any(string.IsNullOrEmpty);
             bool hasEmptyDescription = descriptionsList.Any(string.IsNullOrEmpty);
+            bool allUnique = attributesList.Count == attributesList.Distinct().Count();
             if (attributesList.IsNullOrEmpty())
             {
                 errorProAttribute.Text = "Please enter attribute";
@@ -545,6 +546,11 @@ namespace WPFStylingTest
             if (hasEmptyAttribute || hasEmptyDescription)
             {
                 errorProAttribute.Text = "Some field are unfielded";
+                allCheck = false;
+            }
+            if (!allUnique)
+            {
+                errorProAttribute.Text = "There are duplicated Attribute!";
                 allCheck = false;
             }
 

@@ -120,6 +120,33 @@ namespace DataAccess.Repository
                 return false;
             }
         }
-        
+        public int GetCompletedOrder()
+        {
+            var OrderList = GetOrderList();
+            var CompletedOrder = OrderList.Where(o => o.Status == 4).ToList();
+            return CompletedOrder.Count;
+        }
+
+        public List<Tuple<string, double>> GetTop10Customer()
+        {
+            using (var context = new PrndatabaseContext())
+            {
+                var topCustomers = context.Orders
+                    .Where(order => order.Status == 4)
+                    .Join(context.Customers,
+                          order => order.Username,
+                          customer => customer.Username,
+                          (order, customer) => new { customer.Fullname, order.TotalPrice })
+                    .GroupBy(x => x.Fullname)
+                    .Select(g => new { Fullname = g.Key, TotalPriceSum = g.Sum(x => x.TotalPrice) })
+                    .OrderByDescending(x => x.TotalPriceSum)
+                    .Take(10)
+                    .ToList()
+                    .Select(x => Tuple.Create(x.Fullname, (double)x.TotalPriceSum))
+                    .ToList();
+
+                return topCustomers;
+            }
+        }
     }
 }

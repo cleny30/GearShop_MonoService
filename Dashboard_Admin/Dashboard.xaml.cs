@@ -1,4 +1,8 @@
-﻿using System;
+﻿using BusinessObject.Model.Entity;
+using Dashboard_Admin;
+using DataAccess.Service;
+using MaterialDesignColors.Recommended;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,31 +24,79 @@ namespace WPFStylingTest
     /// </summary>
     public partial class Dashboard : UserControl
     {
+        private readonly OrderService orderService;
+        private readonly ProductService productService;
+        private readonly OrderDetailService orderDetailService;
         public Dashboard()
         {
+            orderService = App.GetService<OrderService>();
+            productService = App.GetService<ProductService>();
+            orderDetailService = App.GetService<OrderDetailService>();
+            DataContext = this;
             InitializeComponent();
-            LoadStudents();
-
+            GetCompletedOrder();
+            GetIncome();
+            GetRevenue();
+            GetOutOfStock();
+            GetTopProduct();
+            GetTopCustomer();
         }
 
-        private void LoadStudents()
+        private void GetCompletedOrder()
         {
-            var students = new List<Student>
-            {
-                new Student { ID = 1, Name = "John Doe", Description = "A computer science major." },
-                new Student { ID = 2, Name = "Jane Smith", Description = "An art student." },
-                new Student { ID = 3, Name = "Sam Brown", Description = "A mathematics student." }
-            };
+            txtCompletedOrder.Text = orderService.GetCompletedOrder().ToString();
+        }
 
-            StudentDataGrid.ItemsSource = students;
-            StudentDataGrid2.ItemsSource = students;
-            StudentDataGrid3.ItemsSource = students;
+        private void GetIncome()
+        {
+            txtIncome.Text = orderService.GetIncome().ToString() + "$";
+        }
+
+        private void GetRevenue()
+        {
+
+            double Revenue = orderService.GetRevenue();
+            if(Revenue > 0)
+            {
+                txtRevenue.Foreground = Brushes.Green;
+            }
+            else
+            {
+                txtRevenue.Foreground = Brushes.Red;
+            }
+            txtRevenue.Text = Revenue.ToString() + "$";
+        }
+
+        private void GetOutOfStock()
+        {
+            var OutOfStock = productService.GetProductList().Where(p => p.ProQuan <= 1).ToList();
+
+            OutOfStockDataGrid.ItemsSource = OutOfStock;
+        }
+
+        private void GetTopProduct()
+        {
+            var consolidatedProducts = orderDetailService.GetAllOrderDetailList()
+                .GroupBy(detail => detail.ProId)
+                  .Select(group => new
+                  {
+                      productID = group.Key,
+                      productName = group.First().ProName, // Take the product name from the first item in the group
+                      quantity = group.Sum(detail => detail.Quantity)
+                  })
+               .OrderByDescending(product => product.quantity) // Sort by quantity in descending order
+               .Take(10) // Select the top 10 products
+                .ToList();
+
+            TopProductDataGrid.ItemsSource = consolidatedProducts;
+        }
+
+        private void GetTopCustomer()
+        {
+            var Top10Customer = orderService.GetTop10Customer();
+
+            TopCustomerDataGrid.ItemsSource = Top10Customer;
         }
     }
 }
-public class Student
-{
-    public int ID { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; } // New property
-}
+

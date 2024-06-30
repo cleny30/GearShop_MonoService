@@ -20,5 +20,10 @@ namespace DataAccess.Service
         {
             return _repo.GetOrderDetailList(order); 
         }
+
+        public List<OrderDetailModel> GetAllOrderDetailList()
+        {
+            return _repo.GetAllOrderDetailList();
+        }
     }
 }
