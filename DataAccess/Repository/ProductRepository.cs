@@ -271,6 +271,34 @@ namespace DataAccess.Repository
             }
         }
 
+        public async Task<bool> RemoveQuantityFromProductAsync(List<OrderDetailModel> products)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    foreach (var item in products)
+                    {
+                        var _product = await dbContext.Products.FirstOrDefaultAsync(p => p.ProId == item.ProId);
+
+                        if (_product == null)
+                        {
+                            return false; // Early return if any product is not found
+                        }
+                        _product.ProQuan -= item.Quantity;
+                        dbContext.Entry(_product).State = EntityState.Modified;
+                    }
+                    await dbContext.SaveChangesAsync();
+                    return true; // Operation successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
+            }
+        }
+
         public async Task<bool> ChangeProductStatus(ProductModel product, bool Status)
         {
             try
