@@ -64,5 +64,27 @@ namespace DataAccess.Repository
             }
         }
 
+        public List<ReceiptProductModel> GetAllReceiptProducts()
+        {
+            List<ReceiptProduct> receiptProducts = new List<ReceiptProduct>();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                receiptProducts = dbContext.ReceiptProducts.ToList();
+                List<ReceiptProductModel> list = new List<ReceiptProductModel>();
+                foreach (var item in receiptProducts)
+                {
+                    ReceiptProductModel receiptProduct = new ReceiptProductModel();
+                    receiptProduct.CopyProperties(item);
+                    list.Add(receiptProduct);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

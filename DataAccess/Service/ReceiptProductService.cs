@@ -25,5 +25,10 @@ namespace DataAccess.Service
             return _receiptProductRepository.GetReceiptProducts(ReceiptID);
         }
 
+        public List<ReceiptProductModel> GetAllReceiptProducts()
+        {
+            return _receiptProductRepository.GetAllReceiptProducts();
+        }
+
     }
 }
