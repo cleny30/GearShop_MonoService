@@ -24,6 +24,8 @@
     <None Include="wwwroot\js\address\AddressValidate.js" />
     <None Include="wwwroot\js\address\AddressNotification.js" />
     <None Include="wwwroot\js\address\OrderDetailForm.js" />
+    <None Include="wwwroot\js\signalr\dist\browser\signalr.js" />
+    <None Include="wwwroot\js\signalr\dist\browser\signalr.min.js" />
   </ItemGroup>
 
   <ItemGroup>

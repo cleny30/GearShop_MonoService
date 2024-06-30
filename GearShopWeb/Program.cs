@@ -1,4 +1,5 @@
 ﻿using DataAccess.Core;
+using GearShopWeb;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddRazorPages();
+builder.Services.AddSignalR();
 
 builder.Services.ConfigureDependencyInjection();
 // Add session configuration
@@ -36,6 +38,14 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Home}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapHub<SignalRServer>("/signalrServer");
+});
 
 app.MapRazorPages();
 

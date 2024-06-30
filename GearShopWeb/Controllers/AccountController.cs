@@ -29,7 +29,7 @@ namespace GearShopWeb.Controllers
         public IActionResult MyAccount(string username)
         {
             DataResult dataResult = new DataResult();
-            username = "hoang";
+            username = "cleny30";
             AccountModel account = accountService.getAccount(username);
             dataResult.Result = account;
             return View(dataResult);
@@ -39,19 +39,28 @@ namespace GearShopWeb.Controllers
         public IActionResult MyOrder(string username)
         {
             DataResult dataResult = new DataResult();
-            username = "hoang";
+            username = "cleny30";
             List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
             dataResult.Result = orderData;
 
             return View(dataResult);
         }
-      
+
+        [HttpGet("/Account/GetOrderData")]
+        public DataResult GetOrderData(string username)
+        {
+            DataResult dataResult = new DataResult();
+            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
+            dataResult.Result = orderData;
+
+            return dataResult;
+        }
 
         [HttpGet("/Account/MyAddress")]
         public IActionResult MyAddress(string username)
         {
             DataResult dataResult = new DataResult();
-            username = "hoang";
+            username = "cleny30";
             dataResult.Result = addressService.GetAddressByUsername(username);
             return View(dataResult);
         }
@@ -68,7 +77,7 @@ namespace GearShopWeb.Controllers
         public IActionResult UpdateProfile(AccountModel accountModel,string username)
         {
             DataResult dataResult = new DataResult();
-            username = "hoang";
+            username = "cleny30";
             accountService.UpdateCustomerInfor(accountModel, username);
             return RedirectToAction("MyAccount", "Account");
         }
@@ -79,7 +88,7 @@ namespace GearShopWeb.Controllers
             try
             {
                 DataResult dataResult = new DataResult();
-                string username = "hoang";
+                string username = "cleny30";
 
 
                 var a = orderService.GetOrderByID(id);
@@ -101,7 +110,7 @@ namespace GearShopWeb.Controllers
         public IActionResult AddAddress(DeliveryAddressModel addressModel, string username)
         {
             DataResult dataResult = new DataResult();
-            username = "hoang";
+            username = "cleny30";
             addressService.AddNewAddress(addressModel,username);
             return RedirectToAction("MyAddress", "Account");
         }
@@ -109,7 +118,7 @@ namespace GearShopWeb.Controllers
         public IActionResult UpdateAddress(DeliveryAddressModel addressModel)
         {
             DataResult dataResult = new DataResult();
-             string username = "hoang";
+             string username = "cleny30";
             addressModel.Username = username;
             addressService.UpdateAddress(addressModel);
             return RedirectToAction("MyAddress", "Account");
@@ -119,7 +128,7 @@ namespace GearShopWeb.Controllers
         public IActionResult DeleteAddress(int id)
         {
             DataResult dataResult = new DataResult();
-            string username = "hoang";
+            string username = "cleny30";
             addressService.DeleteAddress(username, id);
             return RedirectToAction("MyAddress", "Account");
         }
@@ -128,7 +137,7 @@ namespace GearShopWeb.Controllers
         public IActionResult ChangePassword(LoginAccountModel userLogin)
         {
             DataResult dataResult = new DataResult();
-            string username = "hoang";
+            string username = "cleny30";
             userLogin.Username = username;
             accountService.ChangePassword(userLogin);
             return RedirectToAction("ChangePassword", "Account");

@@ -68,7 +68,7 @@ const UpdateCart = (element) => {
         },
         success: function (data) {
             if (data.isSuccess === true) {                
-                $('#cartPrice').text('$'+data.result);
+                console.log("ok");
             } else {
                 console.log(data);
             }
@@ -78,3 +78,30 @@ const UpdateCart = (element) => {
         }
     });
 }
+
+const updateTotalPrice = () => {
+    let totalPrice = 0;
+    let selectedProIds = [];
+    $('.check-box-child:checked').each(function () {
+        var proId = $(this).data('priceid');
+        var price = parseFloat($('#total-' + proId ).text());
+        totalPrice += price;
+        selectedProIds.push(proId);
+    });
+    $('#cartTotalPrice').text('$' + totalPrice);
+    sessionStorage.setItem('ProId', selectedProIds.join(','));
+}
+
+$('#all').click(function () {
+    $('.check-box-child').prop('checked', $(this).prop('checked'));
+    updateTotalPrice();
+});
+
+$('.check-box-child').click(function () {
+    if ($('.check-box-child:checked').length == $('.check-box-child').length) {
+        $('#all').prop('checked', true);
+    } else {
+        $('#all').prop('checked', false);
+    }
+    updateTotalPrice();
+});
