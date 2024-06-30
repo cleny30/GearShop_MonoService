@@ -123,9 +123,16 @@ namespace DataAccess.Repository
                         existingAddress.Phone = deliveryAddressModel.Phone;
                         existingAddress.Address = deliveryAddressModel.Address;
                         existingAddress.Specific = deliveryAddressModel.Specific;
-       
-
-                  
+                        // Check if isDefault is being set to true
+                        if (deliveryAddressModel.IsDefault)
+                        {
+                            // Find all addresses with the same username and set their isDefault to false
+                            var otherAddresses = context.DeliveryAddresses.Where(p => p.Username == deliveryAddressModel.Username && p.Id != existingAddress.Id).ToList();
+                            foreach (var address in otherAddresses)
+                            {
+                                address.IsDefault = false;
+                            }
+                        }
 
                         existingAddress.IsDefault = deliveryAddressModel.IsDefault;
                         context.SaveChanges();
