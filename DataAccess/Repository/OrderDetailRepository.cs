@@ -55,6 +55,8 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 return null;
+            }
+        }
 
         /// <summary>
         /// Get Order Detail in Order

@@ -45,7 +45,16 @@ namespace GearShopWeb.Controllers
 
             return View(dataResult);
         }
-      
+
+        [HttpGet("/Account/GetOrderData")]
+        public DataResult GetOrderData(string username)
+        {
+            DataResult dataResult = new DataResult();
+            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
+            dataResult.Result = orderData;
+
+            return dataResult;
+        }
 
         [HttpGet("/Account/MyAddress")]
         public IActionResult MyAddress(string username)

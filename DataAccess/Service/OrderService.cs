@@ -15,7 +15,7 @@ namespace DataAccess.Service
         private readonly AccountService _accountService;
         private readonly ImportReceiptService _importReceiptService;
         private DateTime currentDate = DateTime.Now;
-        
+
 
         public OrderService(IOrderRepository repo, AccountService accountService, ImportReceiptService importReceiptService)
         {
@@ -31,7 +31,7 @@ namespace DataAccess.Service
         public OrderModel GetOrderByID(string ID)
         {
             OrderModel order = _repository.GetOrderByID(ID);
-            
+
 
             return order;
         }
@@ -75,9 +75,10 @@ namespace DataAccess.Service
         public List<Tuple<string, double>> GetTop10Customer()
         {
             return _repository.GetTop10Customer().ToList();
-
-        public List<OrderDataModel> GetOrdersByCustomer(string username) { 
-        return _repository.GetOrderListByUser(username);
+        }
+        public List<OrderDataModel> GetOrdersByCustomer(string username)
+        {
+            return _repository.GetOrderListByUser(username);
         }
     }
 }

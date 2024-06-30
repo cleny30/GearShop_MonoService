@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
-namespace GearShopWeb.SingalR
+
+namespace GearShopWeb
 {
-    public class SignalRHub:Hub
+    public class SignalRServer : Hub
     {
         private static ConcurrentDictionary<string, string> _userConnections = new ConcurrentDictionary<string, string>();
 

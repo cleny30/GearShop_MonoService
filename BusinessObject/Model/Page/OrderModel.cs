@@ -42,8 +42,8 @@ namespace BusinessObject.Model.Page
         public string? OrderId { get; set; }
         public string? UserName { get; set; } 
         public double TotalPrice { get; set; }
-        public DateTime StartDate { get; set; } = DateTime.Now;
-        public DateTime? EndDate { get; set; }
+        public DateOnly StartDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public DateOnly? EndDate { get; set; }
         public string? OrderDes { get; set; } 
         public int Status { get; set; } = 0;
         public string? Address { get; set; } 
