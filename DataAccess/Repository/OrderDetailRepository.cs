@@ -23,7 +23,7 @@ namespace DataAccess.Repository
                 foreach (var orderDetail in orderDetails)
                 {
                     OrderDetailModel _orderDetail = new OrderDetailModel();
-                    _orderDetails.CopyProperties(_orderDetail);
+                    _orderDetail.CopyProperties(orderDetail);
                     _orderDetails.Add(_orderDetail);
                 }
 
@@ -32,6 +32,37 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Get Order Detail in Order
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public List<OrderDetailModel> GetOrdersDetailByCustomer(string orderId)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var orders = dbContext.OrderDetails.Where(o => o.OrderId == orderId).ToList();
+                    List<OrderDetailModel> orderDetailModels = new List<OrderDetailModel>();
+                    foreach (var order in orders)
+                    {
+                        var orderDetailModel = new OrderDetailModel();
+                        orderDetailModel.CopyProperties(order);
+                        orderDetailModels.Add(orderDetailModel);
+                    }
+                    return orderDetailModels;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

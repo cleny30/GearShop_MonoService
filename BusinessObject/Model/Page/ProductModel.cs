@@ -42,6 +42,8 @@ namespace BusinessObject.Model.Page
 
         public string ProDes { get; set; } = null!;
 
+        public bool IsAvailable { get; set; }
+
         public string ProId
         {
             get => proId;

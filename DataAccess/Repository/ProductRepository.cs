@@ -113,7 +113,7 @@ namespace DataAccess.Repository
                 Discount = product.Discount,
                 ProDes = product.ProDes,
                 ProPrice = product.ProPrice,
-                IsAvailable = product.IsAvailable,
+                IsAvailable = true,
                 ProQuan = 0
             };
             try
@@ -164,6 +164,7 @@ namespace DataAccess.Repository
                         ProPrice = product.ProPrice,
                         ProName = product.ProName,
                         ProDes = product.ProDes,
+                        IsAvailable= product.IsAvailable,
                     };                  
                 }
                 return model;
@@ -259,6 +260,26 @@ namespace DataAccess.Repository
                         _product.ProQuan += item.Amount;
                         dbContext.Entry(_product).State = EntityState.Modified;
                     }
+                    await dbContext.SaveChangesAsync();
+                    return true; // Operation successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
+            }
+        }
+
+        public async Task<bool> ChangeProductStatus(ProductModel product, bool Status)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var _product = await dbContext.Products.FirstOrDefaultAsync(p => p.ProId == product.ProId);
+                    _product.IsAvailable = Status;
+                    dbContext.Entry(_product).State = EntityState.Modified;
                     await dbContext.SaveChangesAsync();
                     return true; // Operation successful
                 }

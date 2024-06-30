@@ -155,8 +155,11 @@ public partial class PrndatabaseContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("ID");
             entity.Property(e => e.Address)
-                .HasColumnType("text")
+                .HasMaxLength(1000)
                 .HasColumnName("address");
+            entity.Property(e => e.Specific)
+                .HasMaxLength(500)
+                .HasColumnName("specific");
             entity.Property(e => e.Fullname)
                 .HasMaxLength(100)
                 .HasColumnName("fullname");
@@ -237,8 +240,15 @@ public partial class PrndatabaseContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("order_id");
             entity.Property(e => e.Address)
-                .HasColumnType("text")
+                .HasMaxLength(1000)
                 .HasColumnName("address");
+            entity.Property(e => e.Fullname)
+                .HasMaxLength(255)
+                .HasColumnName("fullname");
+            entity.Property(e => e.Phone)
+                .HasMaxLength(11)
+                .IsUnicode(false)
+                .HasColumnName("phone");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.ManagerId).HasColumnName("manager_id");
             entity.Property(e => e.OrderDes)

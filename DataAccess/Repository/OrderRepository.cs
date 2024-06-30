@@ -35,6 +35,8 @@ namespace DataAccess.Repository
                 return null;
             }
         }
+
+
         public OrderModel GetOrderByID(string ID)
         {
             Order order;
@@ -54,7 +56,9 @@ namespace DataAccess.Repository
                         StartDate = order.StartDate,
                         Status = order.Status,
                         TotalPrice = order.TotalPrice,
-                        Username = order.Username
+                        Username = order.Username,
+                        Fullname = order.Fullname,
+                        Phone = order.Phone,
                     };
 
                     return _order;
@@ -78,15 +82,32 @@ namespace DataAccess.Repository
                 {
                     order = new Order
                     {
-                        OrderId = _order.OrderId,   
+                        OrderId = _order.OrderId,
+                        Address = _order.Address,
+                        EndDate= _order.EndDate,
+                        StartDate= _order.StartDate,
+                        ManagerId = _order.ManagerId,
+                        OrderDes= _order.OrderDes,
+                        Username = _order.Username,
+                        Fullname = _order.Fullname,
+                        Phone = _order.Phone,
+                        TotalPrice= _order.TotalPrice,
                         Status = Status,
                     };
+
+                    if(Status == 4)
+                    {
+                        order.EndDate = DateOnly.FromDateTime(DateTime.Now);
+                    }
                     dbContext.Entry<Order>(order).State = EntityState.Modified;
                     int check = dbContext.SaveChanges();
 
                     if(check > 0)
                     {
                         return true;
+                        /*
+                         * Add SignalR Here
+                         */
                     }
                     else
                     {
@@ -103,6 +124,36 @@ namespace DataAccess.Repository
                 return false;
             }
         }
+        
+
+        /// <summary>
+        /// Get Order List of customer
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public List<OrderDataModel> GetOrderListByUser(string username)
+        {
+            List<Order> orders;
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                orders = dbContext.Orders.Where(o => o.Username == username).ToList();
+                List<OrderDataModel> _orders = new List<OrderDataModel>();
+                foreach (var order in orders)
+                {
+                    OrderDataModel _order = new OrderDataModel();
+                    _order.CopyProperties(order);
+                    _orders.Add(_order);
+                }
+                return _orders;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        
 
     }
 }

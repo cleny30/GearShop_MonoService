@@ -3,10 +3,13 @@ using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using System.Linq.Expressions;
 using ISUZU_NEXT.Server.Core.Extentions;
+using CloudinaryDotNet;
+using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repository
 {
-    public class AccountRepository:IAccountRepository
+    public class AccountRepository : IAccountRepository
     {
         /// <summary>
         /// TODO
@@ -14,9 +17,25 @@ namespace DataAccess.Repository
         /// <param name="userLogin"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public bool ChangePassword(LoginAccountModel userLogin)
+
+        public bool ChangePassword(string username, string newPassword)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                var user = dbContext.Customers.SingleOrDefault(u => u.Username == username);
+                if (user == null)
+                {
+                    throw new ArgumentException("User not found.");
+                }
+                user.Password = newPassword;
+                dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -45,7 +64,8 @@ namespace DataAccess.Repository
                 var user = dbContext.Customers.SingleOrDefault(d => d.Username == userLogin.Username && d.Password == userLogin.Password);
 
                 return user != null;
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return false;
             }
@@ -94,6 +114,57 @@ namespace DataAccess.Repository
             }
             return null;
         }
+
+        public AccountModel GetAccountByUsername(string username)
+        {
+
+            using (var dbContext = new PrndatabaseContext())
+            {
+                Customer? customer = dbContext.Customers.Where(a => a.Username.Equals(username)).SingleOrDefault();
+                if (customer != null)
+                {
+                    var account = new AccountModel();
+                    account.CopyProperties(customer);
+                    return account;
+                }
+            }
+            return null;
+        }
+
+
+        /// <summary>
+        /// Update Customer Addcount
+        /// </summary>
+        /// <param name="accountModel"></param>
+        /// <returns></returns>
+        public bool UpdateCustomerInfor(AccountModel accountModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var account = dbContext.Customers.FirstOrDefault(p => p.Username == accountModel.Username);
+                    if (account != null)
+                    {
+                        account.Fullname = accountModel.Fullname;
+                        account.Email = accountModel.Email;
+                        account.Phone = accountModel.Phone;
+                        dbContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+
 
     }
 }

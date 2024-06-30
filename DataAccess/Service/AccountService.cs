@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Service
 {
@@ -20,6 +21,10 @@ namespace DataAccess.Service
         public AccountService(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
+        }
+
+        public AccountService()
+        {
         }
 
         public bool Login(LoginAccountModel userLogin)
@@ -63,13 +68,30 @@ namespace DataAccess.Service
         }
 
         /// <summary>
-        /// TODO
+        /// Change Password
         /// </summary>
         /// <param name="userLogin"></param>
         /// <returns></returns>
         public bool ChangePassword(LoginAccountModel userLogin)
         {
-            throw new NotImplementedException();
+            var account = getAccount(userLogin.Username);
+            if (userLogin.Password != userLogin.RePassword)
+            {
+                return false;
+            }
+             userLogin.OldPassword= CalculateMD5Hash(userLogin.OldPassword);
+ 
+            if (account.Password != userLogin.OldPassword)
+            {
+                return false;
+            }
+            if (userLogin == null)
+            {
+                throw new ArgumentNullException(nameof(userLogin));
+            }
+             userLogin.Password = CalculateMD5Hash(userLogin.Password);
+            _accountRepository.ChangePassword(userLogin.Username, userLogin.Password);
+            return true;
         }
 
         public bool Regist(AccountModel userRegist)
@@ -134,5 +156,13 @@ namespace DataAccess.Service
                 return sb.ToString();
             }
         }
+        public bool UpdateCustomerInfor(AccountModel customer, string username)
+        {
+            var account = _accountRepository.GetAccount<Customer>(a => a.Username == username);
+            customer.Username = username;
+            customer.Password = account.Password;
+            return _accountRepository.UpdateCustomerInfor(customer);
+        }
+
     }
 }
