@@ -270,7 +270,7 @@ namespace WPFStylingTest
                         foreach (string items in SelectedFiles)
                         {
                             // Assuming Upload is an async method
-                            string cloudinaryLink = await cloud.Upload(items, "Test");
+                            string cloudinaryLink = await cloud.Upload(items, "Products");
                             imageLink.Add(cloudinaryLink);
                         }
 
@@ -313,7 +313,7 @@ namespace WPFStylingTest
                         foreach (string items in SelectedFilesUpdate)
                         {
                             // Assuming Upload is an async method
-                            string cloudinaryLink = await cloud.Upload(items, "Test");
+                            string cloudinaryLink = await cloud.Upload(items, "Products");
                             imageLink.Add(cloudinaryLink);
                         }
 

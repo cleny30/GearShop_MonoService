@@ -43,10 +43,10 @@ namespace DataAccess.Service
         {
             bool isStatusChanged = _repository.ChangeOrderStatus(order, status);
 
-            if (status == 4 && isStatusChanged)
+            if (status == 0 && isStatusChanged)
             {
                 var orderProducts = _orderDetailService.GetOrderDetailsById(order.OrderId);
-                await _productService.RemoveQuantityFromProductAsync(orderProducts);
+                await _productService.AddQuantityFromProductAsync(orderProducts);
             }
 
             return isStatusChanged;
