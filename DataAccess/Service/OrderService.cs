@@ -14,14 +14,18 @@ namespace DataAccess.Service
         private readonly IOrderRepository _repository;
         private readonly AccountService _accountService;
         private readonly ImportReceiptService _importReceiptService;
+        private readonly OrderDetailService _orderDetailService;
+        private readonly ProductService _productService;
         private DateTime currentDate = DateTime.Now;
 
 
-        public OrderService(IOrderRepository repo, AccountService accountService, ImportReceiptService importReceiptService)
+        public OrderService(IOrderRepository repo, AccountService accountService, ImportReceiptService importReceiptService, OrderDetailService orderDetailService, ProductService productService)
         {
             _repository = repo;
             _accountService = accountService;
             _importReceiptService = importReceiptService;
+            _orderDetailService = orderDetailService;
+            _productService = productService;
         }
         public List<OrderModel> GetOrderList()
         {
@@ -31,13 +35,21 @@ namespace DataAccess.Service
         public OrderModel GetOrderByID(string ID)
         {
             OrderModel order = _repository.GetOrderByID(ID);
-
+            order.Email = _accountService.getAccount(order.Username).Email;
 
             return order;
         }
-        public bool ChangeOrderStatus(OrderModel _order, int Status)
+        public async Task<bool> ChangeOrderStatus(OrderModel order, int status)
         {
-            return _repository.ChangeOrderStatus(_order, Status);
+            bool isStatusChanged = _repository.ChangeOrderStatus(order, status);
+
+            if (status == 4 && isStatusChanged)
+            {
+                var orderProducts = _orderDetailService.GetOrderDetailsById(order.OrderId);
+                await _productService.RemoveQuantityFromProductAsync(orderProducts);
+            }
+
+            return isStatusChanged;
         }
 
         public int GetCompletedOrder()

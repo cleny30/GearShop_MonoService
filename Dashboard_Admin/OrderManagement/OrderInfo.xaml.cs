@@ -99,9 +99,9 @@ namespace Dashboard_Admin.OrderManagement
             buttonField.Children.Add(acceptButton);
         }
 
-        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        private async void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            if (orderService.ChangeOrderStatus(_orderModel, _orderModel.Status + 1))
+            if (await orderService.ChangeOrderStatus(_orderModel, _orderModel.Status + 1))
             {
                 MessageBox.Show($"Status of Order ID {_orderModel.OrderId} has been changed from {Status(_orderModel.Status)} to {Status(_orderModel.Status + 1)}");
                 this.Close();
@@ -155,7 +155,7 @@ namespace Dashboard_Admin.OrderManagement
         }
         private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (orderService.ChangeOrderStatus(_orderModel, 0))
+            if (await orderService.ChangeOrderStatus(_orderModel, 0))
             {
                 MessageBox.Show($"Status of Order ID {_orderModel.OrderId} has been Cancelled");
                 this.Close();

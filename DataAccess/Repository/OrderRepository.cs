@@ -98,6 +98,7 @@ namespace DataAccess.Repository
                     if(Status == 4)
                     {
                         order.EndDate = DateOnly.FromDateTime(DateTime.Now);
+
                     }
                     dbContext.Entry<Order>(order).State = EntityState.Modified;
                     int check = dbContext.SaveChanges();
