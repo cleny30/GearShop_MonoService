@@ -271,7 +271,7 @@ namespace DataAccess.Repository
             }
         }
 
-        public async Task<bool> RemoveQuantityFromProductAsync(List<OrderDetailModel> products)
+        public async Task<bool> AddQuantityFromProductAsync(List<OrderDetailModel> products)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace DataAccess.Repository
                         {
                             return false; // Early return if any product is not found
                         }
-                        _product.ProQuan -= item.Quantity;
+                        _product.ProQuan += item.Quantity;
                         dbContext.Entry(_product).State = EntityState.Modified;
                     }
                     await dbContext.SaveChangesAsync();
