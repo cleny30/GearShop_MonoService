@@ -85,5 +85,15 @@ namespace DataAccess.Service
 
             return Tuple.Create(rs, total);
         }
+
+        public List<UserCartData> GetCheckedProduct(string username, List<string> proIds)
+        {
+			List<UserCartData> cartItems = new List<UserCartData>();
+			foreach (var i in proIds)
+			{
+				cartItems.Add(GetCartsByUserName("cleny30").FirstOrDefault(p => p.Product.ProId == i));
+			}
+            return cartItems;
+		}
     }
 }
