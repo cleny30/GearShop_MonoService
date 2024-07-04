@@ -1,6 +1,7 @@
 ﻿using BusinessObject.Model.Entity;
 using BusinessObject.Model.Page;
 using DataAccess.IRepository;
+using DataAccess.Repository;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -95,5 +96,10 @@ namespace DataAccess.Service
 			}
             return cartItems;
 		}
+        public bool DeleteCartById(string proId, string username)
+        {
+            _repo.DeleteCartById(proId, username);
+            return true;
+        }
     }
 }

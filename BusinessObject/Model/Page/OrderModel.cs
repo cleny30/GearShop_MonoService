@@ -36,6 +36,8 @@ namespace BusinessObject.Model.Page
         public virtual Manager? Manager { get; set; }
 
         public virtual Customer UsernameNavigation { get; set; } = null!;
+
+        public string? proId { get; set; }
     }
     public class OrderDataModel
     {

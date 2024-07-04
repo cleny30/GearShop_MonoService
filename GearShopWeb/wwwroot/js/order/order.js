@@ -34,7 +34,7 @@ const ChangeAddress = () => {
     }
 }
 
-const UpdateAddress = (button)=>{
+const UpdateAddress = (button) => {
     // Get data from the button
     const $button = $(button);
     const fullname = $button.data('fullname');
@@ -72,5 +72,251 @@ const CreateAddress = () => {
 
 const CloseForm = (type) => {
     $('#listAddress').css('display', 'block');
-    $('#' + type).css('display', 'none');
+    if (type == 0) {
+        $('#fullName').val('');
+        $('#phoneNumber').val('');
+        $('#address').val('');
+        $('#createAddress').css('display', 'none');
+    } else {
+        $('#editAddress').css('display', 'none');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchProvinces();
+    fetchProvincesUpdate();
+});
+
+async function fetchProvinces() {
+    try {
+        const response = await fetch('/dataAddress/provinces.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Provinces JSON data:', data); // Thêm dòng này để kiểm tra dữ liệu JSON
+
+
+        if (data && data.data && Array.isArray(data.data.data)) {
+            const provinces = data.data.data;
+            const provincesSelect = document.getElementById('provinces');
+            provincesSelect.innerHTML = '<option value="">Select district</option>';
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.code;
+                option.text = province.name_with_type;
+                provincesSelect.appendChild(option);
+            });
+        } else {
+            console.error('Unexpected data structure:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching provinces:', error);
+    }
+}
+async function getDistricts(event) {
+    const provinceCode = event.target.value;
+    if (!provinceCode) return;
+
+    try {
+        const response = await fetch('/dataAddress/districts.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Districts JSON data:', data); // Thêm dòng này để kiểm tra dữ liệu JSON
+
+        if (data && data.data && Array.isArray(data.data.data)) {
+            const districts = data.data.data.filter(district => district.parent_code === provinceCode);
+            const districtsSelect = document.getElementById('districts');
+            districtsSelect.innerHTML = '<option value="">Select district</option>'; // Clear previous options
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.code;
+                option.textContent = district.name_with_type;
+                districtsSelect.appendChild(option);
+            });
+        } else {
+            console.error('Unexpected data structure:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching districts:', error);
+    }
+}
+async function getWards(event) {
+    const districtCode = event.target.value;
+    if (!districtCode) return;
+
+    try {
+        const response = await fetch('/dataAddress/wards.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Wards JSON data:', data); // Thêm dòng này để kiểm tra dữ liệu JSON
+
+        if (data && data.data && Array.isArray(data.data.data)) {
+            const wards = data.data.data.filter(ward => ward.parent_code === districtCode);
+            const wardsSelect = document.getElementById('wards');
+            wardsSelect.innerHTML = '<option value="">Select ward</option>'; // Clear previous options
+            wards.forEach(ward => {
+                const option = document.createElement('option');
+                option.value = ward.code;
+                option.textContent = ward.name_with_type;
+                wardsSelect.appendChild(option);
+            });
+        } else {
+            console.error('Unexpected data structure:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching wards:', error);
+    }
+}
+
+function updateAddressField() {
+    const provincesSelect = document.getElementById('provinces');
+    const districtsSelect = document.getElementById('districts');
+    const wardsSelect = document.getElementById('wards');
+    const addressInput = document.getElementById('address');
+    const specificAddressInput = document.getElementById("specificAddress");
+
+    // Lấy giá trị đã chọn từ các dropdown
+
+    const provinceText = provincesSelect.options[provincesSelect.selectedIndex].text;
+    const districtText = districtsSelect.options[districtsSelect.selectedIndex].text;
+    const wardText = wardsSelect.options[wardsSelect.selectedIndex].text;
+
+    // Cập nhật giá trị vào ô input
+    addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
+}
+
+async function fetchProvincesUpdate() {
+    try {
+        const response = await fetch('/dataAddress/provinces.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Provinces JSON data:', data); // Thêm dòng này để kiểm tra dữ liệu JSON
+
+
+        if (data && data.data && Array.isArray(data.data.data)) {
+            const provinces = data.data.data;
+            const provincesSelect = document.getElementById('provincesUpdate');
+            provincesSelect.innerHTML = '<option value="">Select district</option>';
+            provinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.code;
+                option.text = province.name_with_type;
+                provincesSelect.appendChild(option);
+            });
+        } else {
+            console.error('Unexpected data structure:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching provinces:', error);
+    }
+}
+
+
+async function getDistrictsUpdate(event) {
+    const provinceCode = event.target.value;
+    if (!provinceCode) return;
+
+    try {
+        const response = await fetch('/dataAddress/districts.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Districts JSON data:', data); // Thêm dòng này để kiểm tra dữ liệu JSON
+
+        if (data && data.data && Array.isArray(data.data.data)) {
+            const districts = data.data.data.filter(district => district.parent_code === provinceCode);
+            const districtsSelect = document.getElementById('districtsUpdate');
+            districtsSelect.innerHTML = '<option value="">Select district</option>'; // Clear previous options
+            districts.forEach(district => {
+                const option = document.createElement('option');
+                option.value = district.code;
+                option.textContent = district.name_with_type;
+                districtsSelect.appendChild(option);
+            });
+        } else {
+            console.error('Unexpected data structure:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching districts:', error);
+    }
+}
+
+async function getWardsUpdate(event) {
+    const districtCode = event.target.value;
+    if (!districtCode) return;
+
+    try {
+        const response = await fetch('/dataAddress/wards.json');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log('Wards JSON data:', data); // Thêm dòng này để kiểm tra dữ liệu JSON
+
+        if (data && data.data && Array.isArray(data.data.data)) {
+            const wards = data.data.data.filter(ward => ward.parent_code === districtCode);
+            const wardsSelect = document.getElementById('wardsUpdate');
+            wardsSelect.innerHTML = '<option value="">Select ward</option>'; // Clear previous options
+            wards.forEach(ward => {
+                const option = document.createElement('option');
+                option.value = ward.code;
+                option.textContent = ward.name_with_type;
+                wardsSelect.appendChild(option);
+            });
+        } else {
+            console.error('Unexpected data structure:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching wards:', error);
+    }
+}
+
+function AddressFieldEdit() {
+    const provincesSelect = document.getElementById('provincesUpdate');
+    const districtsSelect = document.getElementById('districtsUpdate');
+    const wardsSelect = document.getElementById('wardsUpdate');
+    const addressInput = document.getElementById('addressUpdate');
+
+    // Lấy giá trị đã chọn từ các dropdown
+
+    const provinceText = provincesSelect.options[provincesSelect.selectedIndex].text;
+    const districtText = districtsSelect.options[districtsSelect.selectedIndex].text;
+    const wardText = wardsSelect.options[wardsSelect.selectedIndex].text;
+
+    // Cập nhật giá trị vào ô input
+    addressInput.value = `${wardText}, ${districtText}, ${provinceText}`;
+}
+
+const PlaceOrder = () => {
+    var fullname = $('#ChosenFNA').val();
+    var phone = $('#ChosenPNA').val();
+    var address = $('#ChosenADA').val();
+    var totalPrice = $('#bill').val();
+    var OrderDes = $('#description').val();
+
+    $.ajax({
+        url: '/Order/CheckOut',
+        type: "POST",
+        data: {
+            Fullname: fullname,
+            Phone: phone,
+            Address: address,
+            TotalPrice: totalPrice,
+            OrderDes: OrderDes
+        },
+        success: function (data) {
+            
+        },
+        error: function () {
+            $('#loginError').text('An error occurred. Please try again later.').show();
+        }
+    });
 }

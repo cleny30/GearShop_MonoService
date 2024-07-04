@@ -181,5 +181,61 @@ namespace DataAccess.Repository
                 return null;
             }
         }
+        public string GetNewOrderID()
+        {
+            var dbContext = new PrndatabaseContext();
+            var lastOrder = dbContext.Orders.OrderByDescending(o => o.OrderId).FirstOrDefault();
+
+            if (lastOrder == null)
+            {
+                return "OD001"; // Assuming the first order ID starts with "OD001"
+            }
+            else
+            {
+                string numericPart = lastOrder.OrderId.Substring(2);
+                int currentNumber = int.Parse(numericPart);
+                int newNumber = currentNumber + 1;
+                string newOrderId = $"OD{newNumber:D3}";
+                return newOrderId;
+            }
+        }
+
+        public bool AddOrderDetail(OrderDetailModel orderDetailModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.CopyProperties(orderDetailModel);
+                    dbContext.OrderDetails.Add(orderDetail);
+                    dbContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool AddNewOrder(OrderModel orderModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    Order order = new Order();
+                    order.CopyProperties(orderModel);
+                    dbContext.Orders.Add(order);
+                    dbContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

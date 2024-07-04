@@ -107,10 +107,10 @@ namespace GearShopWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAddress(DeliveryAddressModel addressModel, string username)
+        public IActionResult AddAddress(DeliveryAddressModel addressModel)
         {
             DataResult dataResult = new DataResult();
-            username = "cleny30";
+            var username = "cleny30";
             addressService.AddNewAddress(addressModel,username);
             return RedirectToAction("MyAddress", "Account");
         }
@@ -122,6 +122,24 @@ namespace GearShopWeb.Controllers
             addressModel.Username = username;
             addressService.UpdateAddress(addressModel);
             return RedirectToAction("MyAddress", "Account");
+        }
+
+        [HttpPost]
+        public IActionResult AddAddressOrder(DeliveryAddressModel addressModel)
+        {
+            DataResult dataResult = new DataResult();
+            var username = "cleny30";
+            addressService.AddNewAddress(addressModel, username);
+            return RedirectToAction("Index", "Order");
+        }
+        [HttpPost]
+        public IActionResult UpdateAddressOrder(DeliveryAddressModel addressModel)
+        {
+            DataResult dataResult = new DataResult();
+            string username = "cleny30";
+            addressModel.Username = username;
+            addressService.UpdateAddress(addressModel);
+            return RedirectToAction("Index", "Order");
         }
 
         [HttpPost]

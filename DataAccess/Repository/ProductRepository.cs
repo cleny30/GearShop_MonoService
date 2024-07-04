@@ -4,6 +4,7 @@ using DataAccess.IRepository;
 using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 
 namespace DataAccess.Repository
@@ -315,6 +316,31 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 // Log the exception if necessary
+                return false;
+            }
+        }
+
+        public bool UpdateQuantityProduct(ProductModel productModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var product = dbContext.Products.FirstOrDefault(p => p.ProId == productModel.ProId);
+                    if (product != null)
+                    {
+                        product.ProQuan = productModel.ProQuan;
+                        dbContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false; // Product not found
+                    }
+                }
+            }
+            catch (Exception)
+            {
                 return false;
             }
         }

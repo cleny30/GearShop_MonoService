@@ -1,5 +1,5 @@
 ﻿
-<form method="post" class="update_address_form" action="/Account/UpdateAddress">
+<form class="update_address_form" method="post" action="/Account/UpdateAddressOrder">
     <div class="popup-overlay-update " id="updateAddressForm" data-addressID="">
         <div class="popup-form-container-update">
             <div class="popup-header-update">
@@ -37,7 +37,7 @@
                         <select id="districtsUpdate" class="popup-input-update" onchange="getWardsUpdate(event)">
                             <option value="">Select districts</option>
                         </select>
-                        <select id="wardsUpdate" class="popup-input-update" onchange="AddressFieldUpdate()">
+                        <select id="wardsUpdate" class="popup-input-update" onchange="AddressFieldEdit()">
                             <option value="">Select ward</option>
                             <!-- Options will be populated here -->
                         </select>
@@ -47,7 +47,7 @@
                     <input type="text" placeholder="Specific address" class="popup-input-update popup-full-width" name="specific" value="" id="specificAddressUpdate">
                 </div>
                 <div class="popup-row-update">
-                    <label class="popup-checkbox-container-update">
+                    <label class="popup-checkbox-container-update" onclick="handleCheckedUpdate()">
                         <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
                         <span class="popup-checkmark-update"></span>
                         Default address
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="popup-footer-update">
-                <button type="button" class="popup-button-update cancel" onclick="CloseForm('editAddress')">Cancel</button>
+                <button type="button" class="popup-button-update cancel" onclick="CloseForm(1)">Cancel</button>
                 <button type="submit" class="popup-button-update submit">Submit</button>
             </div>
         </div>

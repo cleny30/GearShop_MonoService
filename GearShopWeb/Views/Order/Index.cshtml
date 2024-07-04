@@ -45,19 +45,27 @@
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label>Full name</label>
-                        <input type="hidden" name="fullname" id="ChosenFNA">
+                        <input type="hidden" name="fullname" id="ChosenFNA" value="@address[0].Fullname">
                         <p class="form-control" id="formFullname">@address[0].Fullname</p>
                     </div>
 
                     <div class="col-md-6 form-group">
                         <label>Phone number</label>
-                        <input type="hidden" name="phonenum" id="ChosenPNA" />
+                        <input type="hidden" name="phonenum" id="ChosenPNA" value="@address[0].Phone" />
                         <p class="form-control" id="formPhone">@address[0].Phone</p>
                     </div>
                     <div class="col-md-12 form-group">
                         <label>Address</label>
-                        <input type="hidden" name="address" id="ChosenADA" />
-                        <p class="form-control" id="formAddress">@address[0].Address</p>
+                        @{
+                            var fullAddress = string.IsNullOrEmpty(address[0].Specific)
+                            ? address[0].Address
+                            : $"{address[0].Specific}, {address[0].Address}";
+                        }
+                        
+                        <input type="hidden" name="address" id="ChosenADA" value="@fullAddress" />
+                        <p class="form-control" id="formAddress">
+                            @fullAddress
+                        </p>
                     </div>
                     <br />
                     <div class="col-md-12">
@@ -126,8 +134,8 @@
 
     <div id="listAddress" style="display:none">
         @Html.Partial("Partial/DeliveryAddress/List", address);
-    </div>   
-    
+    </div>
+
     <div id="editAddress" style="display:none">
         @Html.Partial("Partial/DeliveryAddress/Edit");
     </div>
