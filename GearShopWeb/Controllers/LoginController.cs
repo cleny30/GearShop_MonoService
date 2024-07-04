@@ -2,6 +2,7 @@
 using BusinessObject.Model;
 using DataAccess.Service;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GearShopWeb.Controllers
 {
@@ -33,6 +34,7 @@ namespace GearShopWeb.Controllers
             }
             if (accountService.Login(model))
             {
+                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(model));
                 data.Message = "Login success";
             }
             else

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -12,27 +13,34 @@ namespace BusinessObject.Model.Page
         /// <summary>
         /// UserName
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(50)]
+        [MinLength(6)]
         [Required]
         public string Username { get; set; } = string.Empty;
 
         /// <summary>
         /// Password
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(32)]
+        [MinLength(6)]
+        [PasswordPropertyText]
         [Required]
         public string Password { get; set; } = string.Empty;
 
         /// <summary>
         /// Password
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(32)]
+        [MinLength(6)]
+        [PasswordPropertyText]
         public string? RePassword { get; set; }
 
         /// <summary>
         /// Password
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(32)]
+        [MinLength(6)]
+        [PasswordPropertyText]
         public string? OldPassword { get; set; }
     }
     public class AccountModel
@@ -40,35 +48,40 @@ namespace BusinessObject.Model.Page
         /// <summary>
         /// UserName
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(50)]
+        [MinLength(6)]
         [Required]
         public string Username { get; set; } = string.Empty;
 
         /// <summary>
         /// Password
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(32)]
+        [MinLength(6)]
+        [PasswordPropertyText]
         [Required]
         public string Password { get; set; } = string.Empty;
 
         /// <summary>
         /// Fullname
         /// </summary>
-        [MaxLength(500)]
+        [MaxLength(100)]
         [Required]
         public string Fullname { get; set; } = string.Empty;
 
         /// <summary>
         /// PhoneNumber
         /// </summary>
-        [MaxLength(11)]
+        [Length(11, 11)]
+        [Phone]
         [Required]
         public string Phone { get; set; } = string.Empty;
 
         /// <summary>
         /// Email
         /// </summary>
-        [MaxLength(250)]
+        [MaxLength(255)]
+        [EmailAddress]
         [Required]
         public string Email { get; set; } = string.Empty;
 
