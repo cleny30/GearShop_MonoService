@@ -13,5 +13,6 @@ namespace DataAccess.IRepository
         public List<CartModel> GetCartsByUsername(string username);
         public bool AddCart(CartModel _cart);
         public bool UpdateCartData(CartModel _cart);
+        public void DeleteCartById(string proId, string username);
     }
 }

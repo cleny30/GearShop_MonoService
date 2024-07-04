@@ -123,5 +123,27 @@ namespace DataAccess.Repository
                 return false;
             }
         }
+
+        public void DeleteCartById(string proId, string username)
+        {
+            var id = proId.Split(',');
+            try
+            {
+                using (var context = new PrndatabaseContext())
+                {
+                   
+                    foreach (var item in id)
+                    {
+                        var cart = context.Carts.FirstOrDefault(c => c.Username==username && c.ProId==item);
+                        context.Carts.Remove(cart);
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

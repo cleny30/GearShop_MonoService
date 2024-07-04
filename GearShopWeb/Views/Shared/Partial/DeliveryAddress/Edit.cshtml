@@ -1,0 +1,63 @@
+﻿
+<form class="update_address_form" method="post" action="/Account/UpdateAddressOrder">
+    <div class="popup-overlay-update " id="updateAddressForm" data-addressID="">
+        <div class="popup-form-container-update">
+            <div class="popup-header-update">
+                <span class="popup-title-update">Update Address</span>
+            </div>
+            <div class="popup-form-content-update">
+                <!-- Item -->
+                <input type="hidden" value="" id="idUpdate" name="id">
+                <div class="popup-row-update">
+                    <div class="popup-col-update">
+                        <input type="text" value="" placeholder="Your full name" class="popup-input-update" name="fullname" id="fullnameUpdate">
+                        <p style="color: red;"></p>
+                    </div>
+                    <div class="popup-col-update">
+                        <input type="text" value="" placeholder="Phone number" class="popup-input-update" name="phone" id="phonenumUpdate">
+                        <p style="color: red;"></p>
+                    </div>
+                </div>
+                <div class="popup-row-update">
+                    <div class="popup-col-update popup-full-width-update">
+                        <label for="option" class="popup-address-label-update">
+                            <input type="text" value="" class="popup-form-control-update" name="address" id="addressUpdate" readonly>
+                            <p style="color: red;"></p>
+                            <div class="popup-icon-update">
+                                <i class="fa solid fa-chevron-down"></i>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="popup-col-update popup-full-width-update" id="optionFields1">
+                        <select id="provincesUpdate" class="popup-input-update" onchange="getDistrictsUpdate(event)">
+                            <option value="">Select provinces</option>
+                            <!-- Options will be populated here -->
+                        </select>
+
+                        <select id="districtsUpdate" class="popup-input-update" onchange="getWardsUpdate(event)">
+                            <option value="">Select districts</option>
+                        </select>
+                        <select id="wardsUpdate" class="popup-input-update" onchange="AddressFieldEdit()">
+                            <option value="">Select ward</option>
+                            <!-- Options will be populated here -->
+                        </select>
+                    </div>
+                </div>
+                <div class="popup-row-update">
+                    <input type="text" placeholder="Specific address" class="popup-input-update popup-full-width" name="specific" value="" id="specificAddressUpdate">
+                </div>
+                <div class="popup-row-update">
+                    <label class="popup-checkbox-container-update" onclick="handleCheckedUpdate()">
+                        <input type="checkbox" id="defaultAddress" name="isdefault" value="true">
+                        <span class="popup-checkmark-update"></span>
+                        Default address
+                    </label>
+                </div>
+            </div>
+            <div class="popup-footer-update">
+                <button type="button" class="popup-button-update cancel" onclick="CloseForm(1)">Cancel</button>
+                <button type="submit" class="popup-button-update submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</form>

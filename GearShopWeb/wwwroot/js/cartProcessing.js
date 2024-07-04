@@ -89,7 +89,21 @@ const updateTotalPrice = () => {
         selectedProIds.push(proId);
     });
     $('#cartTotalPrice').text('$' + totalPrice);
+    console.log(selectedProIds);
     sessionStorage.setItem('ProId', selectedProIds.join(','));
+    $.ajax({
+        url: '/Order/StoreCheckedProduct',
+        type: "POST",
+        data: {
+            proIds: selectedProIds
+        },
+        success: function (data) {
+
+        },
+        error: function () {
+            $('#loginError').text('An error occurred. Please try again later.').show();
+        }
+    });
 }
 
 $('#all').click(function () {

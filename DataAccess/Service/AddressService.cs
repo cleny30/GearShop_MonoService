@@ -20,7 +20,7 @@ namespace DataAccess.Service
 
         public List<DeliveryAddressModel> GetAddressByUsername(string username)
         {
-            return _deliveryAddressRepository.GetAddressByUsername(username);
+            return _deliveryAddressRepository.GetAddressByUsername(username).OrderByDescending(address => address.IsDefault).ToList(); ;
         }
 
         public bool AddNewAddress(DeliveryAddressModel deliveryAddressModel,string username)

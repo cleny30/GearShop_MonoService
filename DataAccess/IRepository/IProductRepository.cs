@@ -14,6 +14,6 @@ namespace DataAccess.IRepository
         public Task<bool> ChangeProductStatus(ProductModel product, bool Status);
         public Task<bool> AddQuantityFromProductAsync(List<OrderDetailModel> products);
 
-
+        public bool UpdateQuantityProduct(ProductModel productModel);
     }
 }

@@ -43,6 +43,7 @@ namespace DataAccess.Core
             services.AddScoped<OrderService>();
             services.AddScoped<AddressService>();
             services.AddScoped<OrderDetailService>();
+            services.AddScoped<EmailService>();
 
             // Other service registrations
         }

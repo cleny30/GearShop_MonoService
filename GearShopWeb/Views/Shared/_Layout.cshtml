@@ -1,4 +1,4 @@
-﻿@using Newtonsoft.Json
+@using Newtonsoft.Json
 @{
     // Retrieve the serialized list from the session
     var serializedList = Context.Session.GetString("HeaderData");
@@ -139,7 +139,7 @@
 
                         <div class="navbar-nav w-100">
                             <div class="nav-item dropdown dropright">
-                                <a href="/Shop?category=@cateList[j].CateId" class="nav-link dropdown-toggle" data-toggle="dropdown" onmousedown="window.location.href='/Shop?category=@cateList[j].CateId'">
+                                <a href="/Shop?category=@cateList[j].CateId" class="nav-link dropdown-toggle" data-toggle="dropdown" >
                                     @cateList[j].CateName<i class="fa fa-angle-right float-right mt-1"></i>
                                 </a>
                                 <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
