@@ -9,20 +9,30 @@ namespace GearShopWeb.Controllers
     {
 		private readonly IHttpContextAccessor _contx;
 		private readonly CartService _cartService;
+		private readonly AddressService _addressService;
 
-		public OrderController(IHttpContextAccessor contx, CartService cartService)
-		{
-			_contx = contx;
-			_cartService = cartService;
-		}
+        public OrderController(IHttpContextAccessor contx, CartService cartService, AddressService addressService)
+        {
+            _contx = contx;
+            _cartService = cartService;
+            _addressService = addressService;
+        }
 
-		public IActionResult Index()
+        public IActionResult Index()
         {
 			var productChecked = _contx.HttpContext.Session.GetString("proId").Split(",");
 			var list=_cartService.GetCheckedProduct("cleny30", productChecked.ToList());
-			DataResult result = new DataResult();
-			result.Result = list;
-            return View(result);
+
+			var addresses = _addressService.GetAddressByUsername("cleny30");
+			DataResult data = new DataResult();
+
+			data.Result = new
+			{
+				list = list,
+				addresses = addresses
+			};
+
+            return View(data);
         }
 
 		[HttpPost]

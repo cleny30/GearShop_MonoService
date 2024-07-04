@@ -1,21 +1,15 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var userCartData = Model.Result as List<BusinessObject.Model.Page.UserCartData>;
+    var model = Model.Result;
+
+    var userCartData = model.list as List<BusinessObject.Model.Page.UserCartData>;
+
+    var address = model.addresses as List<BusinessObject.Model.Page.DeliveryAddressModel>;
 }
 
 <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-<link href="~/css/cartalertstyle.css" rel="stylesheet" />
-<div class="alert hide" id="alert-message-checkout">
-    <span class="fas fa-exclamation-circle"></span>
-    <span class="msg" id="msg-alert-msg">Warning: Your cart contains out of stock products</span>
-    <div class="close-btn" id="close-btn-alert">
-        <span class="fas fa-times"></span>
-    </div>
-</div>
-
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -40,22 +34,30 @@
                 </span>
             </h5>
             <div class="bg-light p-30 mb-5">
-                <button style="margin-left: 690px; border: none;" onclick="openFormAddress()">Use another address</button>
+
+                <div class="ml-auto w-fit">
+                    <button class="!text-[#3d464c] !text-[20px] font-bold !bg-[#eeeeee] hover:!bg-[#9b9b98] p-2" onclick="ShowListAddress()">
+                        <ion-icon class="" name="location-outline"></ion-icon>
+                        <span class="!text-[16px]">Change address</span>
+                    </button>
+                </div>
+
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label>Full name</label>
-                        <input type="hidden" value="" name="fullname" id="ChosenFNA">
-                        <p class="form-control"></p>
+                        <input type="hidden" name="fullname" id="ChosenFNA">
+                        <p class="form-control" id="formFullname">@address[0].Fullname</p>
                     </div>
-                    <div class="col-md-6 form-group">
-                        <label>Address</label>
-                        <input type="hidden" value="" name="address" id="ChosenADA" />
-                        <p class="form-control"></p>
-                    </div>
+
                     <div class="col-md-6 form-group">
                         <label>Phone number</label>
-                        <input type="hidden" value="" name="phonenum" id="ChosenPNA" />
-                        <p class="form-control"></p>
+                        <input type="hidden" name="phonenum" id="ChosenPNA" />
+                        <p class="form-control" id="formPhone">@address[0].Phone</p>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label>Address</label>
+                        <input type="hidden" name="address" id="ChosenADA" />
+                        <p class="form-control" id="formAddress">@address[0].Address</p>
                     </div>
                     <br />
                     <div class="col-md-12">
@@ -84,7 +86,7 @@
                     {
                         <div class="d-flex justify-content-between">
                             @{
-                                var totalPriceOfOneProduct = (item.Product.ProPrice - (item.Product.ProPrice * item.Product.Discount/100)) * item.model.Quantity;
+                                var totalPriceOfOneProduct = (item.Product.ProPrice - (item.Product.ProPrice * item.Product.Discount / 100)) * item.model.Quantity;
                                 amount += totalPriceOfOneProduct;
                             }
                             <p><span>@item.model.Quantity x </span>@item.Product.ProName</p>
@@ -120,3 +122,17 @@
         </div>
     </div>
     <!-- Checkout End -->
+
+
+    <div id="listAddress" style="display:none">
+        @Html.Partial("Partial/DeliveryAddress/List", address);
+    </div>   
+    
+    <div id="editAddress" style="display:none">
+        @Html.Partial("Partial/DeliveryAddress/Edit");
+    </div>
+
+    <div id="createAddress" style="display:none">
+        @Html.Partial("Partial/DeliveryAddress/Create");
+    </div>
+    <script src="~/js/order/order.js"></script>
