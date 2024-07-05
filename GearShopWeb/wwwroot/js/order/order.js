@@ -301,7 +301,7 @@ const PlaceOrder = () => {
     var address = $('#ChosenADA').val();
     var totalPrice = $('#bill').val();
     var OrderDes = $('#description').val();
-
+    var msg = $('#alert-message-danger-msg');
     $.ajax({
         url: '/Order/CheckOut',
         type: "POST",
@@ -313,10 +313,12 @@ const PlaceOrder = () => {
             OrderDes: OrderDes
         },
         success: function (data) {
-            
-        },
-        error: function () {
-            $('#loginError').text('An error occurred. Please try again later.').show();
+            if (data.isSuccess === true) {
+                sessionStorage.setItem("completeCheckout", "true");
+                window.location.href = "/Order/PostCheckout";
+            } else {
+                $('#alertOrder').css('display', 'block');
+            }
         }
     });
 }

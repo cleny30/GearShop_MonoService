@@ -165,6 +165,7 @@ namespace DataAccess.Repository
                         ProPrice = product.ProPrice,
                         ProName = product.ProName,
                         ProDes = product.ProDes,
+                        ProQuan = product.ProQuan,
                         IsAvailable= product.IsAvailable,
                     };                  
                 }

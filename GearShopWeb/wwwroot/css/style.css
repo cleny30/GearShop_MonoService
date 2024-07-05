@@ -11555,3 +11555,17 @@ h6 {
         color: black;
         background-color: #ffc800;
     }
+
+.btn-common {
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #ffc107;
+    margin-top: 10px;
+    outline: none !important;
+}
+
+.btn-common-lg {
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+}

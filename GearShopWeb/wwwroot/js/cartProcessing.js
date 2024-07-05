@@ -17,9 +17,6 @@
                 } else {
                     console.log(data);
                 }
-            },
-            error: function () {
-                $('#loginError').text('An error occurred. Please try again later.').show();
             }
         });
     }
@@ -72,9 +69,6 @@ const UpdateCart = (element) => {
             } else {
                 console.log(data);
             }
-        },
-        error: function () {
-            $('#loginError').text('An error occurred. Please try again later.').show();
         }
     });
 }
@@ -99,9 +93,6 @@ const updateTotalPrice = () => {
         },
         success: function (data) {
 
-        },
-        error: function () {
-            $('#loginError').text('An error occurred. Please try again later.').show();
         }
     });
 }
@@ -119,3 +110,17 @@ $('.check-box-child').click(function () {
     }
     updateTotalPrice();
 });
+
+function DeleteItem(element) {
+    var proId = element.getAttribute('data-proId');
+    $.ajax({
+        url: '/Cart/Delete',
+        type: "POST",
+        data: {
+            ProId: proId
+        },
+        success: function (data) {
+            window.location.reload();
+        }
+    });
+}
