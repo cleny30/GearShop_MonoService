@@ -38,7 +38,13 @@ namespace GearShopWeb.Controllers
             return View(data);
         }
 
-		[HttpPost]
+        [HttpGet("/Order/PostCheckout")]
+        public IActionResult PostCheckout()
+        {
+            return View();
+        }
+
+        [HttpPost]
 		public IActionResult StoreCheckedProduct(List<string> proIds)
 		{
 			_contx.HttpContext.Session.SetString("proId", string.Join(',', proIds));
@@ -55,12 +61,12 @@ namespace GearShopWeb.Controllers
             OrderModel orderModel = new OrderModel
             {
                 Address = order.Address,
-                OrderDes = order.OrderDes,
+                OrderDes = order.OrderDes ==null?order.OrderDes:"None",
                 Fullname = order.Fullname,
                 Phone = order.Phone,
                 proId = productChecked,
                 StartDate = DateOnly.FromDateTime(DateTime.Now),
-                Status = 0,
+                Status = 1,
                 TotalPrice = order.TotalPrice,
                 Username = username,
             };

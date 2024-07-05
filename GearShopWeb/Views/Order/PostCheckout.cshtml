@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // var username = Context.Session.GetString("username");
+    var username = "cleny30";
+}
+
+<div className="max-w-[900px] my-0 mx-auto h-[650px] text-center">
+    <div className="rounded-[50%] my-[20px]">
+        <img className="w-[200px] m-auto"
+             src="https://cdn-icons-png.freepik.com/512/641/641813.png"
+             alt="Post checkout picture" />
+    </div>
+
+    <h1 className="text-[#0aa38f] mt-[20px]">Order placed successfully!</h1>
+
+    <div className="mt-[20px] border-t-[2px] border-solid border-[#333]"></div>
+    <p className="font-bold mt-[20px] text-[17px] text-[#333] ml-[20px]">
+        Thank you for shopping at MultiShop!
+    </p>
+    <p className="text-[17px] text-[#333] ml-[20px]">
+        Your order will be processed and we will quickly deliver the goods to
+        the address you provided.
+        <br />
+        The department in charge will proactively contact you as soon as
+        possible.
+        <br />
+        In case you need urgent support, please contact Hotline:{" "}
+        <span className="text-[24px] text-red-500">+012 345 6789</span>
+    </p>
+    <p className="text-[17px] text-[#333] ml-[20px]">
+        Thank you for trusting and choosing our service!
+    </p>
+
+    <div className="flex justify-center gap-3">
+        <buton className="flex bg-[#0aa38f] text-white py-[10px] px-[20px] rounded-[5px] no-underline mt-[20px]"
+               onclick="handleLinkClick('/shop')">
+            Continue shopping
+        </buton>
+        <buton className="flex bg-[#0aa38f] text-white py-[10px] px-[20px] rounded-[5px] no-underline mt-[20px]"
+               onclick="handleLinkClick('/Account/MyOrder')">
+            View order details
+        </buton>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () { 
+        let isCompletechecout = sessionStorage.getItem("completeCheckout");
+
+        if (@username != null && isCompletechecout == "true") {
+        } else if (@username == null) {
+            sessionStorage.setItem("alert", "You must be logged in before checkout");
+            window.location.href = "/login";
+        } else {
+            window.location.href = "/cart";
+        }
+    })
+
+    const handleLinkClick = async (link) => {
+        await sessionStorage.removeItem("completeCheckout");
+        window.location.href = link;
+    }
+</script>

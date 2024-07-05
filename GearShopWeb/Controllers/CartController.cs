@@ -47,5 +47,13 @@ namespace GearShopWeb.Controllers
             data.Result = result.Item2;
             return data;
         }
+
+        [HttpPost]
+        public DataResult Delete(string ProId)
+        {
+            DataResult data = new DataResult();
+            data.IsSuccess = cartService.DeleteCartById(ProId,"cleny30");
+            return data;
+        }
     }
 }

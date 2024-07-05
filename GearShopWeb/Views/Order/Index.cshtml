@@ -143,4 +143,19 @@
     <div id="createAddress" style="display:none">
         @Html.Partial("Partial/DeliveryAddress/Create");
     </div>
+
+    <div id="alertOrder" style="display:none">
+        <div class="fixed top-0 left-0 bg-[rgba(0,0,0,.3)] h-[100%] w-[100%] z-[100]">
+            <div class="update-review fixed bg-slate-50 top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-30 w-[30%] p-4">
+                <p>
+                    Some products in the shopping cart have just been updated, please
+                    check and try again.
+                </p>
+                <div class="flex justify-end">
+                    <button class="btn-common"><a class="text-white" style="text-decoration:none" href="/cart">OK</a></button>
+                </div>
+            </div>
+        </div>
+   </div>
+
     <script src="~/js/order/order.js"></script>
