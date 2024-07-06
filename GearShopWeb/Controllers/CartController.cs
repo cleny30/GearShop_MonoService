@@ -2,6 +2,7 @@
 using BusinessObject.Model.Page;
 using DataAccess.Service;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace GearShopWeb.Controllers
 {
@@ -34,6 +35,7 @@ namespace GearShopWeb.Controllers
             DataResult dataResult = new DataResult();
             ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
             dataResult.IsSuccess = cartService.AddOrUpdateCart("cleny30", productData, amount);
+            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName("cleny30").Count()));
 
             return dataResult;
         }
@@ -53,6 +55,7 @@ namespace GearShopWeb.Controllers
         {
             DataResult data = new DataResult();
             data.IsSuccess = cartService.DeleteCartById(ProId,"cleny30");
+            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName("cleny30").Count()));
             return data;
         }
     }

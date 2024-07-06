@@ -2,15 +2,8 @@
     overflow-x: hidden;
 }
 
-.alert-warning {
-    background: #ffdb9b;
-}
-.alert-danger {
-    background: #D34604;
-}
-
 .alert {
-   
+    background: #ffdb9b;
     padding: 20px 40px;
     min-width: 420px;
     position: absolute;
