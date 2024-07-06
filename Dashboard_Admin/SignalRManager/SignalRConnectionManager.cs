@@ -12,9 +12,9 @@ namespace Dashboard_Admin.SignalRManager
     {
         private HubConnection _connection;
 
-        public SignalRConnectionManager(string url, string username)
+        public SignalRConnectionManager(string url)
         {
-            var connectionUrl = string.IsNullOrEmpty(username) ? url : $"{url}?username={username}";
+            var connectionUrl = url;
 
             _connection = new HubConnectionBuilder()
                 .WithUrl(connectionUrl)

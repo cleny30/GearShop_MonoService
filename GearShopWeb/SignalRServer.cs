@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using DataAccess.Service;
+using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System.Collections.Concurrent;
 
 namespace GearShopWeb
@@ -6,6 +8,16 @@ namespace GearShopWeb
     public class SignalRServer : Hub
     {
         private static ConcurrentDictionary<string, string> _userConnections = new ConcurrentDictionary<string, string>();
+        private readonly IHttpContextAccessor _contx;
+        private readonly CartService cartService;
+        private readonly HeaderService headerService;
+
+        public SignalRServer(IHttpContextAccessor contx, CartService cartService, HeaderService headerService)
+        {
+            _contx = contx;
+            this.cartService = cartService;
+            this.headerService = headerService;
+        }
 
         public override Task OnConnectedAsync()
         {
@@ -35,6 +47,16 @@ namespace GearShopWeb
             if (_userConnections.TryGetValue(username, out var connectionId))
             {
                 await Clients.Client(connectionId).SendAsync("LoadOrder");
+            }
+        }
+
+        public async Task LoadCartData()
+        {
+            var username = _contx.HttpContext.Session.GetString("username");
+            if (_userConnections.TryGetValue("cleny30", out var connectionId))
+            {
+                int count = cartService.GetCartsByUserName("cleny30").Count();
+                await Clients.Client(connectionId).SendAsync("ReceiveLoadCardData", count);
             }
         }
     }

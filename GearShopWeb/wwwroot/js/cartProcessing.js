@@ -1,26 +1,16 @@
-﻿    const AddToCart = (element) => {
-        var productData = element.getAttribute('data-model');
-        var amount = element.getAttribute('data-amount');
-        if (amount === null) {
-            amount = $('#quan_input').val();
+﻿const DeleteItem = (element) => {
+    var proId = element.getAttribute('data-proId');
+    $.ajax({
+        url: '/Cart/Delete',
+        type: "POST",
+        data: {
+            ProId: proId
+        },
+        success: function (data) {
+            window.location.reload();
         }
-        $.ajax({
-            url: '/Cart/AddProductToCart',
-            type: "POST",
-            data: {
-                data: productData,
-                amount: amount
-            },
-            success: function (data) {
-                if (data.isSuccess === true) {
-                    console.log("ok");
-                } else {
-                    console.log(data);
-                }
-            }
-        });
-    }
-
+    });
+}
 const handleIncrease = (button) => {
     var button = $(button);
     var input = button.parent().parent().find('input');
@@ -64,7 +54,7 @@ const UpdateCart = (element) => {
             amount: amount
         },
         success: function (data) {
-            if (data.isSuccess === true) {                
+            if (data.isSuccess === true) {
                 console.log("ok");
             } else {
                 console.log(data);
@@ -78,7 +68,7 @@ const updateTotalPrice = () => {
     let selectedProIds = [];
     $('.check-box-child:checked').each(function () {
         var proId = $(this).data('priceid');
-        var price = parseFloat($('#total-' + proId ).text());
+        var price = parseFloat($('#total-' + proId).text());
         totalPrice += price;
         selectedProIds.push(proId);
     });
@@ -110,17 +100,3 @@ $('.check-box-child').click(function () {
     }
     updateTotalPrice();
 });
-
-function DeleteItem(element) {
-    var proId = element.getAttribute('data-proId');
-    $.ajax({
-        url: '/Cart/Delete',
-        type: "POST",
-        data: {
-            ProId: proId
-        },
-        success: function (data) {
-            window.location.reload();
-        }
-    });
-}

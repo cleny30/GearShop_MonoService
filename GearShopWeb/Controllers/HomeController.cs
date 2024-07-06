@@ -22,10 +22,16 @@ namespace GearShopWeb.Controllers
         public IActionResult Home()
         {
             DataResult data = new DataResult();
-            _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData()));
+            string username=null;
+            int count = 0;
+            if (_contx.HttpContext.Session.GetString("username")!=null)
+            {
+                 username = _contx.HttpContext.Session.GetString("username");
+            }
+            _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData("cleny30", out count)));
+            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(count));
 
             data.Result = service.GetData();
-
             
             return View(data);
         }

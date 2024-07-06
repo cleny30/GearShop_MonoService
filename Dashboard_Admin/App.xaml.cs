@@ -26,9 +26,9 @@ namespace Dashboard_Admin
             serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        public static async Task InitializeSignalRConnectionAsync(string url, string username = null)
+        public static async Task InitializeSignalRConnectionAsync(string url)
         {
-            SignalRConnection = new SignalRConnectionManager(url, username);
+            SignalRConnection = new SignalRConnectionManager(url);
             await SignalRConnection.StartConnectionAsync();
         }
 

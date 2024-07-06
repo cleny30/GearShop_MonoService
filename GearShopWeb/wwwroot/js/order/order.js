@@ -301,7 +301,6 @@ const PlaceOrder = () => {
     var address = $('#ChosenADA').val();
     var totalPrice = $('#bill').val();
     var OrderDes = $('#description').val();
-    var msg = $('#alert-message-danger-msg');
     $.ajax({
         url: '/Order/CheckOut',
         type: "POST",

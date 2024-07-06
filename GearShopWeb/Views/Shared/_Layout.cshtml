@@ -2,6 +2,7 @@
 @{
     // Retrieve the serialized list from the session
     var serializedList = Context.Session.GetString("HeaderData");
+    var cartQuantity = Context.Session.GetString("cartQuantity");
 
     // Deserialize the JSON string into a list
     var headerData = JsonConvert.DeserializeObject<BusinessObject.Model.Page.HeaderModel>(serializedList);
@@ -87,7 +88,7 @@
                     <a href="/Cart" class="btn px-0 ml-2">
                         <i class="fas fa-shopping-cart text-dark"></i>
                         <span class="badge text-dark border border-dark rounded-circle cart-value"
-                              style="padding-bottom: 2px;">@* @count *@</span>
+                              style="padding-bottom: 2px;">@cartQuantity</span>
                     </a>
                 </div>
             </div>
@@ -180,8 +181,8 @@
 
                             <a href="/Cart" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle cart-value"
-                                      style="padding-bottom: 2px;">@* @count *@</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle cart-value" id="cart-header-count"
+                                      style="padding-bottom: 2px;">@cartQuantity</span>
                             </a>
                         </div>
                     </div>
@@ -273,7 +274,8 @@
     <script src="~/mail/jqBootstrapValidation.min.js"></script>
     <script src="~/mail/contact.js"></script>
     <!-- Template Javascript -->
-    <script src="~/js/main.js"></script>
+    <script type="module" src="~/js/main.js"></script>
     <script src="~/js/cartprocessing.js"></script>
+    <script src="~/js/sinalrconfig/signalrservice.js"></script>
 </body>
 </html>
