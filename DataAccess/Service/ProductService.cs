@@ -90,5 +90,20 @@ namespace DataAccess.Service
         {
             return await _repo.AddQuantityToProductAsync(list);
         }
+
+        public async Task<bool> ChangeProductStatus(ProductModel product, bool Status)
+        {
+            return await _repo.ChangeProductStatus(product, Status);
+        }
+
+        public async Task<bool> AddQuantityFromProductAsync(List<OrderDetailModel> products)
+        {
+            return await _repo.AddQuantityFromProductAsync(products);
+        }
+
+        public bool UpdateQuantityProduct(ProductModel product)
+        {
+            return _repo.UpdateQuantityProduct(product);
+        }
     }
 }

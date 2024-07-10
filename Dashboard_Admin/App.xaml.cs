@@ -1,4 +1,5 @@
-﻿using DataAccess.Core;
+﻿using Dashboard_Admin.SignalRManager;
+using DataAccess.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using System.Data;
@@ -16,11 +17,19 @@ namespace Dashboard_Admin
     {
         private const string FilePath = "RememberMe.json";
         private static ServiceProvider serviceProvider;
+        public static SignalRConnectionManager SignalRConnection { get; private set; }
+
         public App()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.ConfigureDependencyInjection();
             serviceProvider = serviceCollection.BuildServiceProvider();
+        }
+
+        public static async Task InitializeSignalRConnectionAsync(string url)
+        {
+            SignalRConnection = new SignalRConnectionManager(url);
+            await SignalRConnection.StartConnectionAsync();
         }
 
         public static T GetService<T>()

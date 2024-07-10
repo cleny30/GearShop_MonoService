@@ -27,6 +27,7 @@ public partial class Order
 
     public string Address { get; set; } = null!;
 
+
     public virtual Manager? Manager { get; set; }
 
     public virtual Customer UsernameNavigation { get; set; } = null!;

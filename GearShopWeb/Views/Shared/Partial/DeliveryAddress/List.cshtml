@@ -1,0 +1,77 @@
+﻿@model List<BusinessObject.Model.Page.DeliveryAddressModel>
+
+<div class="fixed top-0 left-0 bg-[rgba(0,0,0,.3)] h-[100%] w-[100%] z-[100]">
+    <div class="update-review fixed bg-slate-50 top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-30 w-[28%]">
+        <div class="flex px-6 py-3 border-solid border-b-2">
+            <span class="text-[20px] font-bold">My delivery address</span>
+        </div>
+        <div class="block pt-0 px-6 pb-6 h-[450px] overflow-y-scroll list-item-delivery">
+            @foreach (var item in Model)
+            {
+                <div class="flex py-4">
+                    <div class="pr-1 mr-2">
+                        <label class="container-radio-delivery">
+                            <input type="radio"
+                            @(item.IsDefault ? "checked" : "")
+                                   value="@item.Id"
+                                   name="addressId"
+                                   data-fullname="@item.Fullname"
+                                   data-phone="@item.Phone"
+                                   data-specific="@item.Specific"
+                                   data-address="@item.Address" />
+                            <span class="checkmark-delivery"></span>
+                        </label>
+                    </div>
+                    <div class="w-[100%]">
+                        <div class="flex">
+                            <div class="flex">
+                                <span class="inline-flex font-medium">
+                                    @item.Fullname
+                                </span>
+                                <div class="border-l-[0.5px] border-solid border-[#00000042] mx-2"></div>
+                                <span class="inline-flex">@item.Phone</span>
+                            </div>
+                            <div class="ml-auto w-fit">
+                                <button class="btn-common btn-common-lg w-full bg-transparent border-0 !text-[#ffc107] outline-none p-0 whitespace-nowrap m-0"
+                                        data-fullname="@item.Fullname" data-ID="@item.Id" data-phonenum="@item.Phone" data-address="@item.Address" data-isdefault="@item.IsDefault" data-specific="@item.Specific" onclick="UpdateAddress(this)">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-[.875rem] leading-[1.25rem] mt-1">
+                            @item.Specific
+                        </div>
+                        <div class="text-[.875rem] leading-[1.25rem] mt-1">
+                            @item.Address
+                        </div>
+                        @if (item.IsDefault)
+                        {
+                            <div class="text-[.875rem] leading-[1.25rem] mt-1 text-red-500 border-[1px] border-solid border-red-500 w-fit p-1">
+                                Default address
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @if (Model.Count() < 4)
+            {
+                <div>
+                    <button class="btn-common btn-common-lg w-full border-[1px] border-solid border-[#ffc43d] bg-transparent !text-[#ffc43d] mr-2 !px-4 h-10" onclick="CreateAddress()">
+                        <i class="fa solid fa-plus"></i>
+                        <span class="ml-2">Add new address</span>
+                    </button>
+                </div>
+            }
+        </div>
+        <div class="flex bg-white border-t-2 border-solid px-6 h-16 justify-end ">
+            <button class="btn-common btn-common-lg w-full border-[1px] border-solid border-[#ffc43d] bg-white !text-[#ffc43d] mr-2 !px-4 h-10"
+                    onclick="CloseListAddress()">
+                Cancel
+            </button>
+
+            <button class="btn-common btn-common-lg w-full !px-4 h-10 bg-[#ffc43d] text-white" onclick="ChangeAddress()">
+                Submit
+            </button>
+        </div>
+    </div>
+</div>

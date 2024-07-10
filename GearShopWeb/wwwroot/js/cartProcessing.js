@@ -1,29 +1,16 @@
-﻿    const AddToCart = (element) => {
-        var productData = element.getAttribute('data-model');
-        var amount = element.getAttribute('data-amount');
-        if (amount === null) {
-            amount = $('#quan_input').val();
+﻿const DeleteItem = (element) => {
+    var proId = element.getAttribute('data-proId');
+    $.ajax({
+        url: '/Cart/Delete',
+        type: "POST",
+        data: {
+            ProId: proId
+        },
+        success: function (data) {
+            window.location.reload();
         }
-        $.ajax({
-            url: '/Cart/AddProductToCart',
-            type: "POST",
-            data: {
-                data: productData,
-                amount: amount
-            },
-            success: function (data) {
-                if (data.isSuccess === true) {
-                    console.log("ok");
-                } else {
-                    console.log(data);
-                }
-            },
-            error: function () {
-                $('#loginError').text('An error occurred. Please try again later.').show();
-            }
-        });
-    }
-
+    });
+}
 const handleIncrease = (button) => {
     var button = $(button);
     var input = button.parent().parent().find('input');
@@ -67,14 +54,49 @@ const UpdateCart = (element) => {
             amount: amount
         },
         success: function (data) {
-            if (data.isSuccess === true) {                
-                $('#cartPrice').text('$'+data.result);
+            if (data.isSuccess === true) {
+                console.log("ok");
             } else {
                 console.log(data);
             }
-        },
-        error: function () {
-            $('#loginError').text('An error occurred. Please try again later.').show();
         }
     });
 }
+
+const updateTotalPrice = () => {
+    let totalPrice = 0;
+    let selectedProIds = [];
+    $('.check-box-child:checked').each(function () {
+        var proId = $(this).data('priceid');
+        var price = parseFloat($('#total-' + proId).text());
+        totalPrice += price;
+        selectedProIds.push(proId);
+    });
+    $('#cartTotalPrice').text('$' + totalPrice);
+    console.log(selectedProIds);
+    sessionStorage.setItem('ProId', selectedProIds.join(','));
+    $.ajax({
+        url: '/Order/StoreCheckedProduct',
+        type: "POST",
+        data: {
+            proIds: selectedProIds
+        },
+        success: function (data) {
+
+        }
+    });
+}
+
+$('#all').click(function () {
+    $('.check-box-child').prop('checked', $(this).prop('checked'));
+    updateTotalPrice();
+});
+
+$('.check-box-child').click(function () {
+    if ($('.check-box-child:checked').length == $('.check-box-child').length) {
+        $('#all').prop('checked', true);
+    } else {
+        $('#all').prop('checked', false);
+    }
+    updateTotalPrice();
+});

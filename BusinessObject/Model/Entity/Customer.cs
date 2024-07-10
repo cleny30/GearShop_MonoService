@@ -15,7 +15,7 @@ public partial class Customer
 
     public string Email { get; set; } = null!;
 
-    public virtual ICollection<DeliveryAddress> DeliveryAddresses { get; set; } = new List<DeliveryAddress>();
+    public virtual ICollection<DeliveryAddress>? DeliveryAddresses { get; set; } = new List<DeliveryAddress>();
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order>? Orders { get; set; } = new List<Order>();
 }

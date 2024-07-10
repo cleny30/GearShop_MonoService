@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace DataAccess.Service
@@ -21,6 +22,10 @@ namespace DataAccess.Service
         public AccountService(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
+        }
+
+        public AccountService()
+        {
         }
 
         public bool Login(LoginAccountModel userLogin)
@@ -147,7 +152,7 @@ namespace DataAccess.Service
         }
 
         /// <summary>
-        /// TODO
+        /// Change Password
         /// </summary>
         /// <param name="userLogin"></param>
         /// <returns></returns>
@@ -226,5 +231,13 @@ namespace DataAccess.Service
                 return sb.ToString();
             }
         }
+        public bool UpdateCustomerInfor(AccountModel customer, string username)
+        {
+            var account = _accountRepository.GetAccount<Customer>(a => a.Username == username);
+            customer.Username = username;
+            customer.Password = account.Password;
+            return _accountRepository.UpdateCustomerInfor(customer);
+        }
+
     }
 }

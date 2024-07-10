@@ -1,6 +1,6 @@
 ﻿(function ($) {
     "use strict";
-
+    
     // Back to top button
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
@@ -166,7 +166,7 @@ const handleWindowResize = () => {
     // Check window width to determine if it's resized back to full screen
     if ($(window).width() >= 992) { // Adjust the breakpoint according to your design
         // Ensure dropdown is shown and not collapsed
-        $('#navbarCollapse-tt').addClass("show");
+        $('#navbarCollapse-tt').addClass("show");   
         $('#navbarCollapse-tt').removeClass("collapse");
 
         // Update the state

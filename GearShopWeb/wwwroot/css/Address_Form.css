@@ -1,0 +1,285 @@
+﻿
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+}
+
+.popup-form-container {
+    position: fixed;
+    background: #f8fafc;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 130;
+    width: 30%;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.popup-header {
+    display: flex;
+    padding: 16px;
+    border-bottom: 2px solid #ddd;
+}
+
+.popup-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.popup-form-content {
+    padding: 16px;
+    height: 350px;
+    overflow-y: auto;
+}
+
+.popup-row {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.popup-col {
+    flex: 1;
+    margin-right: 8px;
+}
+
+    .popup-col:last-child {
+        margin-right: 0;
+    }
+
+.popup-full-width {
+    width: 100%;
+}
+
+.popup-input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.popup-address-label {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+.popup-form-control {
+    background: #fff;
+    cursor: pointer;
+    width: calc(100% - 24px);
+    padding-right: 24px;
+}
+
+.popup-icon {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+}
+
+.popup-checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .popup-checkbox-container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+.popup-checkmark {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+}
+
+.popup-checkbox-container input:checked ~ .popup-checkmark {
+    background-color: #ffc43d;
+    border: 1px solid #ffc43d;
+}
+
+.popup-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    border-top: 2px solid #ddd;
+    background: #fff;
+}
+
+.popup-button {
+    padding: 8px 16px;
+    border: 1px solid #ffc43d;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+    .popup-button.cancel {
+        background: #fff;
+        color: #ffc43d;
+    }
+
+    .popup-button.submit {
+        background: #ffc43d;
+        color: #fff;
+        border: none;
+    }
+
+
+
+
+
+
+.popup-overlay-update {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+}
+
+.popup-form-container-update {
+    position: fixed;
+    background: #f8fafc;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 130;
+    width: 30%;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.popup-header-update {
+    display: flex;
+    padding: 16px;
+    border-bottom: 2px solid #ddd;
+}
+
+.popup-title-update {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.popup-form-content-update {
+    padding: 16px;
+    height: 350px;
+    overflow-y: auto;
+}
+
+.popup-row-update {
+    display: flex;
+    margin-bottom: 16px;
+}
+
+.popup-col-update {
+    flex: 1;
+    margin-right: 8px;
+}
+
+    .popup-col-update:last-child {
+        margin-right: 0;
+    }
+
+.popup-full-width-update {
+    width: 100%;
+}
+
+.popup-input-update {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.popup-address-label-update {
+    position: relative;
+    display: block;
+    cursor: pointer;
+}
+
+.popup-form-control-update {
+    background: #fff;
+    cursor: pointer;
+    width: calc(100% - 24px);
+    padding-right: 24px;
+}
+
+.popup-icon-update {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+}
+
+.popup-checkbox-container-update {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .popup-checkbox-container-update input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+.popup-checkmark-update {
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+}
+
+.popup-checkbox-container-update input:checked ~ .popup-checkmark-update {
+    background-color: #ffc43d;
+    border: 1px solid #ffc43d;
+}
+
+.popup-footer-update {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
+    border-top: 2px solid #ddd;
+    background: #fff;
+}
+
+.popup-button-update {
+    padding: 8px 16px;
+    border: 1px solid #ffc43d;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+    .popup-button-update.cancel {
+        background: #fff;
+        color: #ffc43d;
+    }
+
+    .popup-button-update.submit {
+        background: #ffc43d;
+        color: #fff;
+        border: none;
+    }

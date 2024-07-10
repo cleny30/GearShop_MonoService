@@ -1,7 +1,8 @@
-﻿@using Newtonsoft.Json
+@using Newtonsoft.Json
 @{
     // Retrieve the serialized list from the session
     var serializedList = Context.Session.GetString("HeaderData");
+    var cartQuantity = Context.Session.GetString("cartQuantity");
 
     // Deserialize the JSON string into a list
     var headerData = JsonConvert.DeserializeObject<BusinessObject.Model.Page.HeaderModel>(serializedList);
@@ -36,11 +37,16 @@
     <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/css/address_form.css" rel="stylesheet" />
+    <link href="~/css/css.css" rel="stylesheet" />
     <link href="~/css/style.css" rel="stylesheet">
+
     <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
 
     <script src="~/js/jquery-3.7.0.js"></script>
 
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
 </head>
 <body>
     <!-- Topbar Start -->
@@ -69,8 +75,11 @@
                             <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
                             <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button>
                             } *@
-
-
+                      
+                          
+                            <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
+                            <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button>
+                          
                         </div>
                     </div>
 
@@ -79,7 +88,7 @@
                     <a href="/Cart" class="btn px-0 ml-2">
                         <i class="fas fa-shopping-cart text-dark"></i>
                         <span class="badge text-dark border border-dark rounded-circle cart-value"
-                              style="padding-bottom: 2px;">@* @count *@</span>
+                              style="padding-bottom: 2px;">@cartQuantity</span>
                     </a>
                 </div>
             </div>
@@ -131,7 +140,7 @@
 
                         <div class="navbar-nav w-100">
                             <div class="nav-item dropdown dropright">
-                                <a href="/Shop?category=@cateList[j].CateId" class="nav-link dropdown-toggle" data-toggle="dropdown" onmousedown="window.location.href='/Shop?category=@cateList[j].CateId'">
+                                <a href="/Shop?category=@cateList[j].CateId" class="nav-link dropdown-toggle" data-toggle="dropdown" >
                                     @cateList[j].CateName<i class="fa fa-angle-right float-right mt-1"></i>
                                 </a>
                                 <div class="dropdown-menu position-absolute rounded-0 border-0 m-0"
@@ -172,8 +181,8 @@
 
                             <a href="/Cart" class="btn px-0 ml-3">
                                 <i class="fas fa-shopping-cart text-primary"></i>
-                                <span class="badge text-secondary border border-secondary rounded-circle cart-value"
-                                      style="padding-bottom: 2px;">@* @count *@</span>
+                                <span class="badge text-secondary border border-secondary rounded-circle cart-value" id="cart-header-count"
+                                      style="padding-bottom: 2px;">@cartQuantity</span>
                             </a>
                         </div>
                     </div>
@@ -265,7 +274,8 @@
     <script src="~/mail/jqBootstrapValidation.min.js"></script>
     <script src="~/mail/contact.js"></script>
     <!-- Template Javascript -->
-    <script src="~/js/main.js"></script>
+    <script type="module" src="~/js/main.js"></script>
     <script src="~/js/cartprocessing.js"></script>
+    <script src="~/js/sinalrconfig/signalrservice.js"></script>
 </body>
 </html>

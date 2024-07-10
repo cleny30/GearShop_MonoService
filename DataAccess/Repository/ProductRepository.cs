@@ -4,6 +4,7 @@ using DataAccess.IRepository;
 using ISUZU_NEXT.Server.Core.Extentions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 
 namespace DataAccess.Repository
@@ -113,7 +114,7 @@ namespace DataAccess.Repository
                 Discount = product.Discount,
                 ProDes = product.ProDes,
                 ProPrice = product.ProPrice,
-                IsAvailable = product.IsAvailable,
+                IsAvailable = true,
                 ProQuan = 0
             };
             try
@@ -164,6 +165,8 @@ namespace DataAccess.Repository
                         ProPrice = product.ProPrice,
                         ProName = product.ProName,
                         ProDes = product.ProDes,
+                        ProQuan = product.ProQuan,
+                        IsAvailable= product.IsAvailable,
                     };                  
                 }
                 return model;
@@ -266,6 +269,79 @@ namespace DataAccess.Repository
             catch (Exception ex)
             {
                 // Log the exception if necessary
+                return false;
+            }
+        }
+
+        public async Task<bool> AddQuantityFromProductAsync(List<OrderDetailModel> products)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    foreach (var item in products)
+                    {
+                        var _product = await dbContext.Products.FirstOrDefaultAsync(p => p.ProId == item.ProId);
+
+                        if (_product == null)
+                        {
+                            return false; // Early return if any product is not found
+                        }
+                        _product.ProQuan += item.Quantity;
+                        dbContext.Entry(_product).State = EntityState.Modified;
+                    }
+                    await dbContext.SaveChangesAsync();
+                    return true; // Operation successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
+            }
+        }
+
+        public async Task<bool> ChangeProductStatus(ProductModel product, bool Status)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var _product = await dbContext.Products.FirstOrDefaultAsync(p => p.ProId == product.ProId);
+                    _product.IsAvailable = Status;
+                    dbContext.Entry(_product).State = EntityState.Modified;
+                    await dbContext.SaveChangesAsync();
+                    return true; // Operation successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception if necessary
+                return false;
+            }
+        }
+
+        public bool UpdateQuantityProduct(ProductModel productModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var product = dbContext.Products.FirstOrDefault(p => p.ProId == productModel.ProId);
+                    if (product != null)
+                    {
+                        product.ProQuan = productModel.ProQuan;
+                        dbContext.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false; // Product not found
+                    }
+                }
+            }
+            catch (Exception)
+            {
                 return false;
             }
         }

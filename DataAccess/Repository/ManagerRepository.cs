@@ -8,50 +8,43 @@ using System.Text;
 using System.Threading.Tasks;
 using ISUZU_NEXT.Server.Core.Extentions;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repository
 {
     public class ManagerRepository: IManagerRepository
     {
-        public bool CheckUsernameExisted(string username)
+        public async Task<bool> CheckUsernameExistedAsync(string username)
         {
             try
             {
-                var dbContext = new PrndatabaseContext();
-                Manager _manager = new Manager();
-                _manager = dbContext.Managers.FirstOrDefault(m => m.Username.Equals(username));
-                if(_manager == null)
+                using (var dbContext = new PrndatabaseContext())
                 {
-                    return false;
-                } else
-                {
-                    return true;
-                }    
+                    Manager _manager = await dbContext.Managers.FirstOrDefaultAsync(m => m.Username.Equals(username));
+                    return _manager != null;
+                }
             }
             catch (Exception ex)
             {
+                // Log the exception or handle it as necessary
                 return false;
             }
         }
 
-        public bool CheckManagerExisted(string username, string password)
+        public async Task<bool> CheckManagerExistedAsync(string username, string password)
         {
             try
             {
-                var dbContext = new PrndatabaseContext();
-                Manager _manager = new Manager();
-                _manager = dbContext.Managers.FirstOrDefault(m => m.Username.Equals(username) && m.Password.Equals(GetMD5Hash(password)));
-                if (_manager == null)
+                using (var dbContext = new PrndatabaseContext())
                 {
-                    return false;
-                }
-                else
-                {
-                    return true;
+                    string hashedPassword = GetMD5Hash(password);
+                    Manager _manager = await dbContext.Managers.FirstOrDefaultAsync(m => m.Username.Equals(username) && m.Password.Equals(hashedPassword));
+                    return _manager != null;
                 }
             }
             catch (Exception ex)
             {
+                // Log the exception or handle it as necessary
                 return false;
             }
         }

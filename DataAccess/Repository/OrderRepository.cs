@@ -35,6 +35,8 @@ namespace DataAccess.Repository
                 return null;
             }
         }
+
+
         public OrderModel GetOrderByID(string ID)
         {
             Order order;
@@ -54,7 +56,9 @@ namespace DataAccess.Repository
                         StartDate = order.StartDate,
                         Status = order.Status,
                         TotalPrice = order.TotalPrice,
-                        Username = order.Username
+                        Username = order.Username,
+                        Fullname = order.Fullname,
+                        Phone = order.Phone,
                     };
 
                     return _order;
@@ -94,6 +98,7 @@ namespace DataAccess.Repository
                     if(Status == 4)
                     {
                         order.EndDate = DateOnly.FromDateTime(DateTime.Now);
+
                     }
                     dbContext.Entry<Order>(order).State = EntityState.Modified;
                     int check = dbContext.SaveChanges();
@@ -120,6 +125,117 @@ namespace DataAccess.Repository
                 return false;
             }
         }
+        public int GetCompletedOrder()
+        {
+            var OrderList = GetOrderList();
+            var CompletedOrder = OrderList.Where(o => o.Status == 4).ToList();
+            return CompletedOrder.Count;
+        }
+
+        public List<Tuple<string, double>> GetTop10Customer()
+        {
+            using (var context = new PrndatabaseContext())
+            {
+                var topCustomers = context.Orders
+                    .Where(order => order.Status == 4)
+                    .Join(context.Customers,
+                          order => order.Username,
+                          customer => customer.Username,
+                          (order, customer) => new { customer.Fullname, order.TotalPrice })
+                    .GroupBy(x => x.Fullname)
+                    .Select(g => new { Fullname = g.Key, TotalPriceSum = g.Sum(x => x.TotalPrice) })
+                    .OrderByDescending(x => x.TotalPriceSum)
+                    .Take(10)
+                    .ToList()
+                    .Select(x => Tuple.Create(x.Fullname, (double)x.TotalPriceSum))
+                    .ToList();
+
+                return topCustomers;
+            }
+        }
         
+        /// <summary>
+        /// Get Order List of customer
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public List<OrderDataModel> GetOrderListByUser(string username)
+        {
+            List<Order> orders;
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                orders = dbContext.Orders.Where(o => o.Username == username).ToList();
+                List<OrderDataModel> _orders = new List<OrderDataModel>();
+                foreach (var order in orders)
+                {
+                    OrderDataModel _order = new OrderDataModel();
+                    _order.CopyProperties(order);
+                    _orders.Add(_order);
+                }
+                return _orders;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public string GetNewOrderID()
+        {
+            var dbContext = new PrndatabaseContext();
+            var lastOrder = dbContext.Orders.OrderByDescending(o => o.OrderId).FirstOrDefault();
+
+            if (lastOrder == null)
+            {
+                return "OD001"; // Assuming the first order ID starts with "OD001"
+            }
+            else
+            {
+                string numericPart = lastOrder.OrderId.Substring(2);
+                int currentNumber = int.Parse(numericPart);
+                int newNumber = currentNumber + 1;
+                string newOrderId = $"OD{newNumber:D3}";
+                return newOrderId;
+            }
+        }
+
+        public bool AddOrderDetail(OrderDetailModel orderDetailModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.CopyProperties(orderDetailModel);
+                    dbContext.OrderDetails.Add(orderDetail);
+                    dbContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public bool AddNewOrder(OrderModel orderModel)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    Order order = new Order();
+                    order.CopyProperties(orderModel);
+                    dbContext.Orders.Add(order);
+                    dbContext.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }
