@@ -21,8 +21,8 @@ const validate = () => {
     if (username.trim() === "") {
         showError("errUsername","This information is required")
         isValid = false;
-    } else if (username.length > 20) {
-        showError("errUsername", "Username can not more than 20 characters!")
+    } else if (username.length > 50) {
+        showError("errUsername", "Username can't be more than 50 characters")
         isValid = false;
     } else {
         hideError("errUsername");
@@ -31,9 +31,11 @@ const validate = () => {
     if (password.trim() === "") {
         showError("errPassword", "This information is required")
         isValid = false;
-    } else if (password.length < 0) {
-        showError("errPassword", "Password must be at least 8 characters long")
+    } else if (password.length < 6) {
+        showError("errPassword", "Password must be at least 6 characters long")
         isValid = false;
+    } else if (password.length > 32) {
+        showError("errPassword", "Password can't be more than 32 characters");
     } else {
         hideError("errPassword");
     }
