@@ -345,5 +345,38 @@ namespace DataAccess.Repository
                 return false;
             }
         }
+
+        public List<ProductData> SearchProduct(string pattern)
+        {
+            List<Product> products = new List<Product>();
+
+            List<ProductData> model = new List<ProductData>();
+            try
+            {
+                var dbContext = new PrndatabaseContext();
+                products = dbContext.Products.Where(p=>p.ProName.Contains(pattern)).ToList();
+                if (products != null)
+                {
+                    foreach(var product in products)
+                    {
+                        
+
+                        model.Add(new ProductData
+                        {
+                            ProId = product.ProId,
+                            ProName = product.ProName,
+                            Discount = product.Discount,
+                            IsAvailable = product.IsAvailable,
+                            ProPrice = product.ProPrice
+                    });
+                    }                    
+                }
+                return model;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
