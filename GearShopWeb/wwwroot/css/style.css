@@ -11099,6 +11099,9 @@ h6 {
     max-height: 530px;
     max-width: 100%;
     overflow-y: auto;
+}
+
+.d-none{
     display: none;
 }
 
@@ -11109,7 +11112,6 @@ h6 {
     padding-bottom: 10px;
     padding-left: 10px;
     z-index: 999;
-    /* Đảm bảo hiển thị trên các phần tử khác */
 }
 
     .product:hover {
@@ -11147,25 +11149,7 @@ h6 {
     width: 100%;
     left: 0;
     z-index: 1000;
-    /* Đảm bảo hiển thị trên các phần tử khác */
 }
-
-.see-details {
-    margin-top: 2%;
-    color: #000;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-}
-
-
-    .see-details:hover {
-        margin-top: 2%;
-        color: red;
-        align-items: center;
-        text-align: center;
-    }
-
 
 
 .divider {

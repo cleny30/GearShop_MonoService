@@ -3,6 +3,7 @@ using BusinessObject.Model;
 using DataAccess.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using NuGet.Packaging.Signing;
 
 namespace GearShopWeb.Controllers
 {
@@ -41,6 +42,7 @@ namespace GearShopWeb.Controllers
         [HttpGet("/Order/PostCheckout")]
         public IActionResult PostCheckout()
         {
+            _contx.HttpContext.Session.Remove("proId");
             return View();
         }
 
