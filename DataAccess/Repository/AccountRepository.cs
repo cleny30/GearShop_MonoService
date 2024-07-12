@@ -164,8 +164,30 @@ namespace DataAccess.Repository
             }
         }
 
-
-
+        /// <summary>
+        /// Get user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public string getUsername(string username)
+        {
+            try
+            {
+                using (var dbContext = new PrndatabaseContext())
+                {
+                    var account = dbContext.Customers.FirstOrDefault(p => p.Username == username);
+                    if(account != null)
+                    {
+                        return account.Username;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
     }
 }
 

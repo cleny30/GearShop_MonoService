@@ -30,7 +30,7 @@ namespace GearShopWeb.Controllers
             {
                  username = _contx.HttpContext.Session.GetString("username");
             }
-            _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData("cleny30", out count)));
+            _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData(username, out count)));
             _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(count));
 
             data.Result = service.GetData();

@@ -239,5 +239,17 @@ namespace DataAccess.Service
             return _accountRepository.UpdateCustomerInfor(customer);
         }
 
+        public bool isUsernameExist(string username)
+        {
+            string user = _accountRepository.getUsername(username);
+            if(user == null || user == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

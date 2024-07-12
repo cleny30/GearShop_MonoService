@@ -21,8 +21,8 @@ namespace GearShopWeb.Controllers
         public IActionResult Cart()
         {
             DataResult dataResult = new DataResult();
-
-            List<UserCartData> list = cartService.GetCartsByUserName("cleny30");
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            List<UserCartData> list = cartService.GetCartsByUserName(userSession);
 
             dataResult.Result = list;
             return View(dataResult);
@@ -31,11 +31,11 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public DataResult AddProductToCart(string data, int amount)
         {
-            //string username = _contx.HttpContext.Session.GetString("username");
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
             ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
-            dataResult.IsSuccess = cartService.AddOrUpdateCart("cleny30", productData, amount);
-            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName("cleny30").Count()));
+            dataResult.IsSuccess = cartService.AddOrUpdateCart(userSession, productData, amount);
+            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName(userSession).Count()));
 
             return dataResult;
         }
@@ -43,8 +43,9 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public DataResult UpdateCartData(string ProId, int amount)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult data = new DataResult();
-            Tuple<bool,double> result = cartService.UpdateCart("cleny30", ProId, amount);
+            Tuple<bool,double> result = cartService.UpdateCart(userSession, ProId, amount);
             data.IsSuccess = result.Item1;
             data.Result = result.Item2;
             return data;
@@ -53,9 +54,10 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public DataResult Delete(string ProId)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult data = new DataResult();
-            data.IsSuccess = cartService.DeleteCartById(ProId,"cleny30");
-            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName("cleny30").Count()));
+            data.IsSuccess = cartService.DeleteCartById(ProId,userSession);
+            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName(userSession).Count()));
             return data;
         }
     }

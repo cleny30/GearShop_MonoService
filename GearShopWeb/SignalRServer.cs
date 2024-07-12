@@ -52,10 +52,10 @@ namespace GearShopWeb
 
         public async Task LoadCartData()
         {
-            var username = _contx.HttpContext.Session.GetString("username");
-            if (_userConnections.TryGetValue("cleny30", out var connectionId))
+            var userSession = _contx.HttpContext.Session.GetString("username");
+            if (_userConnections.TryGetValue(userSession, out var connectionId))
             {
-                int count = cartService.GetCartsByUserName("cleny30").Count();
+                int count = cartService.GetCartsByUserName(userSession).Count();
                 await Clients.Client(connectionId).SendAsync("ReceiveLoadCardData", count);
             }
         }
