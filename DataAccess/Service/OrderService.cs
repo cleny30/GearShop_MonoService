@@ -1,4 +1,5 @@
-﻿using BusinessObject.Model.Page;
+﻿using BusinessObject.Model.Entity;
+using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using DataAccess.Repository;
 using System;
@@ -67,27 +68,43 @@ namespace DataAccess.Service
         {
             int currentYear = currentDate.Year;
             int currentMonth = currentDate.Month;
-            var orders = _repository.GetOrderList().ToList();
-            var IncomeList = orders.Where(o => o.Status == 4 && o.EndDate != null &&
-               o.EndDate.Value.Year == currentYear && o.EndDate.Value.Month == currentMonth).Select(o => o.TotalPrice).ToList();
-            return IncomeList.Sum();
+            var orders = _repository.GetOrderList()?.ToList() ?? new List<OrderModel>();
+
+            var incomeList = orders
+                .Where(o => o.Status == 4 && o.EndDate != null &&
+                            o.EndDate.Value.Year == currentYear && o.EndDate.Value.Month == currentMonth)
+                .Select(o => o.TotalPrice)
+                .ToList();
+
+            return incomeList.Any() ? incomeList.Sum() : 0;
+
         }
 
         public double GetRevenue()
         {
             int currentYear = currentDate.Year;
             int currentMonth = currentDate.Month;
-            var income = _repository.GetOrderList().ToList();
-            var IncomeList = income.Where(o => o.Status == 4 && o.EndDate != null &&
-               o.EndDate.Value.Year == currentYear && o.EndDate.Value.Month == currentMonth).Select(o => o.TotalPrice).ToList();
 
-            var spent = _importReceiptService.GetImportProductsList().ToList();
-            var SpentList = spent.Where(IR => IR.DateImport.Year == currentYear && IR.DateImport != null
-                                                   && IR.DateImport.Month == currentMonth).Select(IR => IR.Payment).ToList();
+            // Get and filter orders
+            var orders = _repository.GetOrderList()?.ToList() ?? new List<OrderModel>();
+            var incomeList = orders
+                .Where(o => o.Status == 4 && o.EndDate != null &&
+                            o.EndDate.Value.Year == currentYear && o.EndDate.Value.Month == currentMonth)
+                .Select(o => o.TotalPrice)
+                .ToList();
 
-            double Revenue = IncomeList.Sum() - SpentList.Sum();
+            // Get and filter import receipts
+            var receipts = _importReceiptService.GetImportProductsList()?.ToList() ?? new List<ImportProductModel>();
+            var spentList = receipts
+                .Where(ir => ir.DateImport != null && ir.DateImport.Year == currentYear && ir.DateImport.Month == currentMonth)
+                .Select(ir => ir.Payment)
+                .ToList();
 
-            return Revenue;
+            // Calculate revenue
+            double revenue = incomeList.Sum() - spentList.Sum();
+
+            return revenue;
+
         }
 
         public List<Tuple<string, double>> GetTop10Customer()
