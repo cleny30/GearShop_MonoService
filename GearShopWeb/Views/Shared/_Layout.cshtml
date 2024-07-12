@@ -17,7 +17,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Gearshop - Online Shop Website </title>
+    <title>Gearshop - Online Shop Website</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Google Web Fonts -->
@@ -64,7 +64,7 @@
                             Account
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            @*                             @if (acc == null)
+                                                        @if (true)
                             {
                             <button class="dropdown-item" type="button"><a href="/Login">Sign in</a></button>
 
@@ -74,11 +74,11 @@
                             {
                             <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
                             <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button>
-                            } *@
+                            }
                       
                           
-                            <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
-                            <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button>
+                          @*   <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
+                            <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button> *@
                           
                         </div>
                     </div>
@@ -101,19 +101,20 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="/Product/ShopSearch" method="get">
+                <form action="/Home/Search" method="get">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products" name="searchTerm" id="search-item" onkeyup="search()">
+                        <input type="text" class="form-control" placeholder="Search for products" name="pattern" id="search-item" onkeyup="Search(this)" onblur="Clear(this)">
                         <div class="input-group-append">
-                            <button class="input-group-text bg-transparent text-primary" type="submit">
-                                <i class="fa fa-search"></i>
+                            <button class="input-group-text bg-transparent text-primary" type="reset">
+                                <i class="fa fa-undo"></i>
                             </button>
                         </div>
                     </div>
                 </form>
                 <div class="search-results" id="search-results">
-                    <div class="sproduct-list" id="product-list"></div>
-
+                    <div class="product-list d-none" id="product-list">
+                        
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4 col-6 text-right">
@@ -275,6 +276,7 @@
     <script src="~/mail/contact.js"></script>
     <!-- Template Javascript -->
     <script type="module" src="~/js/main.js"></script>
+    <script src="~/js/Search.js"></script>
     <script src="~/js/cartprocessing.js"></script>
     <script src="~/js/sinalrconfig/signalrservice.js"></script>
 </body>

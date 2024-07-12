@@ -28,9 +28,9 @@ namespace GearShopWeb.Controllers
         [HttpGet("/Account/MyAccount")]
         public IActionResult MyAccount(string username)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            username = "cleny30";
-            AccountModel account = accountService.getAccount(username);
+            AccountModel account = accountService.getAccount(userSession);
             dataResult.Result = account;
             return View(dataResult);
         }
@@ -38,9 +38,9 @@ namespace GearShopWeb.Controllers
         [HttpGet("/Account/MyOrder")]
         public IActionResult MyOrder(string username)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            username = "cleny30";
-            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
+            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(userSession);
             dataResult.Result = orderData;
 
             return View(dataResult);
@@ -59,9 +59,9 @@ namespace GearShopWeb.Controllers
         [HttpGet("/Account/MyAddress")]
         public IActionResult MyAddress(string username)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            username = "cleny30";
-            dataResult.Result = addressService.GetAddressByUsername(username);
+            dataResult.Result = addressService.GetAddressByUsername(userSession);
             return View(dataResult);
         }
 
@@ -76,9 +76,9 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public IActionResult UpdateProfile(AccountModel accountModel,string username)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            username = "cleny30";
-            accountService.UpdateCustomerInfor(accountModel, username);
+            accountService.UpdateCustomerInfor(accountModel, userSession);
             return RedirectToAction("MyAccount", "Account");
         }
 
@@ -88,9 +88,6 @@ namespace GearShopWeb.Controllers
             try
             {
                 DataResult dataResult = new DataResult();
-                string username = "cleny30";
-
-
                 var a = orderService.GetOrderByID(id);
                 var orderThis = orderDetailService.GetOrderDetailsById(id);
                 var rs = new
@@ -109,17 +106,17 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public IActionResult AddAddress(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            var username = "cleny30";
-            addressService.AddNewAddress(addressModel,username);
+            addressService.AddNewAddress(addressModel,userSession);
             return RedirectToAction("MyAddress", "Account");
         }
         [HttpPost]
         public IActionResult UpdateAddress(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-             string username = "cleny30";
-            addressModel.Username = username;
+            addressModel.Username = userSession;
             addressService.UpdateAddress(addressModel);
             return RedirectToAction("MyAddress", "Account");
         }
@@ -127,17 +124,17 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public IActionResult AddAddressOrder(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            var username = "cleny30";
-            addressService.AddNewAddress(addressModel, username);
+            addressService.AddNewAddress(addressModel, userSession);
             return RedirectToAction("Index", "Order");
         }
         [HttpPost]
         public IActionResult UpdateAddressOrder(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            string username = "cleny30";
-            addressModel.Username = username;
+            addressModel.Username = userSession;
             addressService.UpdateAddress(addressModel);
             return RedirectToAction("Index", "Order");
         }
@@ -145,18 +142,18 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public IActionResult DeleteAddress(int id)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            string username = "cleny30";
-            addressService.DeleteAddress(username, id);
+            addressService.DeleteAddress(userSession, id);
             return RedirectToAction("MyAddress", "Account");
         }
 
         [HttpPost]
         public IActionResult ChangePassword(LoginAccountModel userLogin)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            string username = "cleny30";
-            userLogin.Username = username;
+            userLogin.Username = userSession;
             accountService.ChangePassword(userLogin);
             return RedirectToAction("ChangePassword", "Account");
         }

@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Gearshop - Online Shop Website</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link href="~/css/app.css" rel="stylesheet" />
+    <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link href="~/css/singup.css" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="~/source_img/advertising_img/logoGearshop.png">
+    <script src="~/js/jquery-3.7.0.js"></script>
+</head>
+<body>
+    <div id="signUpPage" class="w-full h-full">
+        <div class="vh-100">
+            <div class="py-5 h-100">
+                <div id="formGroup"
+                     class="d-flex justify-content-center align-items-center h-100 items">
+                    <div id="image">
+                        <img src="~/source_img/advertising_img/bg-signup.png" />
+                    </div>
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong m-auto">
+                            <div class="card-body p-5 text-center">
+                                <h3 class="mb-5">Sign Up</h3>
+                                <div class="form-outline mb-4">
+                                    <div class="input-common input-group">
+                                        <input id="txtUsername" class="input-element form-control form-control-lg" type="text" name="username" placeholder="Username" />
+                                    </div>
+                                    <div id="_errUsername" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errUsername" style="margin-left:0.25rem; color:#F87171"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <div class="input-common input-group">
+                                        <input id="txtFullname" class="input-element form-control form-control-lg" type="text" name="fullname" placeholder="Fullname" />
+                                    </div>
+                                    <div id="_errFullname" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errFullname" style="margin-left:0.25rem; color:#F87171"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <div class="input-common input-group">
+                                        <input id="txtEmail" class="input-element form-control form-control-lg" type="email" name="email" placeholder="Email" />
+                                    </div>
+                                    <div id="_errEmail" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errEmail" style="margin-left:0.25rem; color:#F87171"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <div class="input-common input-group">
+                                        <input id="txtPhone" class="input-element form-control form-control-lg" type="text" name="phone" placeholder="Phone" />
+                                    </div>
+                                    <div id="_errPhone" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errPhone" style="margin-left:0.25rem; color:#F87171"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <div class="input-common input-group">
+                                        <input id="pwdPassword" class="input-element form-control form-control-lg" type="password" name="password" placeholder="Password" />
+                                    </div>
+                                    <div id="_errPassword" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errPassword" style="margin-left:0.25rem; color:#F87171"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    <div class="input-common input-group">
+                                        <input id="pwdRePassword" class="input-element form-control form-control-lg" type="password" name="rePassword" placeholder="Reenter password" />
+                                    </div>
+                                    <div id="_errRePassword" class="font-medium flex items-center" style="color:red; font-size:15px; margin-top:0.5rem; display:none">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3588/3588294.png" width="19px" />
+                                        <span id="errRePassword" style="margin-left:0.25rem; color:#F87171"></span>
+                                    </div>
+                                </div>
+                                <a href="/Login"
+                                   class=" text-black hover:text-black ml-[84%]">
+                                    Login
+                                </a>
+                                <button id="btnSignup" class="btn-common btn-common-lg w-full">Sign up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/mail/jqBootstrapValidation.min.js"></script>
+    <script src="~/js/regist/registprocessing.js"></script>
+</body>
+</html>

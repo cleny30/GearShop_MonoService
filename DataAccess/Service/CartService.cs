@@ -2,6 +2,7 @@
 using BusinessObject.Model.Page;
 using DataAccess.IRepository;
 using DataAccess.Repository;
+using ISUZU_NEXT.Server.Core.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,27 +44,37 @@ namespace DataAccess.Service
         public bool AddOrUpdateCart(string username, ProductData data, int amount)
         {
             var existingCart = _repo.GetCarts().FirstOrDefault(c => c.Username == username && c.ProId == data.ProId);
+            var quantityInStock = _productService.GetProduct(data.ProId).ProQuan;
 
-            if (existingCart != null)
+            if(quantityInStock >= 0)
             {
-                // Product exists in the cart, update the quantity and price
-                existingCart.Quantity += amount;
-                existingCart.Price = (data.ProPrice-(data.ProPrice*data.Discount)/100)*existingCart.Quantity; // Assuming you want to update the price to the latest one
-                return _repo.UpdateCartData(existingCart);
-            }
-            else
-            {
-                CartModel cartModel = new CartModel()
+                if (existingCart != null)
                 {
-                    Username = username,
-                    Price = (data.ProPrice - (data.ProPrice * data.Discount) / 100)*amount,
-                    ProId = data.ProId,
-                    ProName = data.ProName,
-                    Quantity = amount,
-                };
+                    var check=existingCart.Quantity+ quantityInStock;
+                    if (check>quantityInStock)
+                    {
+                        return false;
+                    }
 
-                return _repo.AddCart(cartModel);
+                    existingCart.Quantity += amount;
+                    existingCart.Price = (data.ProPrice - (data.ProPrice * data.Discount) / 100) * existingCart.Quantity;
+                    return _repo.UpdateCartData(existingCart);
+                }
+                else
+                {
+                    CartModel cartModel = new CartModel()
+                    {
+                        Username = username,
+                        Price = (data.ProPrice - (data.ProPrice * data.Discount) / 100) * amount,
+                        ProId = data.ProId,
+                        ProName = data.ProName,
+                        Quantity = amount,
+                    };
+
+                    return _repo.AddCart(cartModel);
+                }
             }
+            return false;
         }
 
         public Tuple<bool,double> UpdateCart(string username, string proId, int amount)
@@ -89,10 +100,10 @@ namespace DataAccess.Service
 
         public List<UserCartData> GetCheckedProduct(string username, List<string> proIds)
         {
-			List<UserCartData> cartItems = new List<UserCartData>();
+            List<UserCartData> cartItems = new List<UserCartData>();
 			foreach (var i in proIds)
 			{
-				cartItems.Add(GetCartsByUserName("cleny30").FirstOrDefault(p => p.Product.ProId == i));
+				cartItems.Add(GetCartsByUserName(username).FirstOrDefault(p => p.Product.ProId == i));
 			}
             return cartItems;
 		}

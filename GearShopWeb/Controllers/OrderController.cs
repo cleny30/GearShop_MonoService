@@ -3,6 +3,7 @@ using BusinessObject.Model;
 using DataAccess.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using NuGet.Packaging.Signing;
 
 namespace GearShopWeb.Controllers
 {
@@ -23,10 +24,11 @@ namespace GearShopWeb.Controllers
 
         public IActionResult Index()
         {
-			var productChecked = _contx.HttpContext.Session.GetString("proId").Split(",");
-			var list=_cartService.GetCheckedProduct("cleny30", productChecked.ToList());
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            var productChecked = _contx.HttpContext.Session.GetString("proId").Split(",");
+			var list=_cartService.GetCheckedProduct(userSession, productChecked.ToList());
 
-			var addresses = _addressService.GetAddressByUsername("cleny30");
+			var addresses = _addressService.GetAddressByUsername(userSession);
 			DataResult data = new DataResult();
 
 			data.Result = new
@@ -41,6 +43,7 @@ namespace GearShopWeb.Controllers
         [HttpGet("/Order/PostCheckout")]
         public IActionResult PostCheckout()
         {
+            _contx.HttpContext.Session.Remove("proId");
             return View();
         }
 
@@ -54,9 +57,9 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public DataResult CheckOut(OrderModel order)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult result = new DataResult();
             var productChecked = _contx.HttpContext.Session.GetString("proId");
-            var username = "cleny30";
 
             OrderModel orderModel = new OrderModel
             {
@@ -68,7 +71,7 @@ namespace GearShopWeb.Controllers
                 StartDate = DateOnly.FromDateTime(DateTime.Now),
                 Status = 1,
                 TotalPrice = order.TotalPrice,
-                Username = username,
+                Username = userSession,
             };
             result.IsSuccess = _orderService.Checkout(orderModel);
             return result;

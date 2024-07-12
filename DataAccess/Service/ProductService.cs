@@ -105,5 +105,17 @@ namespace DataAccess.Service
         {
             return _repo.UpdateQuantityProduct(product);
         }
+
+        public List<ProductData> SearchProduct(string pattern) 
+        {
+            List<ProductData> result= _repo.SearchProduct(pattern);
+            List<ProductImageModel> images= _productImageService.GetProductImageList();
+
+            foreach (ProductData pro in result) 
+            {
+                pro.ProImg = images.Where(img => img.ProId == pro.ProId).Select(img=> img.ProImg).ToList();
+            }
+            return result;
+        }
     }
 }

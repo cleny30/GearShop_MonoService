@@ -10,12 +10,14 @@ namespace GearShopWeb.Controllers
         private readonly IHttpContextAccessor _contx;
         private readonly HomeService service;
         private readonly HeaderService headerService;
+        private readonly ProductService productService;
 
-        public HomeController(IHttpContextAccessor contx, HomeService service, HeaderService headerService)
+        public HomeController(IHttpContextAccessor contx, HomeService service, HeaderService headerService, ProductService productService)
         {
             _contx = contx;
             this.service = service;
             this.headerService = headerService;
+            this.productService = productService;
         }
 
         [HttpGet]
@@ -28,12 +30,20 @@ namespace GearShopWeb.Controllers
             {
                  username = _contx.HttpContext.Session.GetString("username");
             }
-            _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData("cleny30", out count)));
+            _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData(username, out count)));
             _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(count));
 
             data.Result = service.GetData();
             
             return View(data);
+        }
+
+        [HttpGet]
+        public IActionResult Search(string pattern)
+        {
+            DataResult data = new DataResult();
+            data.Result= productService.SearchProduct(pattern);
+            return Json(data);
         }
     }
 }

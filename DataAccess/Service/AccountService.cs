@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace DataAccess.Service
 {
@@ -45,14 +46,97 @@ namespace DataAccess.Service
             {
                 validateResult.AddError(nameof(LoginAccountModel.Username), "Username can't be empty");
             }
-            else if (userLogin.Username.Length > 250)
+            else if (userLogin.Username.Length > 50)
             {
-                validateResult.AddError(nameof(LoginAccountModel.Username), "Maxlenght of user name is 250 character");
+                validateResult.AddError(nameof(LoginAccountModel.Username), "Maxlength of username is 50 characters");
             }
 
             if (string.IsNullOrEmpty(userLogin.Password))
             {
                 validateResult.AddError(nameof(LoginAccountModel.Password), "Password can't be empty");
+            }
+            else if (userLogin.Password.Length > 32)
+            {
+                validateResult.AddError(nameof(LoginAccountModel.Password), "Maxlength of password is 32 characters");
+            }
+            return validateResult;
+        }
+
+        public ValidateResult ValidateRegister(string username, string fullname, string phone, string email, string password, string rePassword)
+        {
+            ValidateResult validateResult = new ValidateResult();
+            AccountModel registAccount = new AccountModel
+            {
+                Username = username,
+                Fullname = fullname,
+                Phone = phone,
+                Email = email,
+                Password = password,
+            };
+            // Null registAccount
+            if (registAccount == null)
+            {
+                validateResult.AddError("", "Regist error");
+                return validateResult;
+            }
+            //Username error
+            if (string.IsNullOrEmpty(registAccount.Username))
+            {
+                validateResult.AddError(nameof(AccountModel.Username), "Username can't be empty");
+            }
+            else if (registAccount.Username.Length > 50)
+            {
+                validateResult.AddError(nameof(AccountModel.Username), "Maxlength of username is 50 characters");
+            }
+            //Fullname error
+            if (string.IsNullOrEmpty(registAccount.Fullname))
+            {
+                validateResult.AddError(nameof(AccountModel.Fullname), "Fullname can't be empty");
+            }
+            else if (registAccount.Fullname.Length > 100)
+            {
+                validateResult.AddError(nameof(AccountModel.Fullname), "Maxlength of fullname is 100 characters");
+            }
+            //Email error
+            var emailRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
+            Match m = Regex.Match(registAccount.Email, emailRegex);
+            if (string.IsNullOrEmpty(registAccount.Email))
+            {
+                validateResult.AddError(nameof(AccountModel.Email), "Email can't be empty");
+            }
+            else if (registAccount.Email.Length > 255)
+            {
+                validateResult.AddError(nameof(AccountModel.Email), "Maxlength of email is 255 characters");
+            }
+            else if (!m.Success)  //Add check email regex
+            {
+                validateResult.AddError(nameof(AccountModel.Email), "Email is not in the correct format");
+            }
+            //Phone error
+            var phoneRegex = @"([0]{1})([0-9]{9})";
+            m = Regex.Match(registAccount.Phone, phoneRegex);
+            if (string.IsNullOrEmpty(registAccount.Phone))
+            {
+                validateResult.AddError(nameof(AccountModel.Phone), "Phone can't be empty");
+            }
+            else if (registAccount.Phone.Length > 11)
+            {
+                validateResult.AddError(nameof(AccountModel.Phone), "Maxlength of phone is 11");
+            }
+            else if (!m.Success) //Add check phone regex
+            {
+                validateResult.AddError(nameof(AccountModel.Phone), "Phone is not in the correct format");
+            }
+            //Password error
+            if (string.IsNullOrEmpty(registAccount.Password))
+            {
+                validateResult.AddError(nameof(AccountModel.Password), "Password can't be empty");
+            } else if (registAccount.Password.Length > 32)
+            {
+                validateResult.AddError(nameof(AccountModel.Password), "Maxlength of password is 32");
+            } else if (!registAccount.Password.Equals(rePassword))
+            {
+                validateResult.AddError(nameof(AccountModel.Password), "Your reentered password is different from your password");
             }
             return validateResult;
         }
@@ -74,32 +158,23 @@ namespace DataAccess.Service
         /// <returns></returns>
         public bool ChangePassword(LoginAccountModel userLogin)
         {
-            var account = getAccount(userLogin.Username);
-            if (userLogin.Password != userLogin.RePassword)
-            {
-                return false;
-            }
-             userLogin.OldPassword= CalculateMD5Hash(userLogin.OldPassword);
- 
-            if (account.Password != userLogin.OldPassword)
-            {
-                return false;
-            }
-            if (userLogin == null)
-            {
-                throw new ArgumentNullException(nameof(userLogin));
-            }
-             userLogin.Password = CalculateMD5Hash(userLogin.Password);
-            _accountRepository.ChangePassword(userLogin.Username, userLogin.Password);
-            return true;
+            throw new NotImplementedException();
         }
 
-        public bool Regist(AccountModel userRegist)
+        public bool Regist(string username, string fullname, string phone, string email, string password, string rePassword)
         {
             try
             {
-                userRegist.Password = CalculateMD5Hash(userRegist.Password);
-                _accountRepository.Regist(userRegist);
+                AccountModel registAccount = new AccountModel
+                {
+                    Username = username,
+                    Fullname = fullname,
+                    Phone = phone,
+                    Email = email,
+                    Password = password,
+                };
+                registAccount.Password = CalculateMD5Hash(registAccount.Password);
+                _accountRepository.Regist(registAccount);
                 return true;
             }
             catch (Exception ex)
@@ -164,5 +239,17 @@ namespace DataAccess.Service
             return _accountRepository.UpdateCustomerInfor(customer);
         }
 
+        public bool isUsernameExist(string username)
+        {
+            string user = _accountRepository.getUsername(username);
+            if(user == null || user == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

@@ -2,11 +2,10 @@
 @{
     ViewData["Title"] = "View";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    // var username = Context.Session.GetString("username");
-    var username = "cleny30";
+    var username = Context.Session.GetString("username");
 }
 
-<div className="max-w-[900px] my-0 mx-auto h-[650px] text-center">
+<div className="my-0 mx-auto h-[650px] text-center">
     <div className="rounded-[50%] my-[20px]">
         <img className="w-[200px] m-auto"
              src="https://cdn-icons-png.freepik.com/512/641/641813.png"
