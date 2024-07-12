@@ -76,7 +76,7 @@ namespace WPFStylingTest
             List<ProductModel> productList = productService.GetProductList();
             if (isOutOfStock)
             {
-                productList = productList.Where(p => p.ProQuan == 0).ToList();
+                productList = productList.Where(p => p.ProQuan <= 0).ToList();
             } else
             {
                 productList = productList.Where(p => p.ProQuan > 0).ToList();

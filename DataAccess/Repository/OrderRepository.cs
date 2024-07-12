@@ -128,7 +128,15 @@ namespace DataAccess.Repository
         public int GetCompletedOrder()
         {
             var OrderList = GetOrderList();
-            var CompletedOrder = OrderList.Where(o => o.Status == 4).ToList();
+            var CompletedOrder = new List<OrderModel>();
+            try
+            {
+                CompletedOrder = OrderList.Where(o => o.Status == 4).ToList();
+            } catch (Exception ex)
+            {
+               return 0;
+            }
+            
             return CompletedOrder.Count;
         }
 
