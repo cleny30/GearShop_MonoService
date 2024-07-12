@@ -13,6 +13,6 @@ namespace DataAccess.IRepository
         public AccountModel GetAccount<T>(Expression<Func<Customer, bool>> filterExpression);
         public AccountModel GetAccountByUsername(string username);
         public bool UpdateCustomerInfor(AccountModel accountModel);
-
+        public string getUsername(string username);
     }
 }

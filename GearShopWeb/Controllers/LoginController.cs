@@ -16,7 +16,7 @@ namespace GearShopWeb.Controllers
         }
 
         [HttpPost]
-        public IActionResult OnPostLogin(string username, string password)
+        public IActionResult OnPostLogin(string username, string password, bool isRemember)
         {
             DataResult data = new DataResult();
 
@@ -34,8 +34,21 @@ namespace GearShopWeb.Controllers
             }
             if (accountService.Login(model))
             {
-                HttpContext.Session.SetString("User", JsonConvert.SerializeObject(model));
+                HttpContext.Session.SetString("username", username);
                 data.Message = "Login success";
+                data.Result = model;
+                if(isRemember)
+                {
+                    var options = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(3),
+                        IsEssential = true,
+                        HttpOnly = true,
+                        Secure = true
+                    };
+
+                    Response.Cookies.Append("username", username, options);
+                }
             }
             else
             {

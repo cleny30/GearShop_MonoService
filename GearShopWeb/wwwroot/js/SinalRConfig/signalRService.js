@@ -1,5 +1,4 @@
-﻿sessionStorage.setItem("username", "cleny30");
-const username = sessionStorage.getItem("username");
+﻿const username = sessionStorage.getItem("username");
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/signalrServer?username=" + username)
     .build();

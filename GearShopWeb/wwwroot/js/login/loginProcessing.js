@@ -1,5 +1,6 @@
 ﻿let username = "";
 let password = "";
+let remember = false;
 
 $('#txtUsername').on('change', function () {
     hideError("errUsername");
@@ -11,6 +12,10 @@ $('#txtPassword').on('change', function () {
     password = getValueById("txtPassword");
 })
 
+$('#cbRemember').on('change', function () {
+    remember = document.getElementById('cbRemember').checked;
+})
+
 $('#btnLogin').on('click', function () {
     validate();
 })
@@ -19,7 +24,7 @@ $('#btnLogin').on('click', function () {
 const validate = () => {
     var isValid = true;
     if (username.trim() === "") {
-        showError("errUsername","This information is required")
+        showError("errUsername", "This information is required")
         isValid = false;
     } else if (username.length > 50) {
         showError("errUsername", "Username can't be more than 50 characters")
@@ -39,24 +44,27 @@ const validate = () => {
     } else {
         hideError("errPassword");
     }
-
     if (isValid) {
+        hideError("errLogin");
         handleLogin();
     }
 }
 
 const handleLogin = () => {
+
     $.ajax({
         url: '/Login/OnPostLogin',
         type: "POST",
         data: {
             username: username,
-            password: password
+            password: password,
+            isRemember: remember
         },
         success: function (data) {
-            if (data.success === false) {
-                console.log("cook");
+            if (data === "False") {
+                showError("errLogin", "Username or password is incorrect");
             } else {
+                sessionStorage.setItem("username", username);
                 window.location.href = '/Home';
             }
         },

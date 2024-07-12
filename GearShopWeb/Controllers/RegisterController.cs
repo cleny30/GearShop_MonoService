@@ -38,5 +38,21 @@ namespace GearShopWeb.Controllers
             }
             return Content(data.IsSuccess.ToString());
         }
+        [HttpPost]
+        public IActionResult CheckUserExist(string username)
+        {
+            DataResult data = new DataResult();
+            bool isExist = accountService.isUsernameExist(username);
+            if(isExist)
+            {
+                data.Message = "Username exist";
+                data.IsSuccess=false;
+            }
+            else
+            {
+                data.Message = "Username not exist";
+            }
+            return Content(data.IsSuccess.ToString());
+        }
     }
 }

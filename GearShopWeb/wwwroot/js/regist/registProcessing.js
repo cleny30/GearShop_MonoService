@@ -4,12 +4,37 @@ let fullname = "";
 let phone = "";
 let email = "";
 let rePassword = "";
+let userExist = false;
 
 $('#txtUsername').on('change', function () {
     hideError("errUsername");
     username = getValueById("txtUsername").trim();
+    checkExist();
 })
 
+const checkExist = () => {
+    console.log("start of check");
+    $.ajax({
+        url: '/Register/CheckUserExist',
+        type: "POST",
+        data: {
+            username: username,
+        },
+        success: function (data) {
+            if (data === "False") {
+                console.log("user exist");
+                userExist = true;
+                showError("errUsername", "Username exist");
+            } else {
+                console.log("user free to use");
+                userExist = false;
+            }
+        },
+        error: function () {
+            $('#registError').text('An error occurred. Please try again later.').show();
+        }
+    });
+}
 $('#txtFullname').on('change', function () {
     hideError("errFullname");
     fullname = getValueById("txtFullname").trim();
@@ -99,7 +124,7 @@ const validate = () => {
         hideError("errRePassword");
     }
     //Run regist
-    if (isValid) {
+    if (isValid && !userExist) {
         handleRegist();
     }
 }
