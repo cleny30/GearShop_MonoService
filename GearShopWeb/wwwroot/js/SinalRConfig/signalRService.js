@@ -55,6 +55,9 @@ connection.on("LoadOrder", function () {
             data.result.forEach(function (item) {
                 var status = '';
                 switch (item.status) {
+                    case 0:
+                        status = 'Cancelled';
+                        break;
                     case 1:
                         status = 'Pending';
                         break;
@@ -75,7 +78,7 @@ connection.on("LoadOrder", function () {
 
                 var row = `
                     <tr>
-                        <td class="align-middle">${item.orderId}</td>
+                 
                         <td class="align-middle">${startDate}</td>
                         <td class="align-middle">${endDate}</td>
                         <td class="align-middle">${status}</td>

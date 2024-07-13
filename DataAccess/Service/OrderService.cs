@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace DataAccess.Service
 {
@@ -100,7 +101,7 @@ namespace DataAccess.Service
                 .Select(ir => ir.Payment)
                 .ToList();
 
-            // Calculate revenue
+       
             double revenue = incomeList.Sum() - spentList.Sum();
 
             return revenue;
@@ -113,7 +114,12 @@ namespace DataAccess.Service
         }
         public List<OrderDataModel> GetOrdersByCustomer(string username)
         {
-            return _repository.GetOrderListByUser(username);
+            var orders = _repository.GetOrderListByUser(username);
+
+ 
+            orders = orders.OrderByDescending(o => o.StartDate).ToList();
+
+            return orders; ;
         }
 
         public bool Checkout(OrderModel orderModel)
