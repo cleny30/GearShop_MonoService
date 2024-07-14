@@ -24,30 +24,53 @@ namespace GearShopWeb.Controllers
             this.addressService = addressService;
             _contx = contx;
         }
-        
+
         [HttpGet("/Account/MyAccount")]
         public IActionResult MyAccount(string username)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
-            DataResult dataResult = new DataResult();
-            AccountModel account = accountService.getAccount(userSession);
-            dataResult.Result = account;
-            return View(dataResult);
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                DataResult dataResult = new DataResult();
+                AccountModel account = accountService.getAccount(userSession);
+                dataResult.Result = account;
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
         }
-        
+
         [HttpGet("/Account/MyOrder")]
         public IActionResult MyOrder(string username)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
-            DataResult dataResult = new DataResult();
-            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(userSession);
-            dataResult.Result = orderData;
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                DataResult dataResult = new DataResult();
+                List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(userSession);
+                dataResult.Result = orderData;
 
-            return View(dataResult);
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpGet("/Account/GetOrderData")]
-        public DataResult GetOrderData(string username)
+        public IActionResult GetOrderData(string username)
+        {
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                DataResult dataResult = new DataResult();
+                List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(userSession);
+                dataResult.Result = orderData;
+
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
+        }
+
+        [HttpGet("/Account/GetOrderDataSignalR")]
+        public DataResult GetOrderDataSignalR(string username)
         {
             DataResult dataResult = new DataResult();
             List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
@@ -60,21 +83,30 @@ namespace GearShopWeb.Controllers
         public IActionResult MyAddress(string username)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
-            DataResult dataResult = new DataResult();
-            dataResult.Result = addressService.GetAddressByUsername(userSession);
-            return View(dataResult);
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                DataResult dataResult = new DataResult();
+                dataResult.Result = addressService.GetAddressByUsername(userSession);
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpGet("/Account/ChangePassword")]
         public IActionResult ChangePassword()
         {
-            return View();
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Login");
         }
 
 
 
         [HttpPost]
-        public IActionResult UpdateProfile(AccountModel accountModel,string username)
+        public IActionResult UpdateProfile(AccountModel accountModel, string username)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
@@ -108,9 +140,9 @@ namespace GearShopWeb.Controllers
         {
             try
             {
-       
+
                 // Get the order by orderId (this step depends on how you retrieve your orders)
-                var order =  orderService.GetOrderByID(orderId);
+                var order = orderService.GetOrderByID(orderId);
 
                 if (order == null)
                 {
@@ -126,7 +158,7 @@ namespace GearShopWeb.Controllers
             }
             catch (Exception ex)
             {
-                
+
                 return Json(new { redirectToUrl = Url.Action("MyAddress", "Account") });
             }
         }
@@ -136,7 +168,7 @@ namespace GearShopWeb.Controllers
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            addressService.AddNewAddress(addressModel,userSession);
+            addressService.AddNewAddress(addressModel, userSession);
             return RedirectToAction("MyAddress", "Account");
         }
         [HttpPost]
@@ -185,7 +217,5 @@ namespace GearShopWeb.Controllers
             accountService.ChangePassword(userLogin);
             return RedirectToAction("ChangePassword", "Account");
         }
-
-
     }
 }

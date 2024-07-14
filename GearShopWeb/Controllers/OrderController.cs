@@ -25,19 +25,33 @@ namespace GearShopWeb.Controllers
         public IActionResult Index()
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
-            var productChecked = _contx.HttpContext.Session.GetString("proId").Split(",");
-			var list=_cartService.GetCheckedProduct(userSession, productChecked.ToList());
+            var productuserSession = _contx.HttpContext.Session.GetString("proId");
+            
+            if(!string.IsNullOrEmpty(userSession))
+            {
+                if(!string.IsNullOrEmpty(productuserSession))
+                {
+                    var productChecked = productuserSession.Split(",");
 
-			var addresses = _addressService.GetAddressByUsername(userSession);
-			DataResult data = new DataResult();
+                    var list = _cartService.GetCheckedProduct(userSession, productChecked.ToList());
 
-			data.Result = new
-			{
-				list = list,
-				addresses = addresses
-			};
+                    var addresses = _addressService.GetAddressByUsername(userSession);
+                    DataResult data = new DataResult();
 
-            return View(data);
+                    data.Result = new
+                    {
+                        list = list,
+                        addresses = addresses
+                    };
+
+                    return View(data);
+                }
+                else
+                {
+                    return RedirectToAction("Index","Cart");
+                }
+            }
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpGet("/Order/PostCheckout")]

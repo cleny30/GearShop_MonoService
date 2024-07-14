@@ -30,11 +30,12 @@ const AddToCart = (element) => {
                     connection.invoke("LoadCartData").catch(function (err) {
                         return console.error(err.toString());
                     });
+                    //TODO HERE THAI NAM
                 } else {
                     console.error("Connection is not in the 'Connected' state.");
                 }
             } else {
-                console.log(data);
+                window.location.href = "/Login";
             }
         }
     });
@@ -47,7 +48,7 @@ connection.on("ReceiveLoadCardData", function (count) {
 
 connection.on("LoadOrder", function () {
     $.ajax({
-        url: '/Account/GetOrderData?username=' + username, // Replace with your actual URL
+        url: '/Account/GetOrderDataSignalR?username=' + username, // Replace with your actual URL
         method: 'GET',
         success: function (data) {
             // Assuming 'data' is a JSON array of orders
