@@ -44,7 +44,7 @@ namespace GearShopWeb.Controllers
             _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(count));
 
             data.Result = service.GetData();
-            
+            ViewBag.Username = username;
             return View(data);
         }
 
