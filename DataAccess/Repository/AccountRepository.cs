@@ -6,6 +6,8 @@ using ISUZU_NEXT.Server.Core.Extentions;
 using CloudinaryDotNet;
 using System;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DataAccess.Repository
 {
@@ -28,7 +30,7 @@ namespace DataAccess.Repository
                 {
                     throw new ArgumentException("User not found.");
                 }
-                user.Password = newPassword;
+                user.Password = GetMD5Hash(newPassword);
                 dbContext.SaveChanges();
                 return true;
             }
@@ -186,6 +188,24 @@ namespace DataAccess.Repository
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+
+        public static string GetMD5Hash(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(input); // Convert the input string to bytes
+                byte[] hashBytes = md5.ComputeHash(inputBytes); // Compute the MD5 hash
+
+                // Convert the byte array to a hexadecimal string representation of the hash
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("x2")); // "x2" means lowercase hexadecimal
+                }
+                return sb.ToString();
             }
         }
     }
