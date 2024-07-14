@@ -59,7 +59,15 @@ namespace GearShopWeb.Controllers
         public IActionResult PostCheckout()
         {
             _contx.HttpContext.Session.Remove("proId");
-            return View();
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
