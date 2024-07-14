@@ -9,13 +9,35 @@ namespace GearShopWeb.Controllers
     public class LoginController : Controller
     {
         private readonly AccountService accountService;
+        private readonly IHttpContextAccessor _contx;
 
-        public LoginController(AccountService accountService)
+        public LoginController(AccountService accountService, IHttpContextAccessor contx)
         {
             this.accountService = accountService;
+            _contx = contx;
         }
+
         [HttpGet("/Login")]
         public ActionResult Index() {
+            string username = null;
+            if (_contx.HttpContext.Session.GetString("username") != null)
+            {
+                username = _contx.HttpContext.Session.GetString("username");
+            }
+            else
+            {
+                var usernameCookie = _contx.HttpContext.Request.Cookies["username"];
+                if (!string.IsNullOrEmpty(usernameCookie))
+                {
+                    username = usernameCookie;
+                    _contx.HttpContext.Session.SetString("username", usernameCookie);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(username)) {
+                return Redirect("/Home");
+
+            }
             return View();
         }
 
@@ -43,15 +65,10 @@ namespace GearShopWeb.Controllers
                 data.Result = model;
                 if(isRemember)
                 {
-                    var options = new CookieOptions
+                    HttpContext.Response.Cookies.Append("username", username, new Microsoft.AspNetCore.Http.CookieOptions
                     {
                         Expires = DateTime.Now.AddDays(3),
-                        IsEssential = true,
-                        HttpOnly = true,
-                        Secure = true
-                    };
-
-                    Response.Cookies.Append("username", username, options);
+                    });
                 }
             }
             else
