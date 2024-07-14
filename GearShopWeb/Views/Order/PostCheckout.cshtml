@@ -25,7 +25,7 @@
         The department in charge will proactively contact you as soon as
         possible.
         <br />
-        In case you need urgent support, please contact Hotline:{" "}
+        In case you need urgent support, please contact Hotline:
         <span className="text-[24px] text-red-500">+012 345 6789</span>
     </p>
     <p className="text-[17px] text-[#333] ml-[20px]">
@@ -33,11 +33,11 @@
     </p>
 
     <div className="flex justify-center gap-3">
-        <buton className="flex bg-[#0aa38f] text-white py-[10px] px-[20px] rounded-[5px] no-underline mt-[20px]"
+        <buton className="flex text-white py-[10px] px-[20px] rounded-[5px] no-underline mt-[20px]" style="background-color:#0aa38f; padding: 10px 20px; border-radius:5px; margin-top:20px;color:#fff; margin-right:10px; cursor:pointer"
                onclick="handleLinkClick('/shop')">
             Continue shopping
         </buton>
-        <buton className="flex bg-[#0aa38f] text-white py-[10px] px-[20px] rounded-[5px] no-underline mt-[20px]"
+        <buton className="flex text-white py-[10px] px-[20px] rounded-[5px] no-underline mt-[20px]" style="background-color:#0aa38f; padding: 10px 20px; border-radius:5px; margin-top:20px;color:#fff; cursor:pointer;"
                onclick="handleLinkClick('/Account/MyOrder')">
             View order details
         </buton>
@@ -47,13 +47,8 @@
 <script>
     $(document).ready(function () { 
         let isCompletechecout = sessionStorage.getItem("completeCheckout");
-
-        if (@username != null && isCompletechecout == "true") {
-        } else if (@username == null) {
-            sessionStorage.setItem("alert", "You must be logged in before checkout");
-            window.location.href = "/login";
-        } else {
-            window.location.href = "/cart";
+        if (!isCompletechecout) {
+            window.location.href = "/Cart";
         }
     })
 
