@@ -100,7 +100,24 @@ function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
 
+function showConfirmationForm() {
+    document.getElementById('confirmationForm').style.display = 'block';
+}
 
+function closeConfirmationForm() {
+    document.getElementById('confirmationForm').style.display = 'none';
+}
+
+function confirmCancelOrder() {
+    const orderId = document.getElementById('orderId').value;
+    cancelOrder(orderId); // Call your cancel order function
+    closeConfirmationForm();
+}
+
+
+function closeForm1() {
+    document.getElementById('myForm').style.display = 'none';
+}
 function cancelOrder(orderId = '') {
     var status = 0; // Cancel status
     $.ajax({
@@ -108,11 +125,10 @@ function cancelOrder(orderId = '') {
         type: 'POST',
         data: { orderId: orderId, status: status },
         success: function (response) {
-            alert('Order cancelled successfully!');
+          
             window.location.href = response.redirectToUrl;
         },
-        error: function (error) {
-            alert('Failed to cancel the order.');
-        }
+    
     });
 }
+

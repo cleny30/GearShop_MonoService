@@ -257,5 +257,42 @@ async function getWardsUpdate(event) {
     }
 }
 
+function confirmDeleteAddress(event, fullName, itemId) {
+    event.preventDefault(); // Prevent form submission
+    document.getElementById('deleteAddressName').textContent = fullName; // Set the name to be deleted
+    document.getElementById('deleteConfirmation').style.display = 'block'; // Display the confirmation popup
+    document.getElementById('deleteConfirmation').setAttribute('data-item-id', itemId); // Store item ID for deletion
+    return false; // Prevent default form submission
+}
+
+function confirmDelete() {
+    const itemId = document.getElementById('deleteConfirmation').getAttribute('data-item-id');
+    const form = document.getElementById(`deleteForm-${itemId}`);
+
+    fetch('/Account/DeleteAddress', {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(form))
+    })
+        .then(response => {
+            if (response.ok) {
+                // Handle success - e.g., remove the deleted address from UI
+                form.closest('.form-group').remove(); // Remove the entire address block
+             
+                location.reload(); // Reload the page after successful deletion
+            } else {
+          
+         
+                closeDeleteConfirmation(); 
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting address:', error);
+            alert('Failed to delete address. Please try again later.');
+            closeDeleteConfirmation(); // Close the confirmation popup on error
+        });
+}
 
 
+function closeDeleteConfirmation() {
+    document.getElementById('deleteConfirmation').style.display = 'none'; // Close the confirmation popup
+}
