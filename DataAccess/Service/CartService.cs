@@ -50,8 +50,8 @@ namespace DataAccess.Service
             {
                 if (existingCart != null)
                 {
-                    var check=existingCart.Quantity+ quantityInStock;
-                    if (check>quantityInStock)
+                    var check= quantityInStock-(existingCart.Quantity+amount);
+                    if (check<0)
                     {
                         return false;
                     }
