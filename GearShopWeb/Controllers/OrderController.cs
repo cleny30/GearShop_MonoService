@@ -37,6 +37,12 @@ namespace GearShopWeb.Controllers
                     var list = _cartService.GetCheckedProduct(userSession, productChecked.ToList());
 
                     var addresses = _addressService.GetAddressByUsername(userSession);
+
+                    if(addresses.Count() == 0)
+                    {
+                        return RedirectToAction("MyAddress", "Account");
+                    }
+
                     DataResult data = new DataResult();
 
                     data.Result = new
