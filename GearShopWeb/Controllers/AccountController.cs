@@ -104,6 +104,34 @@ namespace GearShopWeb.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> CancelOrder(string orderId, int status)
+        {
+            try
+            {
+       
+                // Get the order by orderId (this step depends on how you retrieve your orders)
+                var order =  orderService.GetOrderByID(orderId);
+
+                if (order == null)
+                {
+                    return NotFound();
+                }
+                bool isStatusChanged = await orderService.ChangeOrderStatus(order, status);
+                if (!isStatusChanged)
+                {
+                    return StatusCode(500, "Failed to cancel the order.");
+                }
+
+                return Json(new { redirectToUrl = Url.Action("MyOrder", "Account") });
+            }
+            catch (Exception ex)
+            {
+                
+                return Json(new { redirectToUrl = Url.Action("MyAddress", "Account") });
+            }
+        }
+
+        [HttpPost]
         public IActionResult AddAddress(DeliveryAddressModel addressModel)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");

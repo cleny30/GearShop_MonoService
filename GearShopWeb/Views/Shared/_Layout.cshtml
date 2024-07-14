@@ -1,4 +1,6 @@
 @using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     // Retrieve the serialized list from the session
     var serializedList = Context.Session.GetString("HeaderData");
@@ -6,7 +8,7 @@
 
     // Deserialize the JSON string into a list
     var headerData = JsonConvert.DeserializeObject<BusinessObject.Model.Page.HeaderModel>(serializedList);
-
+    string username = HttpContextAccessor.HttpContext.Session.GetString("username");
     var cateList = headerData.category;
     var brandList = headerData.brand;
 }
@@ -64,7 +66,7 @@
                             Account
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                                                        @if (true)
+                            @if (username == null)
                             {
                             <button class="dropdown-item" type="button"><a href="/Login">Sign in</a></button>
 
@@ -77,8 +79,7 @@
                             }
                       
                           
-                          @*   <button class="dropdown-item" type="button"><a href="/Account/MyAccount">Manage Account</a></button>
-                            <button class="dropdown-item" type="button"><a href="/Logout">Logout</a></button> *@
+                       
                           
                         </div>
                     </div>
