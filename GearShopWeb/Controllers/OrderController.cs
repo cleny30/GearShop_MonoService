@@ -22,6 +22,7 @@ namespace GearShopWeb.Controllers
             _orderService = orderService;
         }
 
+        [HttpGet("/Order")]
         public IActionResult Index()
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
@@ -58,7 +59,15 @@ namespace GearShopWeb.Controllers
         public IActionResult PostCheckout()
         {
             _contx.HttpContext.Session.Remove("proId");
-            return View();
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -69,7 +78,7 @@ namespace GearShopWeb.Controllers
 		}
 
         [HttpPost]
-        public DataResult CheckOut(OrderModel order)
+        public async Task<DataResult> CheckOut(OrderModel order)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult result = new DataResult();
@@ -87,7 +96,7 @@ namespace GearShopWeb.Controllers
                 TotalPrice = order.TotalPrice,
                 Username = userSession,
             };
-            result.IsSuccess = _orderService.Checkout(orderModel);
+            result.IsSuccess = await _orderService.Checkout(orderModel);
             return result;
         }
     }

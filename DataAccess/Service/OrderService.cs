@@ -122,7 +122,7 @@ namespace DataAccess.Service
             return orders; ;
         }
 
-        public bool Checkout(OrderModel orderModel)
+        public async Task<bool> Checkout(OrderModel orderModel)
         {
             var proId = orderModel.proId.Split(',');
 
@@ -139,6 +139,7 @@ namespace DataAccess.Service
                 }
 
                 string orderId = _repository.GetNewOrderID();
+                //----------------------------------------
                 string resxFilePath = "DataAccess.Resource.Template";
 
                 ResourceManager resourceManager = new ResourceManager(resxFilePath, Assembly.GetExecutingAssembly());
@@ -165,29 +166,31 @@ namespace DataAccess.Service
 
                     table_content += tmp;
                     index++;
-
+                    //-----------------------------------------------------------------
                     OrderDetailModel orderDetailModel = new OrderDetailModel
                     {
                         OrderId = orderId,
                         ProId = cartItem.Product.ProId,
                         ProName = cartItem.Product.ProName,
                         Quantity = cartItem.model.Quantity,
-                        Price = cartItem.model.Price  
+                        Price = cartItem.model.Price
                     };
                     orderDetail.Add(orderDetailModel);
                 }
 
                 orderModel.OrderId = orderId;
-                orderModel.EndDate = null; // time will be set when order come to customer
+                orderModel.EndDate = null; // time will be set when order comes to the customer
                 _repository.AddNewOrder(orderModel);
 
-                foreach(var item in orderDetail)
+                foreach (var item in orderDetail)
                 {
                     _repository.AddOrderDetail(item);
                 }
-                _cartService.DeleteCartById(orderModel.proId,orderModel.Username);
+                _cartService.DeleteCartById(orderModel.proId, orderModel.Username);
 
-                _emailService.Invoice(orderModel, table_content);
+                // Send email asynchronously
+                _ = Task.Run(() => _emailService.Invoice(orderModel, table_content));
+
                 return true;
             }
             else
@@ -195,5 +198,9 @@ namespace DataAccess.Service
                 return false;
             }
         }
+
+
+
+
     }
 }

@@ -18,6 +18,13 @@
 
     var brandList = headerData.brand;
 }
+
+<script>
+    var usernameView = '@ViewBag.Username';
+    if (usernameView) {
+        sessionStorage.setItem('username', usernameView);
+    }
+</script>
 <!-- Carousel Start -->
 <div class="container-fluid mb-3">
     <div class="row px-xl-5">
