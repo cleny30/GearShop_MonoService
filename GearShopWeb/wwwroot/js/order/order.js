@@ -315,6 +315,7 @@ const PlaceOrder = () => {
             if (data.isSuccess === true) {
                 sessionStorage.setItem("completeCheckout", "true");
                 sessionStorage.removeItem("ProId");
+
                 window.location.href = "/Order/PostCheckout";
             } else {
                 $('#alertOrder').css('display', 'block');
