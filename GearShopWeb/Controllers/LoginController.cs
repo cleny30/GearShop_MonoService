@@ -14,6 +14,10 @@ namespace GearShopWeb.Controllers
         {
             this.accountService = accountService;
         }
+        [HttpGet("/Login")]
+        public ActionResult Index() {
+            return View();
+        }
 
         [HttpPost]
         public IActionResult OnPostLogin(string username, string password, bool isRemember)
