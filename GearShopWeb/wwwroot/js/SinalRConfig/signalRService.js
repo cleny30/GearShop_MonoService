@@ -30,12 +30,33 @@ const AddToCart = (element) => {
                     connection.invoke("LoadCartData").catch(function (err) {
                         return console.error(err.toString());
                     });
-                    //TODO HERE THAI NAM
+
+                    $('#myModal-check').css('display', 'block');
+
+                    setTimeout(function () {
+                        $('#myModal-check').css('display', 'none');
+                    }, 1500);
+
                 } else {
                     console.error("Connection is not in the 'Connected' state.");
                 }
-            } else {
+            } else if (data.message === "Username") {
                 window.location.href = "/Login";
+            } else {
+                if (connection.state === signalR.HubConnectionState.Connected) {
+                    connection.invoke("LoadCartData").catch(function (err) {
+                        return console.error(err.toString());
+                    });
+
+                    $('#myModal-x').css('display', 'block');
+
+                    setTimeout(function () {
+                        $('#myModal-x').css('display', 'none');
+                    }, 1500);
+
+                } else {
+                    console.error("Connection is not in the 'Connected' state.");
+                }
             }
         }
     });

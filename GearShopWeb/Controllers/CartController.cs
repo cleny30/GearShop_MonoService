@@ -35,7 +35,7 @@ namespace GearShopWeb.Controllers
         public DataResult AddProductToCart(string data, int amount)
         {
             string userSession = _contx.HttpContext.Session.GetString("username");
-                DataResult dataResult = new DataResult();
+            DataResult dataResult = new DataResult();
             if (!string.IsNullOrEmpty(userSession)) {
                 ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
                 dataResult.IsSuccess = cartService.AddOrUpdateCart(userSession, productData, amount);
@@ -44,6 +44,7 @@ namespace GearShopWeb.Controllers
             else
             {
                 dataResult.IsSuccess = false;
+                dataResult.Message = "Username";
             }
 
             return dataResult;
