@@ -1,0 +1,192 @@
+﻿@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model BusinessObject.Model.DataResult
+@{
+    var list = Model.Result as List<BusinessObject.Model.Page.UserCartData>;
+    double cartPrice = 0;
+}
+
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark text-red-500" href="/Home">Home</a>
+                <a class="breadcrumb-item text-dark" href="/Product/Shop">Shop</a>
+                <span class="breadcrumb-item active">Shopping Cart</span>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+@if (list.Count() > 0)
+{
+    <div class="row px-xl-5">
+        <div class="col-12 flex justify-between">
+            <table class="cart-table bg-white !w-[70%] ml-[15px] rounded-xl table shadow-md">
+                <thead class="text-[17px] bg-[#3d464d] text-white">
+                <th class="text-center w-13">
+                    <div class="flex justify-center">
+                        <label class="relative flex items-center rounded-full cursor-pointer !mb-1"
+                               htmlFor="red">
+                            <input type="checkbox"
+                                   class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10
+                              "
+                                   id="all" />
+                            <span class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-3.5 w-3.5"
+                                     viewBox="0 0 20 20"
+                                     fill="currentColor"
+                                     stroke="currentColor"
+                                     stroke-width="1">
+                                    <path fill-rule="evenodd"
+                                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                          clip-rule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </label>
+                    </div>
+                </th>
+                <th>Products</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Remove</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in list)
+                    {
+
+                        var priceDiscount = item.Product.ProPrice - (item.Product.ProPrice * item.Product.Discount) / 100;
+                        priceDiscount = Math.Round(priceDiscount, 2);
+
+                        <tr>
+                            <td class="align-middle text-center">
+                                <div class="inline-flex items-center">
+                                    @if (item.Product.ProQuan > 0)
+                                    {
+                                        <label class="relative flex items-center p-3 rounded-full cursor-pointer " for="red">
+                                            <input type="checkbox" data-priceId="@item.Product.ProId" class="check-box-child before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-red transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-red-500 checked:before:bg-red-500 hover:before:opacity-10" id="red" value="59"><span class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                            </span>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <p class="bg-gray-500 text-white p-2 rounded-[20px]">Out of stock</p>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <a class="flex items-center text-[#3d464d] hover:text-[#3d464d] hover:no-underline" href="/ProductDetail?ProId=@item.Product.ProId">
+                                    <img src="@item.Product.ProImg[0]" alt="" class="w-[100px] mr-3">
+                                    <div>
+                                        <span class="font-medium ">@item.Product.ProName</span>
+                                        <br>
+                                        <span>Stock: @item.Product.ProQuan</span>
+                                    </div>
+                                </a>
+                            </td>
+                            <td class="align-middle text-lg">
+                                <span id="dp-@item.Product.ProId">$@priceDiscount</span>
+                            </td>
+                            <td class="align-middle">
+                                <div class="d-flex align-items-center">
+                                    <div class="input-group !w-[130px]">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary btn-minus" onclick="handleDecrease(this)" @(item.Product.ProQuan == 0 ? "disabled" : "")><i class="fa fa-minus"></i></button>
+                                        </div>
+                                        <input onchange="UpdateCart(this)" type="text" class="form-control bg-secondary border-0 text-center" data-proQuan="@item.Product.ProQuan" data-proID="@item.Product.ProId" value="@item.model.Quantity" @(item.Product.ProQuan == 0 ? "readonly" : "")>
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary btn-plus" onclick="handleIncrease(this)" @(item.Product.ProQuan == 0 ? "disabled" : "")><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle text-lg max-w-5">
+                                <span id="total-@item.Product.ProId">@item.model.Price</span>
+                            </td>
+                            <td class="align-middle">
+                                <button class="btn-common btn mt-0 " data-proId="@item.Product.ProId" onclick="DeleteItem(this)">
+                                    <i class="fa solid fa-trash text-[#3d464d]"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        cartPrice += item.model.Price;
+                    }
+                </tbody>
+            </table>
+            <div class="bg-white w-[25%] mr-[15px] p-4 h-fit rounded-xl shadow-md">
+                <div class="flex justify-between font-semibold text-2xl text-[#3D464D]">
+                    <span>Total</span>
+                    <span id="cartTotalPrice">$0</span>
+                </div>
+                <button id="btnLogin" class="btn-common btn-common-lg w-full" style=" color: #3d464d ;
+    font-size: 1rem;
+    padding: 0.375rem 0.75rem;
+    background-color: #ffc107;
+    margin-top: 10px;
+    outline: none !important;
+    border:none !important;
+    width: 100%;
+    font-weight:bold;
+font-size: 1.25rem;
+    padding: 0.5rem 1rem;" onclick="CheckOut()">
+                    Check out
+                </button>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="m-auto w-fit text-center">
+        <img src="~/source_img/advertising_img/order-placed-purchased-icon.webp" alt="" />
+        <h3>
+            Your Cart has empty <br /> Click <a href="/shop">here</a> to
+            shopping now
+        </h3>
+    </div>
+}
+
+<link href="~/css/alert.css" rel="stylesheet" />
+<div class="alert  d-flex" id="alert-message">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg" id="alert-message-msg"></span>
+    <div class="close-btn" id="close-btn-alert" onclick="handleCloseAlert()">
+        <span class="fas fa-times"></span>
+    </div>
+</div>
+
+
+<script>
+    const CheckOut = () => {
+        if (sessionStorage.getItem("ProId")) {
+            window.location.href = "/Order";
+        } else {
+            var msg = $('#alert-message-msg');
+
+            msg.text('You must have select product!');
+            alertMessage();
+        }
+    }
+
+    const handleCloseAlert = (id) => {
+        $('#alert-message').addClass("hide");
+        $('#alert-message').removeClass("show");
+    }
+
+    function alertMessage() {
+        $('#alert-message').removeClass("hide");
+        $('#alert-message').addClass("show");
+        $('#alert-message').addClass("showAlert");
+
+        setTimeout(function () {
+            $('#alert-message').addClass("hide");
+            $('#alert-message').removeClass("show");
+        }, 2000)
+    }
+</script>

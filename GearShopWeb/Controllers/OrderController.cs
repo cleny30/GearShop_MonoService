@@ -3,6 +3,8 @@ using BusinessObject.Model;
 using DataAccess.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using NuGet.Packaging.Signing;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GearShopWeb.Controllers
 {
@@ -23,19 +25,33 @@ namespace GearShopWeb.Controllers
 
         public IActionResult Index()
         {
-			var productChecked = _contx.HttpContext.Session.GetString("proId").Split(",");
-			var list=_cartService.GetCheckedProduct("cleny30", productChecked.ToList());
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            var productSession = _contx.HttpContext.Session.GetString("proId");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                if (!string.IsNullOrEmpty(productSession))
+                {
+                    var productChecked = productSession.Split(",");
+                    var list = _cartService.GetCheckedProduct(userSession, productChecked.ToList());
 
-			var addresses = _addressService.GetAddressByUsername("cleny30");
-			DataResult data = new DataResult();
+                    var addresses = _addressService.GetAddressByUsername(userSession);
+                    DataResult data = new DataResult();
 
-			data.Result = new
-			{
-				list = list,
-				addresses = addresses
-			};
+                    data.Result = new
+                    {
+                        list = list,
+                        addresses = addresses
+                    };
 
-            return View(data);
+                    return View(data);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Cart");
+                }
+            }
+            
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpGet("/Order/PostCheckout")]

@@ -28,47 +28,68 @@ namespace GearShopWeb.Controllers
         [HttpGet("/Account/MyAccount")]
         public IActionResult MyAccount(string username)
         {
-            DataResult dataResult = new DataResult();
-            username = "cleny30";
-            AccountModel account = accountService.getAccount(username);
-            dataResult.Result = account;
-            return View(dataResult);
+            string userSession = HttpContext.Session.GetString("username");
+
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                DataResult dataResult = new DataResult();
+                AccountModel account = accountService.getAccount(userSession);
+                dataResult.Result = account;
+
+                return View(dataResult);
+            }
+            // Redirect to the "Index" action of "Login" controller
+            return RedirectToAction("Index", "Login");
         }
-        
+
+
         [HttpGet("/Account/MyOrder")]
         public IActionResult MyOrder(string username)
         {
-            DataResult dataResult = new DataResult();
-            username = "cleny30";
-            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
-            dataResult.Result = orderData;
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                DataResult dataResult = new DataResult();
+                List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(userSession);
+                dataResult.Result = orderData;
 
-            return View(dataResult);
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpGet("/Account/GetOrderData")]
-        public DataResult GetOrderData(string username)
+        public IActionResult GetOrderData(string username)
         {
-            DataResult dataResult = new DataResult();
-            List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(username);
-            dataResult.Result = orderData;
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (string.IsNullOrEmpty(userSession)) {
+                DataResult dataResult = new DataResult();
+                List<OrderDataModel> orderData = orderService.GetOrdersByCustomer(userSession);
+                dataResult.Result = orderData;
 
-            return dataResult;
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpGet("/Account/MyAddress")]
         public IActionResult MyAddress(string username)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            username = "cleny30";
-            dataResult.Result = addressService.GetAddressByUsername(username);
+            dataResult.Result = addressService.GetAddressByUsername(userSession);
             return View(dataResult);
         }
 
         [HttpGet("/Account/ChangePassword")]
         public IActionResult ChangePassword()
         {
-            return View();
+            string userSession = _contx.HttpContext.Session.GetString("username");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Login");
         }
 
 
@@ -88,9 +109,6 @@ namespace GearShopWeb.Controllers
             try
             {
                 DataResult dataResult = new DataResult();
-                string username = "cleny30";
-
-
                 var a = orderService.GetOrderByID(id);
                 var orderThis = orderDetailService.GetOrderDetailsById(id);
                 var rs = new
@@ -107,19 +125,46 @@ namespace GearShopWeb.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> CancelOrder(string orderId, int status)
+        {
+            try
+            {
+       
+                // Get the order by orderId (this step depends on how you retrieve your orders)
+                var order =  orderService.GetOrderByID(orderId);
+
+                if (order == null)
+                {
+                    return NotFound();
+                }
+                bool isStatusChanged = await orderService.ChangeOrderStatus(order, status);
+                if (!isStatusChanged)
+                {
+                    return StatusCode(500, "Failed to cancel the order.");
+                }
+
+                return Json(new { redirectToUrl = Url.Action("MyOrder", "Account") });
+            }
+            catch (Exception ex)
+            {
+                
+                return Json(new { redirectToUrl = Url.Action("MyAddress", "Account") });
+            }
+        }
+
+        [HttpPost]
         public IActionResult AddAddress(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            var username = "cleny30";
-            addressService.AddNewAddress(addressModel,username);
+            addressService.AddNewAddress(addressModel,userSession);
             return RedirectToAction("MyAddress", "Account");
         }
         [HttpPost]
         public IActionResult UpdateAddress(DeliveryAddressModel addressModel)
         {
             DataResult dataResult = new DataResult();
-             string username = "cleny30";
-            addressModel.Username = username;
+            addressModel.Username = userSession;
             addressService.UpdateAddress(addressModel);
             return RedirectToAction("MyAddress", "Account");
         }
@@ -127,17 +172,17 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public IActionResult AddAddressOrder(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            var username = "cleny30";
-            addressService.AddNewAddress(addressModel, username);
+            addressService.AddNewAddress(addressModel, userSession);
             return RedirectToAction("Index", "Order");
         }
         [HttpPost]
         public IActionResult UpdateAddressOrder(DeliveryAddressModel addressModel)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            string username = "cleny30";
-            addressModel.Username = username;
+            addressModel.Username = userSession;
             addressService.UpdateAddress(addressModel);
             return RedirectToAction("Index", "Order");
         }
@@ -145,22 +190,40 @@ namespace GearShopWeb.Controllers
         [HttpPost]
         public IActionResult DeleteAddress(int id)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            string username = "cleny30";
-            addressService.DeleteAddress(username, id);
+            addressService.DeleteAddress(userSession, id);
             return RedirectToAction("MyAddress", "Account");
         }
 
         [HttpPost]
         public IActionResult ChangePassword(LoginAccountModel userLogin)
         {
+            string userSession = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            string username = "cleny30";
-            userLogin.Username = username;
+            userLogin.Username = userSession;
             accountService.ChangePassword(userLogin);
             return RedirectToAction("ChangePassword", "Account");
         }
 
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            _contx.HttpContext.Session.Remove("username");
 
+            // Remove the cookie by setting its expiration date to a past date
+            if (Request.Cookies["username"] != null)
+            {
+                var options = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(-1), // Set expiration to the past
+                    IsEssential = true,
+                    HttpOnly = true,
+                    Secure = true
+                };
+                Response.Cookies.Append("username", "", options); // Empty value and past expiration date to remove
+            }
+            return Content("OK");
+        }
     }
 }

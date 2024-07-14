@@ -35,7 +35,7 @@ const AddToCart = (element) => {
                     console.error("Connection is not in the 'Connected' state.");
                 }
             } else {
-                console.log(data);
+                window.location.href = "/Login"
             }
         }
     });

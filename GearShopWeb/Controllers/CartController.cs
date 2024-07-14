@@ -18,14 +18,19 @@ namespace GearShopWeb.Controllers
         }
 
         [HttpGet("/Cart")]
-        public IActionResult Cart()
+        public IActionResult Index()
         {
             DataResult dataResult = new DataResult();
+            string userSession = _contx.HttpContext.Session.GetString("username");
 
-            List<UserCartData> list = cartService.GetCartsByUserName("cleny30");
+            if (!string.IsNullOrEmpty(userSession))
+            {
+                List<UserCartData> list = cartService.GetCartsByUserName(userSession);
 
-            dataResult.Result = list;
-            return View(dataResult);
+                dataResult.Result = list;
+                return View(dataResult);
+            }
+            return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]
@@ -33,10 +38,15 @@ namespace GearShopWeb.Controllers
         {
             //string username = _contx.HttpContext.Session.GetString("username");
             DataResult dataResult = new DataResult();
-            ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
-            dataResult.IsSuccess = cartService.AddOrUpdateCart("cleny30", productData, amount);
-            _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName("cleny30").Count()));
-
+            if (!string.IsNullOrEmpty(userSession)) {
+                ProductData productData = System.Text.Json.JsonSerializer.Deserialize<ProductData>(data);
+                dataResult.IsSuccess = cartService.AddOrUpdateCart(userSession, productData, amount);
+                _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(cartService.GetCartsByUserName(userSession).Count()));
+            }
+            else
+            {
+                dataResult.IsSuccess=false;
+            }
             return dataResult;
         }
 
