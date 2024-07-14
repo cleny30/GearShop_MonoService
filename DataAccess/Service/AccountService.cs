@@ -148,7 +148,7 @@ namespace DataAccess.Service
         /// <returns></returns>
         public bool FogotPassword(LoginAccountModel userLogin)
         {
-            throw new NotImplementedException();
+            return _accountRepository.FogotPassword(userLogin);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace DataAccess.Service
         /// <returns></returns>
         public bool ChangePassword(LoginAccountModel userLogin)
         {
-            throw new NotImplementedException();
+            return _accountRepository.ChangePassword(userLogin.Username,userLogin.Password);
         }
 
         public bool Regist(string username, string fullname, string phone, string email, string password, string rePassword)
