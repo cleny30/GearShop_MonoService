@@ -217,5 +217,15 @@ namespace GearShopWeb.Controllers
             accountService.ChangePassword(userLogin);
             return RedirectToAction("ChangePassword", "Account");
         }
+
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("username");
+            _contx.HttpContext.Session.Remove("username");
+            _contx.HttpContext.Session.Remove("proId");
+            return Content("OK");
+        }
+
     }
 }

@@ -26,9 +26,19 @@ namespace GearShopWeb.Controllers
             DataResult data = new DataResult();
             string username=null;
             int count = 0;
+
             if (_contx.HttpContext.Session.GetString("username")!=null)
             {
                  username = _contx.HttpContext.Session.GetString("username");
+            }
+            else
+            {
+                var usernameCookie = _contx.HttpContext.Request.Cookies["username"];
+                if (!string.IsNullOrEmpty(usernameCookie))
+                {
+                    username = usernameCookie;
+                    _contx.HttpContext.Session.SetString("username", usernameCookie);
+                }
             }
             _contx.HttpContext.Session.SetString("HeaderData", JsonConvert.SerializeObject(headerService.GetData(username, out count)));
             _contx.HttpContext.Session.SetString("cartQuantity", JsonConvert.SerializeObject(count));
