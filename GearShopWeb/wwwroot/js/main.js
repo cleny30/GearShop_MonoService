@@ -127,41 +127,6 @@ function isValidInput(event) {
     }
 }
 
-let isDropdownVisible = false;
-let isDropdownMB = true;
-
-const handleDropDown = (event) => {
-    event.preventDefault(); // Prevent default action of the anchor tag
-
-    if (isDropdownVisible) {
-        // If dropdown is visible, hide it
-        $('#navbar-vertical-category').addClass("collapse");
-        $('#navbar-vertical-category').removeClass("show");
-    } else {
-        // If dropdown is hidden, show it
-        $('#navbar-vertical-category').addClass("show");
-        $('#navbar-vertical-category').removeClass("collapse");
-    }
-
-    // Toggle the state
-    isDropdownVisible = !isDropdownVisible;
-}
-
-const handleDropDownMB = () => {
-    if (isDropdownMB) {
-        // If dropdown is visible, hide it
-        $('#navbarCollapse-tt').addClass("collapse");
-        $('#navbarCollapse-tt').removeClass("show");
-    } else {
-        // If dropdown is hidden, show it
-        $('#navbarCollapse-tt').addClass("show");
-        $('#navbarCollapse-tt').removeClass("collapse");
-    }
-
-    // Toggle the state
-    isDropdownMB = !isDropdownMB;
-}
-
 const handleWindowResize = () => {
     // Check window width to determine if it's resized back to full screen
     if ($(window).width() >= 992) { // Adjust the breakpoint according to your design
