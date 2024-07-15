@@ -208,6 +208,37 @@ namespace DataAccess.Repository
                 return sb.ToString();
             }
         }
+
+        public string GetAccountByEmail(string email)
+        {
+            using (var dbContext = new PrndatabaseContext())
+            {
+                Customer? customer = dbContext.Customers.Where(a => a.Email.Equals(email)).SingleOrDefault();
+                if (customer != null)
+                {
+                    var account = new AccountModel();
+                    account.CopyProperties(account);
+                    return email;
+                }
+            }
+            return null;
+        }
+
+        public bool ForgetPassword(string password, string email)
+        {
+            using (var dbContext = new PrndatabaseContext())
+            {
+                var account = dbContext.Customers.FirstOrDefault(c => c.Email.Equals(email));
+                if(account != null)
+                {
+                    account.Password = GetMD5Hash(password);
+                    dbContext.SaveChanges();
+                    return true;
+                }
+
+            }
+            return false;
+        }
     }
 }
 

@@ -146,9 +146,9 @@ namespace DataAccess.Service
         /// </summary>
         /// <param name="userLogin"></param>
         /// <returns></returns>
-        public bool FogotPassword(LoginAccountModel userLogin)
+        public bool ForgetPassword(string password, string EmailSend)
         {
-            return _accountRepository.FogotPassword(userLogin);
+            return _accountRepository.ForgetPassword(password, EmailSend);
         }
 
         /// <summary>
@@ -243,6 +243,20 @@ namespace DataAccess.Service
         {
             string user = _accountRepository.getUsername(username);
             if(user == null || user == "")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+
+        public bool isUEmailExist(string email)
+        {
+            string user = _accountRepository.GetAccountByEmail(email);
+            if (user == null || user == "")
             {
                 return false;
             }
