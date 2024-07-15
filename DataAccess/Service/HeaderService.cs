@@ -20,8 +20,8 @@ namespace DataAccess.Service
 
             // Retrieve product, brand, and category lists
             var productList = productService.GetProductList();
-            var brandList = brandService.GetBrandList();
-            var categoryList = categoryService.GetCategoryList();
+            var brandList = brandService.GetBrandList().Where(b => b.IsAvailable).ToList();
+            var categoryList = categoryService.GetCategoryList().Where(c => c.IsAvailable).ToList();
 
             // Calculate quantities for each brand
             foreach (var brand in brandList)
