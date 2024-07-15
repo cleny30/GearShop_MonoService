@@ -56,8 +56,10 @@ const UpdateCart = (element) => {
         success: function (data) {
             if (data.isSuccess === true) {
                 console.log("ok");
+                updateTotalPrice();
             } else {
                 console.log(data);
+
             }
         }
     });

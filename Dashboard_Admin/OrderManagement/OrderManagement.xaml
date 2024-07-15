@@ -78,7 +78,11 @@
                                             <DataGridTextColumn Header="ID" Binding="{Binding OrderId}" Width="100" />
                                             <DataGridTextColumn Header="Fullname" Binding="{Binding Fullname}" Width="100" />
                                             <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone}" Width="300"/>
-                                            <DataGridTextColumn Header="Payment" Binding="{Binding TotalPrice}" Width="150"/>
+                                            <DataGridTextColumn Header="Payment" Width="150">
+                                                <DataGridTextColumn.Binding>
+                                                    <Binding Path="TotalPrice" StringFormat="{}{0:C}" />
+                                                </DataGridTextColumn.Binding>
+                                            </DataGridTextColumn>
                                             <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" Width="150"/>
                                             <DataGridTextColumn Header="End Date" Binding="{Binding EndDate, Converter={StaticResource EndDateConverter}}" Width="200"/>
                                             <DataGridTemplateColumn Width="100">
