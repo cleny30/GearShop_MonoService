@@ -87,8 +87,12 @@
                             </DataGrid.Resources>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Item" Binding="{Binding ProName}" Width="200" />
-                                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="430" />
-                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="70" />
+                                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="400" />
+                                <DataGridTextColumn Header="Price" Width="100">
+                                    <DataGridTextColumn.Binding>
+                                        <Binding Path="Price" StringFormat="{}{0:C}" />
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </ScrollViewer>

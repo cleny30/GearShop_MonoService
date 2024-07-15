@@ -80,7 +80,7 @@ namespace Dashboard_Admin.OrderManagement
             txtEmail.Text = _orderModel.Email;
             txtAddress.Text = _orderModel.Address;
             txtDescription.Text = _orderModel.OrderDes;
-            TotalPrice.Text = _orderModel.TotalPrice.ToString();
+            TotalPrice.Text = _orderModel.TotalPrice.ToString() + "$";
             OrderDetailDataGrid.ItemsSource = _orderDetailModels;
         }
         private void CreateAcceptButton(string Content)
