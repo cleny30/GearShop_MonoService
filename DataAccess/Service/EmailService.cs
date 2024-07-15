@@ -72,5 +72,67 @@ namespace DataAccess.Service
                 Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
+
+        public string VerifyEmail( string email)
+        {
+            try
+            {
+
+                string fromEmail = "clenynguyen@gmail.com";
+                string password = "pyaotxulqjcgttwl";
+
+                string reciever = email;
+
+                Random random = new Random();
+
+                string otp = random.Next(100000, 999999).ToString();
+
+                DateTime date = DateTime.Now;
+
+                string resxFilePath = "DataAccess.Resource.Template";
+
+                ResourceManager resourceManager = new ResourceManager(resxFilePath, Assembly.GetExecutingAssembly());
+
+
+                string htmlContent = resourceManager.GetString("Email");
+                htmlContent = htmlContent.Replace("@param01", date.ToString());
+                htmlContent = htmlContent.Replace("@param03", otp);
+                htmlContent = htmlContent.Replace("@param04", fromEmail);
+
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(fromEmail);
+                message.Subject = "The OTP to reset password";
+                message.To.Add(new MailAddress(reciever));
+                message.Body = htmlContent;
+                message.IsBodyHtml = true;
+
+                var smtpClient = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(fromEmail, password),
+                    EnableSsl = true,
+                };
+
+                // Send the email
+                try
+                {
+                    smtpClient.Send(message);
+                    return otp;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error sending email: {ex.Message}");
+                    Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                }
+
+                return otp;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                return null;
+            }
+        }
     }
 }

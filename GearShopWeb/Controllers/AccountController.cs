@@ -14,15 +14,17 @@ namespace GearShopWeb.Controllers
         private readonly OrderService orderService;
         private readonly OrderDetailService orderDetailService;
         private readonly AddressService addressService;
+        private readonly EmailService emailService;
         private readonly IHttpContextAccessor _contx;
 
-        public AccountController(AccountService accountService, IHttpContextAccessor contx, OrderService orderService, OrderDetailService orderDetailService, AddressService addressService)
+        public AccountController(AccountService accountService, IHttpContextAccessor contx, OrderService orderService, OrderDetailService orderDetailService, AddressService addressService, EmailService emailService)
         {
             this.accountService = accountService;
             this.orderService = orderService;
             this.orderDetailService = orderDetailService;
             this.addressService = addressService;
             _contx = contx;
+            this.emailService = emailService;
         }
 
         [HttpGet("/Account/MyAccount")]
@@ -225,6 +227,33 @@ namespace GearShopWeb.Controllers
             _contx.HttpContext.Session.Remove("username");
             _contx.HttpContext.Session.Remove("proId");
             return Content("OK");
+        }
+
+
+        [HttpPost]
+        public IActionResult CheckEmail(string email)
+        {
+            bool Existed = accountService.isUEmailExist(email);
+            return Existed == true ? Content("true") : Content("false");
+        }
+
+        [HttpPost]
+        public IActionResult SendOTP(string email)
+        {
+            return Content(emailService.VerifyEmail(email));
+        }
+
+        [HttpPost]
+        public IActionResult ForgetPassword(string password, string emailSend)
+        {
+            if (accountService.ForgetPassword(password, emailSend))
+            {
+                return RedirectToAction("Index", "Login");
+            } else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            
         }
 
     }

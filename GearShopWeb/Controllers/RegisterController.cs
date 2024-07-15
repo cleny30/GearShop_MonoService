@@ -17,6 +17,13 @@ namespace GearShopWeb.Controllers
         {
             return View();
         }
+
+
+        [HttpGet("/ForgetPassword")]
+        public IActionResult ForgetPassword()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult OnPostRegister(string username, string fullname, string phone, string email, string password, string rePassword)
         {
@@ -54,5 +61,7 @@ namespace GearShopWeb.Controllers
             }
             return Content(data.IsSuccess.ToString());
         }
+
+
     }
 }

@@ -178,22 +178,15 @@
               "&gt;
                         Your OTP
                     &lt;/h1&gt;
-                    &lt;p style="
-                margin: 0;
-                margin-top: 17px;
-                font-size: 16px;
-                font-weight: 500;
-              "&gt;
-                        Hey @param02,
-                    &lt;/p&gt;
+
                     &lt;p style="
                 margin: 0;
                 margin-top: 17px;
                 font-weight: 500;
                 letter-spacing: 0.56px;
               "&gt;
-                        Thank you for choosing &lt;span style="color: coral;"&gt;MultiShop&lt;/span&gt;. Use the following OTP
-                        to complete your Sign Up procedures and verify your account on MultiShop.
+                        Thank you for choosing &lt;span style="color: coral;"&gt;GearShop&lt;/span&gt;. Use the following OTP
+                        to complete your Sign Up procedures and verify your account on GearShop.
                         Do not share this code with others, including Archisketch
                         employees.
                     &lt;/p&gt;
@@ -237,7 +230,7 @@
             font-weight: 600;
             color: #434343;
           "&gt;
-                MultiShop
+                GearShop
             &lt;/p&gt;
             &lt;p style="margin: 0; margin-top: 8px; color: #434343;"&gt;
                 Address 540, City, State.
