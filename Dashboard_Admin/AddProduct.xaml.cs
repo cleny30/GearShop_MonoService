@@ -183,7 +183,7 @@ namespace WPFStylingTest
         //Loaded Category with data
         private void cbCategory_Loaded(object sender, RoutedEventArgs e)
         {
-            cbCategory.ItemsSource = categoryService.GetCategoryList();
+            cbCategory.ItemsSource = categoryService.GetCategoryList().Where(c => c.IsAvailable == true);
             if (_IsUpdate == true)
             {
                 cbCategory.SelectedValue = _Product.CateId;
@@ -404,7 +404,7 @@ namespace WPFStylingTest
         //Initialize the combobox
         private void InitializeBrand()
         {
-            cbBrand.ItemsSource = brandService.GetBrandList();
+            cbBrand.ItemsSource = brandService.GetBrandList().Where(b => b.IsAvailable == true);
             cbBrand.DisplayMemberPath = "BrandName";
             cbBrand.SelectedValuePath = "BrandId";
         }
